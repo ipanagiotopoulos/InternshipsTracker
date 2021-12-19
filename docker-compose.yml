@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.7"
 services:
   db:
     image: postgres
@@ -11,16 +11,16 @@ services:
     volumes:
       - ./ThesisTracker/data/db:/var/lib/postgresql/data;
     ports:
-      - "5432:5432"
+      - "5433:5433"
   web:
     build: .
     container_name: internships_web
     #command: /run/django_init.sh 
-    command: python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000
+    #command: python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000
     env_file:
       - ./ThesisTracker/.env
     ports:
-      - 8000:8000
+      - 8001:8001
     volumes:
       - ./ThesisTracker:/ThesisTracker
       - ./logs:/var/log

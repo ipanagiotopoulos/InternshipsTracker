@@ -84,7 +84,7 @@ WSGI_APPLICATION = "ThesisTracker.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": env["DB_DATABASE_NAME"],
         "USER": env["DB_USERNAME"],
         "PASSWORD": env["DB_PASSWORD"],
