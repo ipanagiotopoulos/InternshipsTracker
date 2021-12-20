@@ -11,24 +11,28 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-from django.utils.translation import get_language
-from os import environ as env
+
+# from django.utils.translation import get_language
+import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env()
+environ.Env.read_env()
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env["SECRET_KEY"]
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(env["DEBUG"])
+DEBUG = int(env("DEBUG", default=1))
 
-ALLOWED_HOSTS = env["DJANGO_ALLOWED_HOSTS"].split(" ")
-
+ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Application definition
 
@@ -44,7 +48,9 @@ INSTALLED_APPS = [
     "carrier",
     "supervisor",
     "applicant",
+    "crispy_forms",
 ]
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -85,11 +91,11 @@ WSGI_APPLICATION = "ThesisTracker.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": env["DB_DATABASE_NAME"],
-        "USER": env["DB_USERNAME"],
-        "PASSWORD": env["DB_PASSWORD"],
-        "HOST": env["DB_HOST"],
-        "PORT": 5432,
+        "NAME": env("DB_DATABASE_NAME"),
+        "USER": env("DB_USERNAME"),
+        "PASSWORD": env("DB_PASSWORD"),
+        "HOST": env("DB_HOST"),
+        "PORT": env("DB_PORT", default=5432),
     }
 }
 

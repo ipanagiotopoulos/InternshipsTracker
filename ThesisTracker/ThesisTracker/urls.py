@@ -17,13 +17,28 @@ from django import urls
 from django import views
 from django.conf.urls import include
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 from django.urls import path
 from django.views.generic.base import TemplateView
-
+from decorator_include import decorator_include
+from utils import decorators
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/new/', include('ThesisApp.urls')),
-    path('', TemplateView.as_view(template_name='home.html'), name='home')
+    path("admin/", admin.site.urls),
+    path("users/", include("django.contrib.auth.urls")),
+    # path(
+    #     "profiles/",
+    #     decorator_include(
+    #         [login_required, decorators.group_required("ThesisApp")],
+    #         "ThesisApp.urls",
+    #         namespace="thesisapp",
+    #     ),
+    # ),
+    path(
+        "profiles/",
+        decorator_include(
+            [login_required, decorators.group_required("ThesisApp")], "ThesisApp.urls"
+        ),
+    ),
+    path("", TemplateView.as_view(template_name="home.html"), name="home"),
 ]

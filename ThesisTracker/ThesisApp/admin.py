@@ -7,154 +7,121 @@ from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 # admin.site.unregister(User)
 class SupervisorAdmin(UserAdmin):
-    fieldsets = (
+    fieldsets = UserAdmin.fieldsets + (
         (
             None,
             {
-                "classes": ("wide",),
                 "fields": (
-                    "first_name",
-                    "last_name",
-                    "username",
-                    "password",
-                    "birth_day",
+                    "title",
                     "father_name",
                     "mother_name",
-                    "title",
+                    "birth_day",
                     "address",
                     "msisdn",
                     "tel_no2",
                     "register_number",
                     "register_date",
                     "department",
-                ),
+                )
             },
         ),
     )
-    add_fieldsets = (
+    add_fieldsets = UserAdmin.add_fieldsets + (
         (
             None,
             {
-                "classes": ("wide",),
                 "fields": (
-                    "first_name",
-                    "last_name",
-                    "username",
-                    "password1",
-                    "password2",
-                    "birth_day",
+                    "title",
                     "father_name",
                     "mother_name",
-                    "title",
+                    "birth_day",
                     "address",
                     "msisdn",
                     "tel_no2",
                     "register_number",
                     "register_date",
                     "department",
-                ),
+                )
             },
         ),
     )
 
 
 class UndergraduateStudentAdmin(UserAdmin):
-    fieldsets = (
+    fieldsets = UserAdmin.fieldsets + (
         (
             None,
             {
-                "classes": ("wide",),
                 "fields": (
-                    "first_name",
-                    "last_name",
-                    "username",
-                    "password",
-                    "birth_day",
+                    "title",
                     "father_name",
                     "mother_name",
-                    "title",
+                    "birth_day",
                     "address",
                     "msisdn",
                     "tel_no2",
                     "register_number",
                     "register_date",
                     "department",
-                ),
+                )
             },
         ),
     )
-    add_fieldsets = (
+    add_fieldsets = UserAdmin.add_fieldsets + (
         (
             None,
             {
-                "classes": ("wide",),
                 "fields": (
-                    "first_name",
-                    "last_name",
-                    "username",
-                    "password1",
-                    "password2",
-                    "birth_day",
+                    "title",
                     "father_name",
                     "mother_name",
-                    "title",
+                    "birth_day",
                     "address",
                     "msisdn",
                     "tel_no2",
                     "register_number",
                     "register_date",
                     "department",
-                ),
+                )
             },
         ),
     )
 
 
 class CarrierNodeAdmin(UserAdmin):
-    fieldsets = (
+    fieldsets = UserAdmin.fieldsets + (
         (
             None,
             {
-                "classes": ("wide",),
                 "fields": (
-                    "first_name",
-                    "last_name",
-                    "username",
-                    "password",
-                    "birth_day",
+                    "title",
                     "father_name",
                     "mother_name",
-                    "title",
+                    "birth_day",
                     "address",
                     "msisdn",
                     "tel_no2",
                     "carrier",
                     "department",
-                ),
+                )
             },
         ),
     )
-    add_fieldsets = (
+    add_fieldsets = UserAdmin.add_fieldsets + (
         (
             None,
             {
-                "classes": ("wide",),
                 "fields": (
-                    "first_name",
-                    "last_name",
-                    "username",
-                    "password1",
-                    "password2",
-                    "birth_day",
+                    "title",
                     "father_name",
                     "mother_name",
-                    "title",
+                    "birth_day",
                     "address",
                     "msisdn",
                     "tel_no2",
                     "carrier",
                     "department",
-                ),
+                )
             },
         ),
     )
