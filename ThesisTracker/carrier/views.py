@@ -1,18 +1,23 @@
 from utils.decorators import group_required
-from carrier.forms import CreateTraineePositionForm
-from carrier.models import TraineePosition
+from carrier.forms import (
+    CreateTraineePositionForm,
+    CarrierConsentForm,
+    CreateAssignmentForm,
+)
+from carrier.models import TraineePosition, Assignment
 from django.views.generic.edit import CreateView
 from django.shortcuts import render
-from dal import autocomplete
+from dal import autocomplete as auto
 
 # Create your views here.
-class CreateTraineePositionView(CreateView):
-    model = TraineePosition
-    form_class = CreateTraineePositionForm
-    template_name = "trainee_position_create.html"
+
+
+class CreateAssignemtView(CreateView):
+    model = Assignment
+    form_class = CreateAssignmentForm
+    template_name = "assignment_create.html"
     success_url = "/"
-    group_required = "ThesisApp"
-    permission_required = ("ThesisApp.change_undergraduatestudent",)
+    group_required = "admin"
 
     def form_valid(self, form):
         # Preference.objects.create(
@@ -23,7 +28,37 @@ class CreateTraineePositionView(CreateView):
         return super().form_valid(form)
 
 
-class TraineePositionAutocomplete(autocomplete.Select2QuerySetView):
+class CreateCarrierConsentView(CreateView):
+    model = CarrierConsentForm
+    form_class = CarrierConsentForm
+    template_name = "carrier_consent_create.html"
+    success_url = "/"
+    group_required = "ThesisApp"
+
+    def form_valid(self, form):
+        # Preference.objects.create(
+        #     user=User.objects.first(), slug="landing", flow_chatbot=f
+        # )
+        pref = form.save(commit=False)
+        pref.save()
+        return super().form_valid(form)
+
+
+class CreateTraineePositionView(CreateView):
+    model = TraineePosition
+    form_class = CreateTraineePositionForm
+    template_name = "trainee_position_create.html"
+    success_url = "/"
+    group_required = "ThesisApp"
+    permission_required = ("ThesisApp.change_undergraduatestudent",)
+
+    def form_valid(self, form):
+        pref = form.save(commit=False)
+        pref.save()
+        return super().form_valid(form)
+
+
+class TraineePositionAutocomplete(auto.Select2QuerySetView):
     def get_queryset(self):
         tr1 = self.forwarded.get("trainee_position_1", None)
         tr2 = self.forwarded.get("trainee_position_2", None)
@@ -35,3 +70,6 @@ class TraineePositionAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(name__icontains=self.q)
 
         return qs
+
+
+auto.Select2QuerySetView

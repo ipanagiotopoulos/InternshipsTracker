@@ -13,4 +13,6 @@ urlpatterns = [
         views.TraineePositionAutocomplete.as_view(),
         name="traineeposition_autocomple",
     ),
+    path("consents", views.CreateCarrierConsentView.as_view(), name="carrier_consent"),
+    path("assignement", views.CreateAssignemtView.as_view(), name="assignement"),
 ]

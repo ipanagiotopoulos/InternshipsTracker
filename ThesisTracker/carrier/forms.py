@@ -8,13 +8,19 @@ class CreateTraineePositionForm(forms.ModelForm):
         fields = ("title", "carrier", "description", "application_period")
 
 
-# class CarrierConsentForm(forms.ModelForm):
-#     class Meta:
-#         model = CarrierConsent
-#         fields = ()  # to be done
+class CarrierConsentForm(forms.ModelForm):
+    class Meta:
+        model = CarrierConsent
+        fields = ("carrier", "consent", "assignement_upon", "date")
 
 
-# class CreateAssignmentForm(models.Model):
-#     class Meta:
-#         model = Assignment
-#         fields = ()  # to be done
+class CreateAssignmentForm(forms.ModelForm):
+    class Meta:
+        model = Assignment
+        fields = (
+            "trainee",
+            "trainee_position",
+            "supervisor",
+            "assignment_period",
+            "date",
+        )
