@@ -26,9 +26,9 @@ def supervisor_add_to_default_group(sender, **kwargs):
 
 @receiver(post_save, sender=UndergraduateStudent)
 def student_add_to_default_group(sender, **kwargs):
-    supervisor = kwargs["instance"]
+    student = kwargs["instance"]
     if kwargs["created"]:
         studentGroup, created = Group.objects.get_or_create(name="student")
         if created == True:
             studentGroup.save()
-        supervisor.groups.add(studentGroup)
+        student.groups.add(studentGroup)
