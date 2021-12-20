@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     "supervisor",
     "applicant",
     "crispy_forms",
+    "dal",
+    "dal_select2",
 ]
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 MIDDLEWARE = [

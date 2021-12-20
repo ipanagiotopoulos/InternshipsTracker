@@ -37,11 +37,12 @@ class UnderGraduateStudentCreateView(CreateView):
         return super().form_valid(form)
 
 
-class UnderGraduateStudentDetailView(DetailView):
-    template_name = "student_detail.html"
-    queryset = UndergraduateStudent.objects.filter(self.)
-    def get_slug_field(self):
-        return 'user__username'
+# class UnderGraduateStudentDetailView(DetailView):
+#     template_name = "student_detail.html"
+#     queryset = UndergraduateStudent.objects.filter(self.)
+#     def get_slug_field(self):
+#         return 'user__username'
+
 
 class UnderGraduateStudentUpdateView(PermissionRequiredMixin, UpdateView):
     model = UndergraduateStudent

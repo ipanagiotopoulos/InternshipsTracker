@@ -40,5 +40,19 @@ urlpatterns = [
             [login_required, decorators.group_required("ThesisApp")], "ThesisApp.urls"
         ),
     ),
+    path(
+        "studentapplications/",
+        decorator_include(
+            [login_required, decorators.group_required("applicant")],
+            "applicant.urls",
+        ),
+    ),
+    path(
+        "carrier/",
+        decorator_include(
+            [login_required],
+            "carrier.urls",
+        ),
+    ),
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
 ]
