@@ -44,6 +44,7 @@ class UnderGraduateStudentUpdateView(
         form.fields["street_no"].initial = self.object.address.street_no
         form.fields["postal_code"].initial = self.object.address.postal_code
         form.fields["password"].widget = forms.HiddenInput()
+
         return form
 
     def form_valid(self, form):

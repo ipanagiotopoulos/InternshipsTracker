@@ -5,9 +5,11 @@ RUN apt-get update && apt-get install -y curl apt-utils apt-transport-https debc
     gcc build-essential libsasl2-dev python-dev libldap2-dev libssl-dev ldap-utils python3-pip \
     netcat net-tools  libpq-dev
 
-ENV PYTHONUNBUFFERED=1
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 WORKDIR /appinternships
+ENV PATH=$PATH:/appinternships/.local/bin
 COPY requirements.txt /reqs/
 RUN pip install -r /reqs/requirements.txt
 COPY ./InternshipsTracker /appinternships
-CMD python3 manage.py makemigrations && python3 manage.py migrate 

@@ -1,3 +1,5 @@
 FROM nginx:latest
 
-COPY default.conf /etc/nginx/nginx.conf
+RUN rm /etc/nginx/conf.d/default.conf
+ADD static /appinternships/static
+COPY default.conf /etc/nginx/conf.d

@@ -26,14 +26,15 @@ services:
       - ./logs:/var/log
     depends_on:
       - db
-    command: /usr/local/bin/gunicorn InternshipsTracker.wsgi:application -w 2 -b :8001 --reload
+    command: /usr/local/bin/gunicorn InternshipsTracker.wsgi:application -w 2 -b :8001 --reload && python3 
   nginx:
     image: nginx
     container_name: nginx
     ports:
       - "80:80"
     volumes:
-      - ./nginx:/etc/nginx/conf.d
-      - ./code/static:/static
+      - ./nginx/static:/var/www/static/html
     depends_on:
       - web  
+volumes:
+  static_volume: null
