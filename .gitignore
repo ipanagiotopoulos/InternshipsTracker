@@ -1,4 +1,4 @@
 django_env/
 logs/
-.env
+InternshipsTracker/.env
 .DS_Store

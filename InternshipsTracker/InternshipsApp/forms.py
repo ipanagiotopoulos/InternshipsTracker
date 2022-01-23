@@ -1,5 +1,4 @@
 from django import forms
-from django.forms import ModelForm
 from django.forms.widgets import (
     DateInput,
     EmailInput,
@@ -13,7 +12,7 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 import datetime as date
 
 
-class StudentCreateForm(UserCreationForm):
+class UndergraduateStudentForm(UserCreationForm):
     email = forms.EmailField(max_length=100, help_text="Required", required=True)
     country = forms.CharField(max_length=30, required=True)
     city = forms.CharField(max_length=40, required=True)
@@ -89,7 +88,7 @@ class StudentUpdateForm(UserChangeForm):
         )
 
 
-class SupervisorCreateForm(UserCreationForm):
+class SupervisorForm(UserCreationForm):
     email = forms.EmailField(max_length=100, help_text="Required", required=True)
     country = forms.CharField(max_length=30, required=True)
     city = forms.CharField(max_length=40, required=True)
@@ -163,7 +162,7 @@ class SupervisorUpdateForm(UserChangeForm):
         )
 
 
-class CarrierNodeCreateForm(UserCreationForm):
+class CarrierNodeForm(UserCreationForm):
     email = forms.EmailField(max_length=100, help_text="Required", required=True)
     country = forms.CharField(max_length=30, required=True)
     city = forms.CharField(max_length=40, required=True)
@@ -174,6 +173,7 @@ class CarrierNodeCreateForm(UserCreationForm):
     postal_code = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(99999)], required=True
     )
+    carrrier = forms.ModelChoiceField(queryset=Carrier.objects.all())
 
     class Meta:
         model = CarrierNode

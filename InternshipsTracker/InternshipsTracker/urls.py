@@ -25,17 +25,9 @@ from utils import decorators
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("users/", include("django.contrib.auth.urls")),
-    # path(
-    #     "profiles/",
-    #     decorator_include(
-    #         [login_required, decorators.group_required("InternshipsApp")],
-    #         "InternshipsApp.urls",
-    #         namespace="InternshipsApp",
-    #     ),
-    # ),
+    path("accounts/", include("django.contrib.auth.urls")),
     path(
-        "profiles/",
+        "accounts/",
         include("InternshipsApp.urls"),
     ),
     path(

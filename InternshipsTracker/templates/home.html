@@ -2,15 +2,27 @@
 {% extends 'base.html' %}
 
 {% block title %}Home{% endblock %}
-
+ {% load bootstrap_icons %}
  {% block content %}
  
   {% if user.is_authenticated %}
     Hi {{ user.username }}!
    <p><a href="{% url 'logout' %}">Log Out</a></p>
  {% else %}
-   <p>You are not logged in</p>
-   <a href="{% url 'login' %}">Log In</a>
+ 
+ <div class="card bg-white d-flex p-2">
+    <div class="container d-inline-flex p-4">
+    <div class="card-body bg-white border border-danger">
+      <h4 class="nav-link text-dark col text-center"> You are not logged in!</h4>
+            {% bs_icon 'rhythm' %}
+            <a  href="/accounts/login"
+              class="nav-link text-info col text-center">Login</a>
+            <a  href="/accounts/register/carrier_node"
+                class="nav-link text-info  col text-center">Register</a>
+    </div>
+  </div>
+</div>
+ 
 {% endif %}
 
 {% endblock %}

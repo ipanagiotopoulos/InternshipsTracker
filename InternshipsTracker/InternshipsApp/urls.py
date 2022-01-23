@@ -5,9 +5,14 @@ app_name = "thesis_app"
 
 urlpatterns = [
     path(
-        "carrier/register/",
-        views.CarrierNodeCreateView.as_view(),
-        name="carrier_register",
+        "register/",
+        views.UserCreateView.as_view(),
+        name="user_register",
+    ),
+    path(
+        "register/<type>",
+        views.UserCreateView.as_view(),
+        name="user_register",
     ),
     path(
         "carrier/edit/",
@@ -15,20 +20,15 @@ urlpatterns = [
         name="carrier_register",
     ),
     path(
-        "supervisor/register/",
-        views.SupervisorCreateView.as_view(),
-        name="supervisor_register",
-    ),
-    path(
         "supervisor/edit/",
         views.SupervisorUpdateView.as_view(),
         name="supervisor_update",
     ),
-    path(
-        "student/register/",
-        views.UnderGraduateStudentCreateView.as_view(),
-        name="student_register",
-    ),
+    # path(
+    #     "student/register/",
+    #     views.UnderGraduateStudentCreateView.as_view(),
+    #     name="student_register",
+    # ),
     path(
         "student/edit",
         views.UnderGraduateStudentUpdateView.as_view(),

@@ -1,11 +1,31 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %}Create an Account{% endblock %}
 
 {% block content %}
-    <form method="POST" class="form-group">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Register</button>
-    </form>
+
+
+<div class="card">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link text-info {% if type == 'undergraduate student' %} active {% endif %}" href="{% url 'thesis_app:user_register' type='undergraduate_student' %}">Register as Student</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-info {% if type == 'supervisor' %} active {% endif %}" href="{% url 'thesis_app:user_register' type='supervisor' %}">Register as Supervisor</a>
+    </li>
+    <li class="nav-item">
+      <a class=" nav-link text-info {% if type == 'carrier node' %} active {% endif %}" href="{% url 'thesis_app:user_register' type='carrier_node' %}">Register as Carrier Node</a>
+    </li>
+  </ul>
+    <div class="card-body">
+        <h5 class="pb-4"> {{ type|capfirst }} form </h5>
+        <form method="POST" class="form-group">
+            {% csrf_token %}
+            {{ form  | crispy }}
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+  </div>
+    
 {% endblock %} 

@@ -6,12 +6,33 @@ from .forms import *
 from django.views.generic import CreateView, UpdateView, DetailView
 from .models import *
 import datetime as date
+from django.http import Http404
 
 
-class UnderGraduateStudentCreateView(CreateView):
-    form_class = StudentCreateForm
-    template_name = "student_create.html"
+def map_model_name(model_type):
+    model_dict = {
+        "": "",
+        "undergraduate_student": "UndergraduateStudent",
+        "carrier_node": "CarrierNode",
+        "supervisor": "Supervisor",
+    }
+    model_name = model_dict.get(model_type)
+    if model_name:
+        return model_name
+    else:
+        raise Http404
+
+
+class UserCreateView(CreateView):
+    paginate_by = 5
+    template_name = "../templates/register.html"
     success_url = "/users/login"
+
+    def get_form_class(self):
+        my_model = self.kwargs.get("type", None)
+        my_model = map_model_name(my_model)
+        print(my_model)
+        return eval("%sForm" % my_model)
 
     def form_valid(self, form):
         us = form.save(commit=False)
@@ -25,6 +46,11 @@ class UnderGraduateStudentCreateView(CreateView):
         us.address = ad
         us.save()
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(UserCreateView, self).get_context_data(**kwargs)
+        context["type"] = self.kwargs.get("type").replace("_", " ")
+        return context
 
 
 class UnderGraduateStudentUpdateView(
@@ -61,25 +87,6 @@ class UnderGraduateStudentUpdateView(
         return UndergraduateStudent.objects.get(id=self.request.user.id)
 
 
-class SupervisorCreateView(CreateView):
-    form_class = SupervisorCreateForm
-    template_name = "supervisor_create.html"
-    success_url = "/users/login"
-
-    def form_valid(self, form):
-        sv = form.save(commit=False)
-        ad = Address.objects.create(
-            country=form.cleaned_data["country"],
-            city=form.cleaned_data["city"],
-            street_name=form.cleaned_data["street_name"],
-            street_no=form.cleaned_data["street_no"],
-            postal_code=form.cleaned_data["postal_code"],
-        )
-        sv.address = ad
-        sv.save()
-        return super().form_valid(form)
-
-
 class SupervisorUpdateView(LoginRequiredMixin, GroupRequiredMixin, UpdateView):
     model = UndergraduateStudent
     form_class = SupervisorUpdateForm
@@ -109,25 +116,6 @@ class SupervisorUpdateView(LoginRequiredMixin, GroupRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return UndergraduateStudent.objects.get(id=self.request.user.id)
-
-
-class CarrierNodeCreateView(CreateView):
-    form_class = CarrierNodeCreateForm
-    template_name = "carrier_node_create.html"
-    success_url = "/users/login"
-
-    def form_valid(self, form):
-        cn = form.save(commit=False)
-        ad = Address.objects.create(
-            country=form.cleaned_data["country"],
-            city=form.cleaned_data["city"],
-            street_name=form.cleaned_data["street_name"],
-            street_no=form.cleaned_data["street_no"],
-            postal_code=form.cleaned_data["postal_code"],
-        )
-        cn.address = ad
-        cn.save()
-        return super().form_valid(form)
 
 
 class CarrierNodeUpdateView(LoginRequiredMixin, GroupRequiredMixin, UpdateView):

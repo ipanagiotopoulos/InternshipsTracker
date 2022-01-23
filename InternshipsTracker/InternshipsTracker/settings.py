@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "dal",
     "dal_select2",
+    "django_bootstrap_icons",
 ]
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 MIDDLEWARE = [
