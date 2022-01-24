@@ -147,3 +147,11 @@ class CarrierNodeUpdateView(LoginRequiredMixin, GroupRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return UndergraduateStudent.objects.get(id=self.request.user.id)
+
+
+def handler404(request, *args, **kwargs):
+    return render(request, "404.html", status=404)
+
+
+def handler500(request, *args, **kwargs):
+    return render(request, "500.html", status=500)
