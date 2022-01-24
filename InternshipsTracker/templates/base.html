@@ -22,7 +22,16 @@
         <li class="nav-item d-flex flex-row mt-5 ml-auto border-0 pr-5">
           <div class="nav-item  text-white">
             {% if user.is_authenticated %}
-            {{user.username}}
+            <div class="dropdown">
+              <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{user.username}}
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="/accounts/profile">Profile</a>
+                <a class="dropdown-item" href="/accounts/activity">Activity</a>
+                <a class="dropdown-item" href="/accounts/logout">Logout</a>
+              </div>
+            </div> 
             {% endif %}
           </div>
         </li>
@@ -32,7 +41,10 @@
   {% for group in user.groups.all %}
     {% if group.name == 'carrier_node'  %}
       <nav class="navbar navbar-expand-lg  border border-dark">  
-          <ul class="navbar-nav mr-auto border-0">
+        <a class="navbar-brand text-info"  href="#">
+          Carrier
+        </a>
+          <ul class="navbar-nav ml-auto border-0">
             <li class="nav-item pr-3 border-0"><a  href="#"
               class="nav-link text-info"><i class="far fa-calendar-alt"></i>{% trans "Job Postings" %} </a></li>
             <li class="nav-item pr-3 "><a href="#"
@@ -43,37 +55,37 @@
                 class="btn text-info"><i class="fa fa-sign-out"></i>{% trans "Messages" %}</a></li>
           </ul>
       </nav>
-        {% elif group.name == 'supervisor'  %}
-      <nav class="navbar navbar-expand-lg navbar-dark bg-primary text-white"	>
-          <a class="navbar-brand"  href="#">
-            Supervisor:  {{user.name}}
-          </a>
-          <ul class="navbar-nav navbar-expand-lg  border border-dark">
-            <li class="nav-item"><a  href="#"
-              class="nav-link"><i class="fas fa-clipboard-list"></i> {% trans "Students" %} </a></li>
-            <li class="nav-item"><a
-              href="#" class="nav-link "><i class="far fa-address-card"></i>{% trans "Carriers" %}</a></li>
-            <li class="nav-item"><a href="#"
-              class="btn btn-outline-light "><i class="fa fa-sign-out"></i>{% trans "Assesments" %} </a></li>
-              <li class="nav-item"><a href="#"
-                class="btn btn-outline-light "><i class="fa fa-sign-out"></i>{% trans "Activity" %} </a></li>
+    {% elif group.name == 'supervisor'  %}
+      <nav class="navbar navbar-expand-lg border border-dark"	>
+        <a class="navbar-brand text-info"  href="#">
+          Supervisor
+        </a>
+          <ul class="navbar-nav ml-auto border-0">
+            <li class="nav-item pr-3 border-0"><a  href="#"
+              class="nav-link text-info"><i class="far fa-calendar-alt"></i>{% trans "My students" %} </a></li>
+            <li class="nav-item pr-3 "><a href="#"
+                class="btn text-info"><i class="fa fa-sign-out"></i>{% trans "Carriers" %}</a></li>
+            <li class="nav-item pr-3 border-0 "><a href="#"
+              class="btn text-info"><i class="fa fa-sign-out"></i>{% trans "Assesments" %}</a></li>
+              <li class="nav-item pr-3 border-0 "><a href="#"
+                class="btn text-info"><i class="fa fa-sign-out"></i>{% trans "Activity" %}</a></li>
           </ul>
+      </nav>
+    {% elif group.name == 'student'  %}
+      <nav class="navbar navbar-expand-lg bg-white border border-dark"	>
+        <a class="navbar-brand text-info"  href="#">
+           Student
+        </a>
+        <ul class="navbar-nav ml-auto">
+           <li class="nav-item "><a  href="#"
+              class="nav-link active text-info"><i class="fas fa-clipboard-list"></i> {% trans "Applications" %} </a></li>
+           <li class="nav-item "><a
+              href="#" class="nav-link active text-info"><i class="far fa-address-card"></i>{% trans "Profile" %}</a></li>
+          <li class="nav-item "><a href="#"
+                class="nav-link active text-info"><i class="fa fa-sign-out"></i>{% trans "Positions" %} </a></li>
+        </ul>
         </nav>
-        {% elif group.name == 'student'  %}
-        <nav class="navbar navbar-expand-lg navbar-dark bg-info text-white"	>
-          <a class="navbar-brand"  href="#">
-           Student:  {{user.name}}
-          </a>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a  href="#"
-              class="nav-link"><i class="fas fa-clipboard-list"></i> {% trans "Applications" %} </a></li>
-            <li class="nav-item"><a
-              href="#" class="nav-link "><i class="far fa-address-card"></i>{% trans "Profile" %}</a></li>
-            <li class="nav-item"><a href="#"
-              class="btn btn-outline-light "><i class="fa fa-sign-out"></i>{% trans "Logout" %} </a></li>
-          </ul>
-        </nav>
-        {% else %}
+      {% else %}
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary text-white"	>
           <a class="navbar-brand" >xw 
           </a>
