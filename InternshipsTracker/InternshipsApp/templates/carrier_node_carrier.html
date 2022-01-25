@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{%block title %} {% trans "My Carrier" %} {% endblock title %}
+{% block content%}
+
+<div class="card ">
+    <div class="card-header bg-white text-info">
+        <h4>Carrier Node Profile</h4>
+    </div>
+    <div class="card-body ">
+        <p>Username: {{carrier_node.username}}</p>
+        <p>email: {{carrier_node.email}}</p>
+        <p>title: {{carrier_node.title}}</p>
+        <p>father name: {{carrier_node.father_name}}</p>
+        <p>mother name: {{carrier_node.mother_name}}</p>
+        <p>BirthDay: {{carrier_node.birth_day}}</p>
+        <p>BirthDay: {{carrier_node.birth_day}}</p>
+        <p>Phone: {{carrier_node.msisdn}}</p>
+        <p>Phone 2: {{carrier_node.tel_no2}}</p>
+        <p>Carrier: {{carrier_node.carrier}}</p>
+        <p>Department: {{carrier_node.department}}</p>
+    </div>
+    <div class="card-footer">
+        <a href="{%url 'thesis_app:carrier_node_edit'  %}" class="btn btn-primary">Profile Update</a>
+        <a href="/" class="btn btn=primary">See assignment periods</a>
+    </div>
+</div>
+{% endblock content %}

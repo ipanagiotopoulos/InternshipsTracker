@@ -6,11 +6,11 @@
  {% block content %}
  
   {% if user.is_authenticated %}
-    Hi {{ user.username }}!
+    Hi {{ user.username }} from DIT!
    <p><a href="{% url 'logout' %}">Log Out</a></p>
  {% else %}
  
- <div class="card bg-white d-flex p-2">
+ <div class="card bg-white d-flex p-2 my-auto">
     <div class="container d-inline-flex p-4">
     <div class="card-body bg-white border border-danger">
       <h4 class="nav-link text-dark col text-center"> You are not logged in!</h4>

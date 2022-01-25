@@ -2,11 +2,11 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from braces.views import GroupRequiredMixin, LoginRequiredMixin
 from django.http import HttpResponseRedirect, request
-from .forms import *
 from django.views.generic import CreateView, UpdateView, DetailView
-from .models import *
-import datetime as date
 from django.http import Http404
+import datetime as date
+from .forms import *
+from .models import *
 
 
 def map_model_name(model_type):
@@ -88,11 +88,11 @@ class UnderGraduateStudentUpdateView(
 
 
 class SupervisorUpdateView(LoginRequiredMixin, GroupRequiredMixin, UpdateView):
-    model = UndergraduateStudent
+    model = Supervisor
     form_class = SupervisorUpdateForm
-    template_name = "student_update.html"
-    success_url = "/users/login"
-    group_required = "student"
+    template_name = "supervisor_update.html"
+    success_url = "/account/supervisor/detail"
+    group_required = "supervisor"
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
@@ -115,15 +115,15 @@ class SupervisorUpdateView(LoginRequiredMixin, GroupRequiredMixin, UpdateView):
         return super().form_valid(form)
 
     def get_object(self, queryset=None):
-        return UndergraduateStudent.objects.get(id=self.request.user.id)
+        return Supervisor.objects.get(id=self.request.user.id)
 
 
 class CarrierNodeUpdateView(LoginRequiredMixin, GroupRequiredMixin, UpdateView):
     model = UndergraduateStudent
-    form_class = SupervisorUpdateForm
-    template_name = "student_update.html"
-    success_url = "/users/login"
-    group_required = "student"
+    form_class = CarrierUpdateForm
+    template_name = "carrier_node_update.html"
+    success_url = "/accounts/carrier_node/detail"
+    group_required = "carrier_node"
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
@@ -146,7 +146,28 @@ class CarrierNodeUpdateView(LoginRequiredMixin, GroupRequiredMixin, UpdateView):
         return super().form_valid(form)
 
     def get_object(self, queryset=None):
-        return UndergraduateStudent.objects.get(id=self.request.user.id)
+        return CarrierNode.objects.get(id=self.request.user.id)
+
+
+class CarrierNodeDetaillView(LoginRequiredMixin, GroupRequiredMixin, DetailView):
+    model = CarrierNode
+    context_object_name = "carrier_node"
+    template_name = "carrier_node.html"
+    group_required = "carrier_node"
+
+    def get_object(self, queryset=None):
+        return CarrierNode.objects.get(id=self.request.user.id)
+
+
+class CarrierNodeCarrierDetailView(LoginRequiredMixin, GroupRequiredMixin, DetailView):
+    model = Carrier
+    context_object_name = "carrier"
+    template_name = "carrier_node_carrier.html"
+    group_required = "carrier_node"
+
+    def get_object(self, queryset=None):
+        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        return carrier_node.carrier
 
 
 def handler404(request, *args, **kwargs):

@@ -1,6 +1,6 @@
-from django import forms
 from applicant.models import Preference
 from carrier.models import TraineePosition
+from django import forms
 from dal import autocomplete
 
 

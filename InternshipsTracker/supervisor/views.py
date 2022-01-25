@@ -1,5 +1,5 @@
 from InternshipsTracker.supervisor.models import SupervisorAssesment
-from django.shortcuts import render
+
 
 # Create your views here.
 class CreateSupervisorAssesment(CreateView):

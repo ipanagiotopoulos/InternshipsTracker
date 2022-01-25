@@ -15,9 +15,19 @@ urlpatterns = [
         name="user_register",
     ),
     path(
-        "carrier/edit/",
+        "carrier_node/edit/",
         views.CarrierNodeUpdateView.as_view(),
-        name="carrier_register",
+        name="carrier_node_edit",
+    ),
+    path(
+        "carrier_node/my_carrier/",
+        views.CarrierNodeUpdateView.as_view(),
+        name="carrier_node_edit",
+    ),
+    path(
+        "carrier_node/detail/",
+        views.CarrierNodeDetaillView.as_view(),
+        name="carrier_node_detail",
     ),
     path(
         "supervisor/edit/",

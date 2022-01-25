@@ -9,7 +9,7 @@
        <h2 class="h2"> {% trans "Signup As Undergraduate Student" %}</h2>
      </nav>
     </div>
-
+  {{ form.media }}
   <form method="post">
     {% csrf_token %}
     {{ form|crispy }}

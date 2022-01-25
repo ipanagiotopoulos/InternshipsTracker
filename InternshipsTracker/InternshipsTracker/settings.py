@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "supervisor",
     "applicant",
     "crispy_forms",
+    "phonenumber_field",
     "dal",
     "dal_select2",
     "django_bootstrap_icons",

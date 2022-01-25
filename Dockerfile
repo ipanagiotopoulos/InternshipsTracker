@@ -12,6 +12,7 @@ WORKDIR /appinternships
 ENV PATH=$PATH:/appinternships/.local/bin
 COPY requirements.txt /reqs/
 RUN pip install -r /reqs/requirements.txt
+RUN pip install django-phonenumber-field[phonenumbers]
 COPY ./InternshipsTracker /appinternships
 #RUN python3 manage.py makemigrations && python3 manage.py migrate 
 CMD  /usr/local/bin/gunicorn InternshipsTracker.wsgi:application -w 2 -b :8001 --reload

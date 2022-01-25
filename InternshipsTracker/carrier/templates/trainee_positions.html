@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load carrier_tags %}
+
+{%block title %} {% trans "Job Postings" %} {% endblock title %}
+{% block content%}
+<h4 class="mb-4">Job Postings</h4>
+{% is_active request.user as is_active %}
+{% if is_active %}
+    <a href="{% url 'carrier:traineeposition_create' %}" class="btn btn-success mt-5 mb-5">Create Job Posting</a>
+{% else %}
+    <p>No carrier assignment found ! </p>
+{% endif %}
+<div class="caontainer-fluid border-border-dark" >
+    {% if tps %}
+    {% for tp in tps %}
+        <div class="card mb-5">
+            <div class="card-header bg-white text-info">
+                <h4>{{tp.title}}</h4>
+            </div>
+            <div class="card-body ">
+                <p>Description: {{tp.description}}</p>
+                <p>Start date: {{tp.carrier.application_period.from_date}}</p>
+                <p>End Date: {{tp.carrier.application_period.to_date}}</p>
+            </div>
+            <div class="card-footer">
+                <a href="/carrier/traineepositions/{{tp.pk}}/update" class="btn btn-info mb-2 btn-block">Edit </a>
+                <form  action="/carrier/traineepositions/{{tp.pk}}/delete" method="GET" > 
+                <button type="submit" class="btn btn-danger btn-block" > Delete </button>
+               </form>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No Job postings found</p>
+{% endif %}
+</div>
+{% endblock content %}

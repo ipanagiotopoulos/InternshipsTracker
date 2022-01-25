@@ -1,8 +1,8 @@
 from django.db import models
-from typing_extensions import Required
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+from phonenumber_field.modelfields import PhoneNumberField
 from .enums import DEPARTMENT_CHOICES
 
 
@@ -49,8 +49,8 @@ class Profile(User):
     mother_name = models.CharField(max_length=255)
     birth_day = models.DateField()
     address = models.ForeignKey(Address, on_delete=models.CASCADE, unique=True)
-    msisdn = models.IntegerField()
-    tel_no2 = models.IntegerField()
+    msisdn = PhoneNumberField(null=False, blank=False, unique=True)
+    tel_no2 = PhoneNumberField(null=False, blank=False, unique=True)
 
     class Meta:
         abstract = True

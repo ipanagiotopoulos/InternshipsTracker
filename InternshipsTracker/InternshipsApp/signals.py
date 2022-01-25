@@ -1,6 +1,6 @@
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
-from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.models import Group
 from .models import *
 
 

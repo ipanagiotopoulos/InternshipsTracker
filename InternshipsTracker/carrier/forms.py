@@ -5,10 +5,16 @@ from .models import *
 class CreateTraineePositionForm(forms.ModelForm):
     class Meta:
         model = TraineePosition
-        fields = ("title", "carrier", "description", "application_period")
+        fields = ("title", "description", "application_period")
 
 
-# class UpdateTraineePositionForm(forms.ModelFrom):
+class UpdateTraineePositionForm(forms.ModelForm):
+    title = forms.CharField(required=True, max_length=200, min_length=5)
+    description = forms.CharField(required=True, max_length=1500, min_length=10)
+
+    class Meta:
+        model = TraineePosition
+        fields = ("title", "description")
 
 
 class CarrierConsentForm(forms.ModelForm):

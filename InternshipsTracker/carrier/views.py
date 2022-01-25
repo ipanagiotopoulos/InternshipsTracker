@@ -1,11 +1,12 @@
-from django.views.generic.edit import UpdateView
-from utils.decorators import group_required
+from braces.views import GroupRequiredMixin, LoginRequiredMixin
+from django.views.generic import DetailView, ListView, DeleteView, UpdateView
+from django.shortcuts import get_object_or_404
+from django.views.generic import CreateView
+from dal import autocomplete as auto
+from django.urls import reverse
 from .forms import *
 from .models import *
-from django.views.generic import CreateView
-from django.shortcuts import render
-from dal import autocomplete as auto
-from braces.views import GroupRequiredMixin
+from InternshipsApp.models import CarrierNode
 
 
 # Create your views here.
@@ -19,6 +20,15 @@ class CreateAssignemtView(GroupRequiredMixin, CreateView):
     group_required = u"carrier_node"
 
 
+class AssignmentListView(GroupRequiredMixin, DetailView):
+    model = Assignment
+    template_name = "assignments.html"
+
+    def get_queryset(self):
+        queryset = CarrierNode.objects.filter(Q(carrier=self.object.carrier))
+        return queryset
+
+
 class CreateCarrierConsentView(GroupRequiredMixin, CreateView):
     model = CarrierConsentForm
     form_class = CarrierConsentForm
@@ -27,20 +37,70 @@ class CreateCarrierConsentView(GroupRequiredMixin, CreateView):
     group_required = u"carrier_node"
 
 
-class CreateTraineePositionView(GroupRequiredMixin, CreateView):
+class TraineePositionListView(LoginRequiredMixin, GroupRequiredMixin, ListView):
+    model = TraineePosition
+    group_required = u"carrier_node"
+    template_name = "trainee_positions.html"
+    context_object_name = "tps"
+
+    def get_queryset(self):
+        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        return TraineePosition.objects.filter(
+            carrier_assignment__carrier=carrier_node.carrier
+        )
+
+
+class TraineePositionCreateView(LoginRequiredMixin, GroupRequiredMixin, CreateView):
     model = TraineePosition
     form_class = CreateTraineePositionForm
     template_name = "trainee_position_create.html"
-    success_url = "/"
+    success_url = "/carrier/traineepositions/list"
     group_required = u"carrier_node"
 
+    def form_valid(self, form):
+        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        ca = CarrierAssignmentPeriod.objects.get(carrier=carrier_node.carrier)
+        print(ca)
+        form.instance.carrier_assignment = ca
+        return super().form_valid(form)
 
-# class UpdateTraineePositionView(GroupRequiredMixin, UpdateView):
-#     model = TraineePosition
-#     form_class = UpdateTraineePositionForm
-#     template_name = "trainee_position_create.html"
-#     success_url = "/"
-#     group_required = u"carrier_node"
+
+class TraineePositionDetailView(LoginRequiredMixin, DetailView):
+    model = TraineePosition
+    template_name = "trainee_positions.html"
+
+    def get_object(self):
+        pk_ = self.kwargs.get("pk")
+        return get_object_or_404(TraineePosition, pk=pk_)
+
+
+class TraineePositionDeleteView(LoginRequiredMixin, DeleteView):
+    model = TraineePosition
+    template_name = "trainee_position_delete.html"
+    context_object_name = "/carrier/traineepositions/list"
+
+    def get_success_url(self):
+        return reverse("carrier:traineeposition_list")
+
+
+class TraineePositionUpdateView(GroupRequiredMixin, UpdateView):
+    model = TraineePosition
+    form_class = UpdateTraineePositionForm
+    template_name = "trainee_position_update.html"
+    success_url = "/carrier/traineepositions/list"
+    group_required = u"carrier_node"
+
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        form.fields["title"].initial = self.object.title
+        form.fields["description"].initial = self.object.description
+        # form.fields["carrier_assignment"].widget = forms.HiddenInput()
+        # form.fields["application_period"].widget = forms.HiddenInput()
+        return form
+
+    def get_object(self):
+        pk_ = self.kwargs.get("pk")
+        return get_object_or_404(TraineePosition, pk=pk_)
 
 
 class TraineePositionAutocomplete(auto.Select2QuerySetView):

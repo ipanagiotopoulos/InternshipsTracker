@@ -4,8 +4,6 @@
   <head>
     {% load static %}
     {% load i18n %}
-    {% load bootstrap_icons %}
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
@@ -27,11 +25,13 @@
                 {{user.username}}
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="/accounts/profile">Profile</a>
                 <a class="dropdown-item" href="/accounts/activity">Activity</a>
+                <a class="dropdown-item" href="/accounts/activity">Change Password</a>
                 <a class="dropdown-item" href="/accounts/logout">Logout</a>
               </div>
             </div> 
+          </br>
+          <h6 class="nav-item mr-auto text-white border-0"><i class="far fa-calendar-alt"></i>{{user.first_name}} {{user.last_name}}</h6>
             {% endif %}
           </div>
         </li>
@@ -40,12 +40,18 @@
 {% if user.is_authenticated %}
   {% for group in user.groups.all %}
     {% if group.name == 'carrier_node'  %}
-      <nav class="navbar navbar-expand-lg  border border-dark">  
-        <a class="navbar-brand text-info"  href="#">
-          Carrier
-        </a>
+      <nav class="navbar navbar-expand-lg  border border-dark">
+        <div class="dropdown">
+          <button class="btn dropdown-toggle text-info ml-5" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Carrier Profile
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="/accounts/carrier_node/detail">View account details</a>
+            <a class="dropdown-item" href="/accounts/carrier_node/my_carrier">Edit Account</a>
+          </div>
+        </div>  
           <ul class="navbar-nav ml-auto border-0">
-            <li class="nav-item pr-3 border-0"><a  href="#"
+            <li class="nav-item pr-3 border-0"><a  href="{% url 'carrier:traineeposition_list' %}"
               class="nav-link text-info"><i class="far fa-calendar-alt"></i>{% trans "Job Postings" %} </a></li>
             <li class="nav-item pr-3 "><a href="#"
                 class="btn text-info"><i class="fa fa-sign-out"></i>{% trans "Received Applications" %}</a></li>
