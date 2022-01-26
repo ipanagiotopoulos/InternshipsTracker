@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load i18n %}
-{{ form.media }}
 {% block title %}{% trans "Application for Internships!" %}{% endblock title %}
 {% block content %}
     <h2>{% trans "Submit Preference" %}</h2>
   <form method="post">
     {% csrf_token %}
-    {{ form | crispy }}
-    <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+    {{ form|crispy }}
+    <input type="file">Add File</input>
+    <button type="submit" class="btn btn-primary">{% trans "Edit" %}</button>
     <br>
     <br>
   </form>
+  {{ form.media }}
   {% endblock content %}

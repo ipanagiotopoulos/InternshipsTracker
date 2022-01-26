@@ -60,7 +60,6 @@ class TraineePositionCreateView(LoginRequiredMixin, GroupRequiredMixin, CreateVi
     def form_valid(self, form):
         carrier_node = CarrierNode.objects.get(id=self.request.user.id)
         ca = CarrierAssignmentPeriod.objects.get(carrier=carrier_node.carrier)
-        print(ca)
         form.instance.carrier_assignment = ca
         return super().form_valid(form)
 
@@ -94,6 +93,7 @@ class TraineePositionUpdateView(GroupRequiredMixin, UpdateView):
         form = super().get_form(*args, **kwargs)
         form.fields["title"].initial = self.object.title
         form.fields["description"].initial = self.object.description
+        # form.fields["description"].widget = forms.Textarea
         # form.fields["carrier_assignment"].widget = forms.HiddenInput()
         # form.fields["application_period"].widget = forms.HiddenInput()
         return form
@@ -105,6 +105,7 @@ class TraineePositionUpdateView(GroupRequiredMixin, UpdateView):
 
 class TraineePositionAutocomplete(auto.Select2QuerySetView):
     def get_queryset(self):
+        print(self.forwarded)
         tr1 = self.forwarded.get("trainee_position_1", None)
         tr2 = self.forwarded.get("trainee_position_2", None)
         tr3 = self.forwarded.get("trainee_position_3", None)
@@ -113,5 +114,4 @@ class TraineePositionAutocomplete(auto.Select2QuerySetView):
         qs = TraineePosition.objects.all().exclude(id=tr1)
         if self.q:
             qs = qs.filter(name__icontains=self.q)
-
         return qs

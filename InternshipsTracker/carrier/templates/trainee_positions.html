@@ -19,10 +19,19 @@
             <div class="card-header bg-white text-info">
                 <h4>{{tp.title}}</h4>
             </div>
-            <div class="card-body ">
-                <p>Description: {{tp.description}}</p>
-                <p>Start date: {{tp.carrier.application_period.from_date}}</p>
-                <p>End Date: {{tp.carrier.application_period.to_date}}</p>
+            <div class="card-body">
+               <div class="card mb-5">
+                <div class="card-header bg-white text-dark">
+                    <p>Description:</p>
+                </div>
+                <div class="card-body">
+                  <p class="pt-2">{{tp.description}} </p>  
+                </div>
+                <div class="card-footer bg-white">
+                  <p>Start date: {{tp.carrier.application_period.from_date}}</p>
+                  <p>End Date: {{tp.carrier.application_period.to_date}}</p>
+              </div>
+            </div>
             </div>
             <div class="card-footer">
                 <a href="/carrier/traineepositions/{{tp.pk}}/update" class="btn btn-info mb-2 btn-block">Edit </a>
