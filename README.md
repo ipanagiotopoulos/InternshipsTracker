@@ -1,2 +1,2 @@
 # InternshipsTracker
-some
+System for tracking  Harokopio's Univeristy intenrships.
