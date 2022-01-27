@@ -1,5 +1,8 @@
+from InternshipsApp.models import (
+    UndergraduateStudent,
+)
 from carrier.models import TraineePosition
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, ListView
 from braces.views import GroupRequiredMixin
 from django.shortcuts import get_object_or_404
 from .forms import PreferenceCreateForm
@@ -37,3 +40,16 @@ class PreferenceView(GroupRequiredMixin, DetailView):
     def get_object(self):
         pk_ = self.kwargs.get("pk")
         return get_object_or_404(Preference, pk=pk_)
+
+
+class TraineePositionStudentListView(GroupRequiredMixin, ListView):
+    model = TraineePosition
+    context_object_name = "trainee_position"
+    template_name = "student_trainee_positions.html"
+    group_required = u"student"
+
+    def get_queryset(self):
+        student = UndergraduateStudent.objects.get(id=self.request.user.id)
+        return TraineePosition.objects.filter(
+            student.department == carrier_node.carrier
+        )

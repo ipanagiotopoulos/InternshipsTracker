@@ -13,9 +13,11 @@
         <form method="post">
             {% csrf_token %}
             {{ form|crispy }}
-            <button type="submit" class="btn btn-info mt-2">{% trans "Edit" %}</button>
         </form>
     </div>
+  </div>
+  <div class="card-footer">
+    <button type="submit" class="btn btn-info mt-2">{% trans "Edit" %}</button>
   </div>
 </div>
 {% endblock content %}

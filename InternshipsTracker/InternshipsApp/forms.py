@@ -79,7 +79,16 @@ class UndergraduateStudentForm(UserCreationForm):
 
 
 class StudentUpdateForm(UserChangeForm):
-    # email = forms.EmailField(max_length=100, help_text="Required", required=True)
+    first_name = forms.CharField(
+        max_length=30, required=True, widget=TextInput(attrs={"readonly": "readonly"})
+    )
+    last_name = forms.CharField(
+        max_length=30, required=True, widget=TextInput(attrs={"readonly": "readonly"})
+    )
+    username = forms.CharField(
+        max_length=30, required=True, widget=TextInput(attrs={"readonly": "readonly"})
+    )
+    email = forms.EmailField(max_length=100, help_text="Required", required=True)
     country = forms.CharField(max_length=30, required=True)
     city = forms.CharField(max_length=40, required=True)
     street_name = forms.CharField(max_length=100, required=True)
@@ -97,6 +106,7 @@ class StudentUpdateForm(UserChangeForm):
             "first_name",
             "last_name",
             "username",
+            "email",
             "msisdn",
             "tel_no2",
             "country",
@@ -159,7 +169,16 @@ class SupervisorForm(UserCreationForm):
 
 
 class SupervisorUpdateForm(UserChangeForm):
-    # email = forms.EmailField(max_length=100, help_text="Required", required=True)
+    first_name = forms.CharField(
+        max_length=30, required=True, widget=TextInput(attrs={"readonly": "readonly"})
+    )
+    last_name = forms.CharField(
+        max_length=30, required=True, widget=TextInput(attrs={"readonly": "readonly"})
+    )
+    username = forms.CharField(
+        max_length=30, required=True, widget=TextInput(attrs={"readonly": "readonly"})
+    )
+    email = forms.EmailField(max_length=100, help_text="Required", required=True)
     country = forms.CharField(max_length=30, required=True)
     city = forms.CharField(max_length=40, required=True)
     street_name = forms.CharField(max_length=100, required=True)
@@ -241,6 +260,12 @@ class CarrierNodeForm(UserCreationForm):
 
 class CarrierUpdateForm(UserChangeForm):
     first_name = forms.CharField(
+        max_length=30, required=True, widget=TextInput(attrs={"readonly": "readonly"})
+    )
+    last_name = forms.CharField(
+        max_length=30, required=True, widget=TextInput(attrs={"readonly": "readonly"})
+    )
+    username = forms.CharField(
         max_length=30, required=True, widget=TextInput(attrs={"readonly": "readonly"})
     )
     # email = forms.EmailField(max_length=100, help_text="Required", required=True)

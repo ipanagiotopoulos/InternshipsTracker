@@ -14,4 +14,9 @@ urlpatterns = [
         views.CreatePreferenceView.as_view(),
         name="student_preference_submit",
     ),
+    path(
+        "positions",
+        views.TraineePositionStudentListView.as_view(),
+        name="student_all_positions",
+    ),
 ]

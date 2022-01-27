@@ -5,6 +5,11 @@ app_name = "thesis_app"
 
 urlpatterns = [
     path(
+        "changepassword/",
+        views.PasswordsChangeView.as_view(),
+        name="passwords_change",
+    ),
+    path(
         "register/",
         views.UserCreateView.as_view(),
         name="user_register",
@@ -34,14 +39,19 @@ urlpatterns = [
         views.SupervisorUpdateView.as_view(),
         name="supervisor_update",
     ),
-    # path(
-    #     "student/register/",
-    #     views.UnderGraduateStudentCreateView.as_view(),
-    #     name="student_register",
-    # ),
+    path(
+        "supervisor/detail",
+        views.SupervisorDetailView.as_view(),
+        name="student_detail",
+    ),
     path(
         "student/edit",
         views.UnderGraduateStudentUpdateView.as_view(),
         name="student_update",
+    ),
+    path(
+        "student/detail",
+        views.UnderGraduateStudentDetailView.as_view(),
+        name="student_detail",
     ),
 ]

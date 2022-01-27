@@ -1,4 +1,4 @@
-from braces.views import GroupRequiredMixin, LoginRequiredMixin
+from braces.views import GroupRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import DetailView, ListView, DeleteView, UpdateView
 from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView
@@ -43,6 +43,13 @@ class TraineePositionListView(LoginRequiredMixin, GroupRequiredMixin, ListView):
     template_name = "trainee_positions.html"
     context_object_name = "tps"
 
+    # def test_func(self):
+    #     print(self.__dict__)
+    #     user = self.request.user
+    #     # if traineePosition.user == user:
+    #     #     return True
+    #     return False
+
     def get_queryset(self):
         carrier_node = CarrierNode.objects.get(id=self.request.user.id)
         return TraineePosition.objects.filter(
@@ -68,26 +75,48 @@ class TraineePositionDetailView(LoginRequiredMixin, DetailView):
     model = TraineePosition
     template_name = "trainee_positions.html"
 
+    def get_test_func(self):
+        traineePosition = self.get_object()
+        user = self.request.user
+        if traineePosition.user == user:
+            return True
+        return False
+
     def get_object(self):
         pk_ = self.kwargs.get("pk")
         return get_object_or_404(TraineePosition, pk=pk_)
 
 
-class TraineePositionDeleteView(LoginRequiredMixin, DeleteView):
+class TraineePositionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = TraineePosition
     template_name = "trainee_position_delete.html"
     context_object_name = "/carrier/traineepositions/list"
+
+    def test_func(self):
+        traineePosition = self.get_object()
+        user = self.request.user
+        if traineePosition.user == user:
+            return True
+        return False
 
     def get_success_url(self):
         return reverse("carrier:traineeposition_list")
 
 
-class TraineePositionUpdateView(GroupRequiredMixin, UpdateView):
+class TraineePositionUpdateView(GroupRequiredMixin, UserPassesTestMixin, UpdateView):
     model = TraineePosition
     form_class = UpdateTraineePositionForm
     template_name = "trainee_position_update.html"
     success_url = "/carrier/traineepositions/list"
     group_required = u"carrier_node"
+
+    def test_func(self):
+        traineePosition = self.get_object()
+        user = self.request.user
+        print("what:,", traineePosition.user)
+        if traineePosition.user == user:
+            return True
+        return False
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)

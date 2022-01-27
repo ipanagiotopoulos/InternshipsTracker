@@ -1,12 +1,12 @@
-from django.contrib.auth.models import User
 from django.shortcuts import render
 from braces.views import GroupRequiredMixin, LoginRequiredMixin
-from django.http import HttpResponseRedirect, request
 from django.views.generic import CreateView, UpdateView, DetailView
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.forms import PasswordChangeForm
 from django.http import Http404
-import datetime as date
-from .forms import *
+from django.urls import reverse_lazy
 from .models import *
+from .forms import *
 
 
 def map_model_name(model_type):
@@ -23,8 +23,13 @@ def map_model_name(model_type):
         raise Http404
 
 
+class PasswordsChangeView(PasswordChangeView):
+    form_class = PasswordChangeForm
+    template_name = "../templates/change_password.html"
+    success_url = reverse_lazy("home")
+
+
 class UserCreateView(CreateView):
-    paginate_by = 5
     template_name = "../templates/register.html"
     success_url = "/users/login"
 
@@ -87,6 +92,18 @@ class UnderGraduateStudentUpdateView(
         return UndergraduateStudent.objects.get(id=self.request.user.id)
 
 
+class UnderGraduateStudentDetailView(
+    LoginRequiredMixin, GroupRequiredMixin, DetailView
+):
+    model = UndergraduateStudent
+    context_object_name = "student"
+    template_name = "student.html"
+    group_required = "student"
+
+    def get_object(self, queryset=None):
+        return UndergraduateStudent.objects.get(id=self.request.user.id)
+
+
 class SupervisorUpdateView(LoginRequiredMixin, GroupRequiredMixin, UpdateView):
     model = Supervisor
     form_class = SupervisorUpdateForm
@@ -113,6 +130,16 @@ class SupervisorUpdateView(LoginRequiredMixin, GroupRequiredMixin, UpdateView):
         us.address.postal_code = (form.cleaned_data["postal_code"],)
         us.save()
         return super().form_valid(form)
+
+    def get_object(self, queryset=None):
+        return Supervisor.objects.get(id=self.request.user.id)
+
+
+class SupervisorDetailView(LoginRequiredMixin, GroupRequiredMixin, DetailView):
+    model = Supervisor
+    context_object_name = "supervisor"
+    template_name = "supervisor.html"
+    group_required = "supervisor"
 
     def get_object(self, queryset=None):
         return Supervisor.objects.get(id=self.request.user.id)

@@ -26,7 +26,7 @@
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="/accounts/activity">Activity</a>
-                <a class="dropdown-item" href="/accounts/activity">Change Password</a>
+                <a class="dropdown-item" href="/accounts/changepassword">Change Password</a>
                 <a class="dropdown-item" href="/accounts/logout">Logout</a>
               </div>
             </div> 
@@ -63,9 +63,15 @@
       </nav>
     {% elif group.name == 'supervisor'  %}
       <nav class="navbar navbar-expand-lg border border-dark"	>
-        <a class="navbar-brand text-info"  href="#">
-          Supervisor
-        </a>
+        <div class="dropdown">
+          <button class="btn dropdown-toggle text-info ml-5" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Supervisor
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="/accounts/supervisor/detail">View account details</a>
+            <a class="dropdown-item" href="/accounts/supervisor/edit">Edit Account</a>
+          </div>
+        </div>
           <ul class="navbar-nav ml-auto border-0">
             <li class="nav-item pr-3 border-0"><a  href="#"
               class="nav-link text-info"><i class="far fa-calendar-alt"></i>{% trans "My students" %} </a></li>
@@ -79,15 +85,21 @@
       </nav>
     {% elif group.name == 'student'  %}
       <nav class="navbar navbar-expand-lg bg-white border border-dark"	>
-        <a class="navbar-brand text-info"  href="#">
-           Student
-        </a>
+        <div class="dropdown">
+          <button class="btn dropdown-toggle text-info ml-5" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Student
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="/accounts/student/detail">View account details</a>
+            <a class="dropdown-item" href="/accounts/student/edit">Edit Account</a>
+          </div>
+        </div>
         <ul class="navbar-nav ml-auto">
            <li class="nav-item "><a  href="/studentapplications/application/submit"
               class="nav-link active text-info"><i class="fas fa-clipboard-list"></i> {% trans "Applications" %} </a></li>
            <li class="nav-item "><a
               href="#" class="nav-link active text-info"><i class="far fa-address-card"></i>{% trans "Profile" %}</a></li>
-          <li class="nav-item "><a href="#"
+          <li class="nav-item "><a href="/studentapplications/positions"
                 class="nav-link active text-info"><i class="fa fa-sign-out"></i>{% trans "Positions" %} </a></li>
         </ul>
         </nav>

@@ -1,6 +1,7 @@
-from django import template
+from carrier.models import TraineePosition
 from carrier.models import CarrierAssignmentPeriod
 from InternshipsApp.models import CarrierNode
+from django import template
 import logging
 from datetime import date
 

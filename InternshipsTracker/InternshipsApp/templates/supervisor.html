@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{%block title %} {% trans "Home" %} {% endblock title %}
+{% block content%}
+
+<div class="card ">
+    <div class="card-header bg-white text-info">
+        <h4>Carrier Node Profile</h4>
+    </div>
+    <div class="card-body ">
+        <p >Username: {{supervisor.username}}</p>
+        <p>email: {{supervisor.email}}</p>
+        <p>Title: {{supervisor.title}}</p>
+        <p>Father name: {{supervisor.father_name}}</p>
+        <p>Mother name: {{supervisor.mother_name}}</p>
+        <p>BirthDay: {{supervisor.birth_day}}</p>
+        <p>BirthDay: {{supervisor.birth_day}}</p>
+        <p>Phone: {{supervisor.msisdn}}</p>
+        <p>Phone 2: {{supervisor.tel_no2}}</p>
+        <p>Carrier: {{supervisor.carrier}}</p>
+        <p>Department: {{supervisor.department}}</p>
+    </div>
+    <div class="card-footer">
+        <a href="{% url 'thesis_app:supervisor_update'  %}" class="btn btn-info">Profile Update</a>
+    </div>
+</div>
+{% endblock content %}

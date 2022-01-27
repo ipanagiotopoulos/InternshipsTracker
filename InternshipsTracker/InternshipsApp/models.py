@@ -36,6 +36,9 @@ class Carrier(models.Model):
     official_name = models.CharField(max_length=120, unique=True)
     full_address = models.ForeignKey(Address, on_delete=models.CASCADE, unique=True)
     description = models.TextField(max_length=1000)
+    department = models.CharField(
+        max_length=3, choices=DEPARTMENT_CHOICES
+    )  # each carrrier is for one department
 
     def __str__(self):
         return self.official_name
