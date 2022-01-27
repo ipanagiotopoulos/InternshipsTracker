@@ -10,14 +10,16 @@
    <p><a href="{% url 'logout' %}">Log Out</a></p>
  {% else %}
  
- <div class="card bg-white d-flex p-2 my-auto">
+ <div class="card bg-secondary d-flex p-2 my-auto">
     <div class="container d-inline-flex p-4">
-    <div class="card-body bg-white border border-danger">
-      <h4 class="nav-link text-dark col text-center"> You are not logged in!</h4>
+    <div class="card-body bg-white border  ">
+     <blockquote class="blockquote mb-0 text-center">
+      <h4 class="nav-link text-dark col "> You are not logged in!</h4>
             <a  href="/accounts/login"
-              class="nav-link text-info col text-center">Login</a>
+              class="text-info text-center pr-5">Login</a>
             <a  href="/accounts/register/carrier_node"
-                class="nav-link text-info  col text-center">Register</a>
+                class="text-info text-center">Register<a/>
+     </blockquote>
     </div>
   </div>
 </div>

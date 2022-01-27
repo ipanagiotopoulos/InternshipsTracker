@@ -1,6 +1,7 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from InternshipsApp.models import Carrier, UndergraduateStudent, Supervisor
+from carrier.enums import APPLICATION_STATUS
 
 # class CarrierDepartment(models.Model):
 #     depatment_name: models.CharField(max_length=100)
@@ -50,16 +51,13 @@ class TraineePosition(models.Model):
         return self.title
 
 
-# def get_absolute_url(self):
-#   return reverse("carrier:traineeposition", kwargs={"pk": self.pk})
-
-
 class Assignment(models.Model):
     date = models.DateField()
     trainee = models.OneToOneField(UndergraduateStudent, on_delete=models.CASCADE)
     trainee_position = models.ForeignKey(TraineePosition, on_delete=models.CASCADE)
     supervisor = models.ForeignKey(Supervisor, on_delete=models.CASCADE)
     assignment_period = models.ForeignKey(AssignmentPeriod, on_delete=models.CASCADE)
+    finalized = models.CharField(max_length=3, choices=APPLICATION_STATUS)
 
     def __str__(self):
         return self.trainee_position.title
