@@ -14,6 +14,8 @@ register = template.Library()
 def is_active(user):
     cn = CarrierNode.objects.get(id=user.id)
     cas = CarrierAssignmentPeriod.objects.filter(carrier=cn.carrier).first()
-    if cas.from_date <= date.today() <= cas.to_date:
+    if cas == None:
+        return False
+    elif cas.from_date <= date.today() <= cas.to_date:
         return True
     return False
