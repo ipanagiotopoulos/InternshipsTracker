@@ -1,6 +1,6 @@
 from django.db import models
 from carrier.models import TraineePosition
-from InternshipsApp.models import UndergraduateStudent
+from internships_app.models import UndergraduateStudent
 
 
 class Preference(models.Model):

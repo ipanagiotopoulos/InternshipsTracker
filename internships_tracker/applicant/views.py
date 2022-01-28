@@ -1,5 +1,5 @@
 from carrier.models import CarrierAssignmentPeriod
-from InternshipsApp.models import (
+from internships_app.models import (
     UndergraduateStudent,
 )
 from carrier.models import TraineePosition

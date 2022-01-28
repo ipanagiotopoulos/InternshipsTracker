@@ -1,6 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from InternshipsApp.models import Carrier, UndergraduateStudent, Supervisor
+from internships_app.models import Carrier, UndergraduateStudent, Supervisor
 from carrier.enums import APPLICATION_STATUS
 
 # class CarrierDepartment(models.Model):
