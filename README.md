@@ -2,7 +2,7 @@
 You should have **Docker** installed in your local machine and **docker-compose** .
 
 Steps:
- 1.cp example.env .env
+ 1.cd InternshipsTracker && cp example.env .env
  
  
  2.docker-compose up --build -d
