@@ -37,21 +37,11 @@ class CreateCarrierConsentView(GroupRequiredMixin, CreateView):
     group_required = u"carrier_node"
 
 
-class TraineePositionListView(
-    LoginRequiredMixin, UserPassesTestMixin, GroupRequiredMixin, ListView
-):
+class TraineePositionListView(LoginRequiredMixin, GroupRequiredMixin, ListView):
     model = TraineePosition
     group_required = u"carrier_node"
     template_name = "trainee_positions.html"
     context_object_name = "tps"
-
-    def get_test_func(self):
-        traineePosition = self
-        user = self.request.user
-        carrier_node = CarrierNode.objects.filter(user=user)
-        if traineePosition.carrier == carrier_node.carrier:
-            return True
-        return False
 
     def get_queryset(self):
         carrier_node = CarrierNode.objects.get(id=self.request.user.id)
