@@ -1,22 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
-{% load carrier_tags %}
 
 {%block title %} {% trans "Job Postings" %} {% endblock title %}
 {% block content%}
-<h4 class="mb-4">Job Postings</h4>
-{% is_active request.user as is_active %}
-{% if is_active %}
-    <a href="{% url 'carrier:traineeposition_create' %}" class="btn btn-success mt-5 mb-5">Create Job Posting</a>
+<h4 class="mb-4">Positions</h4>
     <div class="container-fluid border-border-dark" >
         {% if tps %}
         {% for tp in tps %}
             <div class="card mb-5">
-                <div class="card-header bg-white text-info">
+                <div class="card-header bg-white text-dark">
                     <h4>{{tp.title}}</h4>
+                    <h6>Carrier:{{tp.carrier_assignment.carrier.official_name}}</h6x>
                 </div>
-                <div class="card-body">
+                <div class="card-body bg-secondary">
                    <div class="card mb-5">
                     <div class="card-header bg-white text-dark">
                         <p>Description:</p>
@@ -30,9 +27,6 @@
                   </div>
                 </div>
                 </div>
-                <div class="card-footer">
-                    <a href="/carrier/traineepositions/{{tp.pk}}/update" class="btn btn-info mb-2 btn-block">Submit</a>
-                </div>
             </div>
         {% endfor %}
     {% else %}
@@ -40,8 +34,4 @@
         <a href="/" class="btn btn-info mb-2 ">Go back</a>
     {% endif %}
     </div>
-{% else %}
-    <p>Not available assignment period for students! </p>
-    <a href="/" class="btn btn-info mb-2 ">Go back</a>
-{% endif %}
 {% endblock content %}

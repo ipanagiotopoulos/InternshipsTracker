@@ -1,3 +1,4 @@
+from carrier.models import CarrierAssignmentPeriod
 from InternshipsApp.models import (
     UndergraduateStudent,
 )
@@ -22,13 +23,13 @@ class CreatePreferenceView(GroupRequiredMixin, CreateView):
     #     some = Preference.object.get(student_username == applicant.user.username)
     #     print(some.__dict__)
     #     return super().form_valid(form)
-    def get_form_kwargs(self):
-        """Passes the request object to the form class.
-        This is necessary to only display members that belong to a given user"""
-        print(self.__dict__)
-        kwargs = super(CreatePreferenceView, self).get_form_kwargs()
-        kwargs["request"] = self.request
-        return kwargs
+    # def get_form_kwargs(self):
+    #     """Passes the request object to the form class.
+    #     This is necessary to only display members that belong to a given user"""
+    #     print(self.__dict__)
+    #     kwargs = super(CreatePreferenceView, self).get_form_kwargs()
+    #     #kwargs["request"] = self
+    #     return kwargs
 
 
 class PreferenceView(GroupRequiredMixin, DetailView):
@@ -44,12 +45,18 @@ class PreferenceView(GroupRequiredMixin, DetailView):
 
 class TraineePositionStudentListView(GroupRequiredMixin, ListView):
     model = TraineePosition
-    context_object_name = "trainee_position"
+    context_object_name = "tps"
     template_name = "student_trainee_positions.html"
     group_required = u"student"
 
     def get_queryset(self):
         student = UndergraduateStudent.objects.get(id=self.request.user.id)
-        return TraineePosition.objects.filter(
-            student.department == carrier_node.carrier
-        )
+        trainee_pos = TraineePosition.objects.all()
+        tps = []
+        for trainee in trainee_pos:
+            ca = CarrierAssignmentPeriod.objects.get(id=trainee.carrier_assignment_id)
+            if ca.carrier.department == student.department:
+                tps.append(trainee)
+
+        print(tps)
+        return tps

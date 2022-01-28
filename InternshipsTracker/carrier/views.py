@@ -37,18 +37,21 @@ class CreateCarrierConsentView(GroupRequiredMixin, CreateView):
     group_required = u"carrier_node"
 
 
-class TraineePositionListView(LoginRequiredMixin, GroupRequiredMixin, ListView):
+class TraineePositionListView(
+    LoginRequiredMixin, UserPassesTestMixin, GroupRequiredMixin, ListView
+):
     model = TraineePosition
     group_required = u"carrier_node"
     template_name = "trainee_positions.html"
     context_object_name = "tps"
 
-    # def test_func(self):
-    #     print(self.__dict__)
-    #     user = self.request.user
-    #     # if traineePosition.user == user:
-    #     #     return True
-    #     return False
+    def get_test_func(self):
+        traineePosition = self
+        user = self.request.user
+        carrier_node = CarrierNode.objects.filter(user=user)
+        if traineePosition.carrier == carrier_node.carrier:
+            return True
+        return False
 
     def get_queryset(self):
         carrier_node = CarrierNode.objects.get(id=self.request.user.id)
@@ -57,28 +60,41 @@ class TraineePositionListView(LoginRequiredMixin, GroupRequiredMixin, ListView):
         )
 
 
-class TraineePositionCreateView(LoginRequiredMixin, GroupRequiredMixin, CreateView):
+class TraineePositionCreateView(
+    LoginRequiredMixin, UserPassesTestMixin, GroupRequiredMixin, CreateView
+):
     model = TraineePosition
     form_class = CreateTraineePositionForm
     template_name = "trainee_position_create.html"
     success_url = "/carrier/traineepositions/list"
     group_required = u"carrier_node"
 
+    def get_test_func(self):
+        traineePosition = self
+        user = self.request.user
+        carrier_node = CarrierNode.objects.filter(user=user)
+        if traineePosition.carrier == carrier_node.carrier:
+            return True
+        return False
+
     def form_valid(self, form):
         carrier_node = CarrierNode.objects.get(id=self.request.user.id)
         ca = CarrierAssignmentPeriod.objects.get(carrier=carrier_node.carrier)
+        a_p = ApplicationPeriod.objects.get(carrier=carrier_node.carrier)
         form.instance.carrier_assignment = ca
+        form.instance.application_period = a_p
         return super().form_valid(form)
 
 
-class TraineePositionDetailView(LoginRequiredMixin, DetailView):
+class TraineePositionDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = TraineePosition
     template_name = "trainee_positions.html"
 
     def get_test_func(self):
-        traineePosition = self.get_object()
+        traineePosition = self
         user = self.request.user
-        if traineePosition.user == user:
+        carrier_node = CarrierNode.objects.filter(user=user)
+        if traineePosition.carrier == carrier_node.carrier:
             return True
         return False
 
@@ -92,10 +108,11 @@ class TraineePositionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteV
     template_name = "trainee_position_delete.html"
     context_object_name = "/carrier/traineepositions/list"
 
-    def test_func(self):
-        traineePosition = self.get_object()
+    def get_test_func(self):
+        traineePosition = self
         user = self.request.user
-        if traineePosition.user == user:
+        carrier_node = CarrierNode.objects.filter(user=user)
+        if traineePosition.carrier == carrier_node.carrier:
             return True
         return False
 
@@ -110,10 +127,9 @@ class TraineePositionUpdateView(GroupRequiredMixin, UserPassesTestMixin, UpdateV
     success_url = "/carrier/traineepositions/list"
     group_required = u"carrier_node"
 
-    def test_func(self):
-        traineePosition = self.get_object()
-        user = self.request.user
-        print("what:,", traineePosition.user)
+    def test_func(self, request):
+        traineePosition = self
+        user = request.user
         if traineePosition.user == user:
             return True
         return False

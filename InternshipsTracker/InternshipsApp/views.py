@@ -64,7 +64,7 @@ class UnderGraduateStudentUpdateView(
     model = UndergraduateStudent
     form_class = StudentUpdateForm
     template_name = "student_update.html"
-    success_url = "/users/login"
+    success_url = "/accounts/student/detail"
     group_required = "student"
 
     def get_form(self, *args, **kwargs):

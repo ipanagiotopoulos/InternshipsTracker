@@ -5,7 +5,7 @@ from .models import *
 class CreateTraineePositionForm(forms.ModelForm):
     class Meta:
         model = TraineePosition
-        fields = ("title", "description", "application_period")
+        fields = ("title", "description", "carrier_assignment", "application_period")
 
 
 class UpdateTraineePositionForm(forms.ModelForm):
