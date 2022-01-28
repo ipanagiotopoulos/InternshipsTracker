@@ -1,4 +1,4 @@
-from InternshipsApp.models import Supervisor
+from internships_app.models import Supervisor
 from carrier.models import TraineePosition
 from django.db import models
 from django.core.validators import MaxValueValidator

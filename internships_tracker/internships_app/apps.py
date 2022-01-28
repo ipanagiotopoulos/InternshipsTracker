@@ -1,9 +1,9 @@
 from django.apps import AppConfig
 
 
-class InternshipsAppConfig(AppConfig):
+class internships_appConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "InternshipsApp"
+    name = "internships_app"
 
     def ready(self):
-        import InternshipsApp.signals
+        import internships_app.signals

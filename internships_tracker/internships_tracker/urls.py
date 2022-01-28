@@ -1,4 +1,4 @@
-"""InternshipsTracker URL Configuration
+"""internships_tracker URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -26,7 +26,7 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path(
         "accounts/",
-        include("InternshipsApp.urls"),
+        include("internships_app.urls"),
     ),
     path(
         "studentapplications/",
@@ -45,6 +45,6 @@ urlpatterns = [
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
 ]
 
-handler404 = "InternshipsApp.views.handler404"
+handler404 = "internships_app.views.handler404"
 
-handler500 = "InternshipsApp.views.handler500"
+handler500 = "internships_app.views.handler500"

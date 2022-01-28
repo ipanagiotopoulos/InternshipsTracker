@@ -1,4 +1,4 @@
-from InternshipsTracker.supervisor.models import SupervisorAssesment
+from internships_tracker.supervisor.models import SupervisorAssesment
 import datetime
 from django import forms
 

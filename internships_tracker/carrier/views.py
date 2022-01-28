@@ -6,7 +6,7 @@ from dal import autocomplete as auto
 from django.urls import reverse
 from .forms import *
 from .models import *
-from InternshipsApp.models import CarrierNode
+from internships_app.models import CarrierNode
 
 
 # Create your views here.
