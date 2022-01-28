@@ -50,22 +50,20 @@ class TraineePositionListView(LoginRequiredMixin, GroupRequiredMixin, ListView):
         )
 
 
-class TraineePositionCreateView(
-    LoginRequiredMixin, UserPassesTestMixin, GroupRequiredMixin, CreateView
-):
+class TraineePositionCreateView(LoginRequiredMixin, GroupRequiredMixin, CreateView):
     model = TraineePosition
     form_class = CreateTraineePositionForm
     template_name = "trainee_position_create.html"
     success_url = "/carrier/traineepositions/list"
     group_required = u"carrier_node"
 
-    def get_test_func(self):
-        traineePosition = self
-        user = self.request.user
-        carrier_node = CarrierNode.objects.filter(user=user)
-        if traineePosition.carrier == carrier_node.carrier:
-            return True
-        return False
+    # def get_test_func(self):
+    #     traineePosition = self
+    #     user = self.request.user
+    #     carrier_node = CarrierNode.objects.filter(user=user)
+    #     if traineePosition.carrier == carrier_node.carrier:
+    #         return True
+    #     return False
 
     def form_valid(self, form):
         carrier_node = CarrierNode.objects.get(id=self.request.user.id)
@@ -76,24 +74,24 @@ class TraineePositionCreateView(
         return super().form_valid(form)
 
 
-class TraineePositionDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class TraineePositionDetailView(LoginRequiredMixin, DetailView):
     model = TraineePosition
     template_name = "trainee_positions.html"
 
-    def get_test_func(self):
-        traineePosition = self
-        user = self.request.user
-        carrier_node = CarrierNode.objects.filter(user=user)
-        if traineePosition.carrier == carrier_node.carrier:
-            return True
-        return False
+    # def get_test_func(self):
+    #     traineePosition = self
+    #     user = self.request.user
+    #     carrier_node = CarrierNode.objects.filter(user=user)
+    #     if traineePosition.carrier == carrier_node.carrier:
+    #         return True
+    #     return False
 
     def get_object(self):
         pk_ = self.kwargs.get("pk")
         return get_object_or_404(TraineePosition, pk=pk_)
 
 
-class TraineePositionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class TraineePositionDeleteView(LoginRequiredMixin, DeleteView):
     model = TraineePosition
     template_name = "trainee_position_delete.html"
     context_object_name = "/carrier/traineepositions/list"
@@ -110,19 +108,19 @@ class TraineePositionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteV
         return reverse("carrier:traineeposition_list")
 
 
-class TraineePositionUpdateView(GroupRequiredMixin, UserPassesTestMixin, UpdateView):
+class TraineePositionUpdateView(GroupRequiredMixin, UpdateView):
     model = TraineePosition
     form_class = UpdateTraineePositionForm
     template_name = "trainee_position_update.html"
     success_url = "/carrier/traineepositions/list"
     group_required = u"carrier_node"
 
-    def test_func(self, request):
-        traineePosition = self
-        user = request.user
-        if traineePosition.user == user:
-            return True
-        return False
+    # def test_func(self, request):
+    #     traineePosition = self
+    #     user = request.user
+    #     if traineePosition.user == user:
+    #         return True
+    #     return False
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
