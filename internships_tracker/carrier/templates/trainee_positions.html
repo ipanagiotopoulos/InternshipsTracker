@@ -11,11 +11,16 @@
     <a href="{% url 'carrier:traineeposition_create' %}" class="btn btn-success mt-5 mb-5">Create Job Posting</a>
     <div class="container-fluid border-border-dark" >
         {% if tps %}
+        {% for i in tps|slice:"0:1"%}    
+           <h4> Carrier assignement period for {{i.carrier_assignment.carrier.official_name}} is from {{i.carrier_assignment.from_date}} to  {{i.carrier_assignment.to_date}} </h4>
+        {% endfor %}
+        </br>
+        </br>
         {% for tp in tps %}
             <div class="card mb-5">
-                <div class="card-header bg-white text-info">
+                <div class="card-header bg-white text-dark">
                     <h4>{{tp.title}}</h4>
-                    <h6>Carrier:{{tp.carrier_assignment.carrier.official_name}}</h6x>
+                    <h6>Carrier:{{tp.carrier_assignment.carrier.official_name}}</h6>
                 </div>
                 <div class="card-body">
                    <div class="card mb-5">
@@ -26,9 +31,10 @@
                       <p class="pt-2">{{tp.description}} </p>  
                     </div>
                     <div class="card-footer bg-white">
-                      <p>Start date: {{tp.carrier.application_period.from_date}}</p>
-                      <p>End Date: {{tp.carrier.application_period.to_date}}</p>
-                  </div>
+                      <p> Carrier Assingment Period </p>
+                      <p>Start date: {{tp.carrier_assignment.from_date}}</p>
+                      <p>End Date: {{tp.carrier_assignment.to_date}}</p>
+                    </div>
                 </div>
                 </div>
                 <div class="card-footer">

@@ -19,3 +19,10 @@ def is_active(user):
     elif cas.from_date <= date.today() <= cas.to_date:
         return True
     return False
+
+
+@register.simple_tag
+def get_carrier_asssignment_period(user):
+    cn = CarrierNode.objects.get(id=user.id)
+    cas = CarrierAssignmentPeriod.objects.filter(carrier=cn.carrier).first()
+    return cas.carrier_assignment.from_date
