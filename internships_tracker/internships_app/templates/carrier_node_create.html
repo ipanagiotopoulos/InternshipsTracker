@@ -13,7 +13,7 @@
   <h2>{% trans "Signup As Carrier Chief" %}</h2>
   <form method="post">
     {% csrf_token %}
-    {{ form | crispy }}
+    {{ form|crispy }}
     <button type="submit" class="btn btn-primary">{% trans "Signup" %}</button>
     <br>
     <br>

@@ -1,5 +1,6 @@
 from django import forms
 from .models import *
+from internships_app.models import Carrier
 
 
 class CreateTraineePositionForm(forms.ModelForm):
@@ -19,10 +20,32 @@ class UpdateTraineePositionForm(forms.ModelForm):
         fields = ("title", "description")
 
 
-class CarrierConsentForm(forms.ModelForm):
+class CarrierConsentCreateForm(forms.ModelForm):
     class Meta:
         model = CarrierConsent
-        fields = ("carrier", "consent", "assignement_upon", "date")
+        fields = ("carrier", "assignement_upon", "date")
+
+
+class CarrierConsentAcceptRejectForm(forms.ModelForm):
+    # carrier = forms.ModelChoiceField(
+    #     queryset=Carrier.objects.all(),
+    #     required=True,
+    #     widget=forms.TextInput(attrs={"readonly": "readonly"}),
+    # )
+    # assignement_upon = forms.ModelChoiceField(
+    #     queryset=CarrierConsent.objects.all(),
+    #     required=True,
+    #     widget=forms.TextInput(attrs={"readonly": "readonly"}),
+    # )
+    consent = forms.TypedChoiceField(
+        required=True,
+        choices=((True, "Accept"), (False, "Reject")),
+        widget=forms.RadioSelect,
+    )
+
+    class Meta:
+        model = CarrierConsent
+        fields = ("consent",)
 
 
 class CreateAssignmentForm(forms.ModelForm):
@@ -35,3 +58,57 @@ class CreateAssignmentForm(forms.ModelForm):
             "assignment_period",
             "date",
         )
+
+
+class CreateCarrierAssementForm(forms.ModelForm):
+    class Meta:
+        model = CarrierAssesement
+        fields = (
+            "date",
+            "assignement_upon",
+            "comments",
+            "grade",
+        )
+
+
+class SearchCarrierConsentsForms(forms.ModelForm):
+
+    search = forms.CharField(
+        widget=forms.TextInput(attrs={"placeholder": "Looking For ..."}), required=False
+    )
+    date = forms.ModelMultipleChoiceField(
+        queryset=CarrierConsent.objects.values_list("date", flat=True).distinct(),
+        widget=forms.CheckboxSelectMultiple(),
+        required=False,
+    )
+    carrier = forms.ModelMultipleChoiceField(
+        queryset=CarrierConsent.objects.values_list("date", flat=True).distinct(),
+        widget=forms.CheckboxSelectMultiple(),
+        required=False,
+    )
+
+    class Meta:
+        fields = "__all__"
+
+    def __init__(self, *args, request_data=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["search"].initial = request_data.GET.get("search", "")
+
+
+class SearchCarrierAssesmentsForm(forms.ModelForm):
+
+    search = forms.CharField(
+        widget=forms.TextInput(attrs={"placeholder": "Looking For ..."}), required=False
+    )
+    date = forms.ModelMultipleChoiceField(
+        queryset=CarrierConsent.objects.values_list("date", flat=True).distinct(),
+        widget=forms.CheckboxSelectMultiple(),
+        required=False,
+    )
+
+    class Meta:
+        fields = "__all__"
+
+    def __init__(self, *args, request_data=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["search"].initial = request_data.GET.get("search", "")

@@ -6,8 +6,8 @@ from dal import autocomplete
 
 class PreferenceCreateForm(forms.ModelForm):
     trainee_position_1 = forms.ModelChoiceField(
-        required=True,
-        queryset=TraineePosition.objects.all(),
+        required=False,
+        queryset=TraineePosition.objects.none(),
         widget=autocomplete.ModelSelect2(
             url="carrier:traineeposition_autocomple",
             forward=[
@@ -19,7 +19,8 @@ class PreferenceCreateForm(forms.ModelForm):
         ),
     )
     trainee_position_2 = forms.ModelChoiceField(
-        queryset=TraineePosition.objects.all(),
+        required=False,
+        queryset=TraineePosition.objects.none(),
         widget=autocomplete.ModelSelect2(
             url="carrier:traineeposition_autocomple",
             forward=[
@@ -31,7 +32,8 @@ class PreferenceCreateForm(forms.ModelForm):
         ),
     )
     trainee_position_3 = forms.ModelChoiceField(
-        queryset=TraineePosition.objects.all(),
+        required=False,
+        queryset=TraineePosition.objects.none(),
         widget=autocomplete.ModelSelect2(
             url="carrier:traineeposition_autocomple",
             forward=[
@@ -40,10 +42,12 @@ class PreferenceCreateForm(forms.ModelForm):
                 "trainee_position_4",
                 "trainee_position_5",
             ],
+            attrs={"data-width": "100%"},
         ),
     )
     trainee_position_4 = forms.ModelChoiceField(
-        queryset=TraineePosition.objects.all(),
+        required=False,
+        queryset=TraineePosition.objects.none(),
         widget=autocomplete.ModelSelect2(
             url="carrier:traineeposition_autocomple",
             forward=[
@@ -55,7 +59,8 @@ class PreferenceCreateForm(forms.ModelForm):
         ),
     )
     trainee_position_5 = forms.ModelChoiceField(
-        queryset=TraineePosition.objects.all(),
+        required=False,
+        queryset=TraineePosition.objects.none(),
         widget=autocomplete.ModelSelect2(
             url="carrier:traineeposition_autocomple",
             forward=[
@@ -76,3 +81,15 @@ class PreferenceCreateForm(forms.ModelForm):
             "trainee_position_4",
             "trainee_position_5",
         )
+
+    def clean(self):
+        cleaned_data = super(PreferenceCreateForm, self).clean()
+
+        if not cleaned_data.get("trainee_position_1"):
+            raise forms.ValidationError(
+                {
+                    "trainee_position_1": [
+                        "You have to fill this field !",
+                    ]
+                }
+            )

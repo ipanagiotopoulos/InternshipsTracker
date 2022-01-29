@@ -5,9 +5,14 @@ app_name = "applicant"
 
 urlpatterns = [
     path(
-        "/application/<int:pk>",
-        views.PreferenceView.as_view(),
-        name="student_preference",
+        "application/update",
+        views.PreferenceUpdateView.as_view(),
+        name="student_preference_update",
+    ),
+    path(
+        "application/my",
+        views.PreferenceDetailView.as_view(),
+        name="student_preference_detail",
     ),
     path(
         "application/submit",

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load carrier_tags %}
+
+{% block title %} {% trans "Job Postings" %} {% endblock title %}
+{% block content%}
+<h4 class="mb-4">Assesments</h4>
+{% is_application_approval_active request.user as is_application_approval_active %}
+{% if is_application_approval_active %}
+    <div class="container-fluid border-border-dark" >
+    {% if ca %}
+            {% for s in ca %}
+            <div class="card mb-5">
+                <div class="card-header bg-white text-dark">
+                    <h6>Carrier:{{s.ca}}</h6>
+                </div>
+                <div class="card-body">
+                   <div class="card mb-5">
+                    <div class="card-header bg-white text-dark">
+                        <p>Description:</p>
+                    </div>
+                    <div class="card-body">
+                      <p class="pt-2">{{s.assignement_upon.trainee.first_name}} </p>  
+                      <p class="pt-2">{{s.assignement_upon.trainee.last_name}} </p> 
+                    </div>
+                    <div class="card-body">
+                        <p class="pt-2">{{s.assignement_upon.trainee_position}} </p>  
+                      </div>
+                    <div class="card-footer bg-white">
+                      <p> Assignment Period </p>
+                      <p>Start date: {{s.assignement_upon.assignment_period.from_date}}</p>
+                      <p>End Date: {{s.assignement_upon.assignment_period.to_date}}</p>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <p>Final grade: {{s.grade}}</p>
+                      </div>
+                </div>
+                </div>
+                <div class="card-footer">
+                    <a href="assesments/{{s.pk}}/accept" class="btn btn-info mb-2 btn-block">Accept</a>
+                </div>
+            </div>
+            {% endfor %}
+    {% else %}
+        <p>No students to asses found</p>
+        <a href="/" class="btn btn-info mb-2 ">Go back</a>
+    {% endif %}
+    </div>
+{% else %}
+    <p>Not assesment period phase still.</p>
+    <a href="/" class="btn btn-info mb-2 ">Go back</a>
+{% endif %}
+{% endblock content %}

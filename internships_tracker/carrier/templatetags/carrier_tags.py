@@ -1,5 +1,4 @@
-from carrier.models import TraineePosition
-from carrier.models import CarrierAssignmentPeriod
+from carrier.models import TraineePosition, ApplicationPeriod, CarrierAssignmentPeriod
 from internships_app.models import CarrierNode
 from django import template
 import logging
@@ -22,7 +21,11 @@ def is_active(user):
 
 
 @register.simple_tag
-def get_carrier_asssignment_period(user):
+def is_application_approval_active(user):
     cn = CarrierNode.objects.get(id=user.id)
-    cas = CarrierAssignmentPeriod.objects.filter(carrier=cn.carrier).first()
-    return cas.carrier_assignment.from_date
+    cas = ApplicationPeriod.objects.filter(carrier=cn.carrier).first()
+    if cas == None:
+        return False
+    elif cas.to_date < date.today():
+        return True
+    return False
