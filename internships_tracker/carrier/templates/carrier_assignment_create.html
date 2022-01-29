@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load i18n %}
-{% block title %}{% trans "Add trainee position" %}{% endblock title %}
+{% block title %}{% trans "Add assignment" %}{% endblock title %}
 {% block content %}
 
 
-  <h2>{% trans "Submit Position" %}</h2>
+<h2>{% trans "Submit Assignement" %}</h2>
   <form method="post">
     {% csrf_token %}
     {{ form|crispy }}

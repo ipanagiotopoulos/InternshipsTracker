@@ -8,16 +8,30 @@ from .forms import *
 from .models import *
 from internships_app.models import CarrierNode
 
+from django.db.models import Q
 
 # Create your views here.
 
 
-class CreateAssignemtView(GroupRequiredMixin, CreateView):
-    model = Assignment
-    form_class = CreateAssignmentForm
-    template_name = "assignment_create.html"
+class CreateCarrierAssesmentView(GroupRequiredMixin, CreateView):
+    model = CarrierAssesement
+    form_class = CreateCarrierAssementForm
+    template_name = "carrier_assesment_create.html"
     success_url = "/"
     group_required = u"carrier_node"
+
+
+class CarrierAssesmentsView(GroupRequiredMixin, ListView):
+    form = SearchCarrierAssesmentsForm
+    model = CarrierConsent
+    template_name = "carrier_assesments.html"
+    group_required = u"carrier_node"
+    context_object_name = "ca"
+
+    def get_queryset(self):
+        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        queryset = CarrierConsent.objects.filter(carrier=carrier_node.carrier)
+        return queryset
 
 
 class AssignmentListView(GroupRequiredMixin, DetailView):
@@ -29,10 +43,31 @@ class AssignmentListView(GroupRequiredMixin, DetailView):
         return queryset
 
 
-class CreateCarrierConsentView(GroupRequiredMixin, CreateView):
-    model = CarrierConsentForm
-    form_class = CarrierConsentForm
-    template_name = "carrier_consent_create.html"
+class CreateAssignmentView(GroupRequiredMixin, CreateView):
+    model = Assignment
+    form_class = CreateAssignmentForm
+    template_name = "assignment_create.html"
+    success_url = "/"
+    group_required = u"carrier_node"
+
+
+class CarrierConsentsListView(GroupRequiredMixin, ListView):
+    form = SearchCarrierConsentsForms
+    model = CarrierConsent
+    template_name = "carrier_consents.html"
+    group_required = u"carrier_node"
+    context_object_name = "cs"
+
+    def get_queryset(self):
+        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        queryset = CarrierConsent.objects.filter(carrier=carrier_node.carrier)
+        return queryset
+
+
+class CarrierConsentAcceptRejectView(GroupRequiredMixin, UpdateView):
+    model = CarrierConsent
+    form_class = CarrierConsentAcceptRejectForm
+    template_name = "carrier_consent_accept_reject.html"
     success_url = "/"
     group_required = u"carrier_node"
 
@@ -94,7 +129,7 @@ class TraineePositionDetailView(LoginRequiredMixin, DetailView):
 class TraineePositionDeleteView(LoginRequiredMixin, DeleteView):
     model = TraineePosition
     template_name = "trainee_position_delete.html"
-    context_object_name = "/carrier/traineepositions/list"
+    context_object_name = "some"
 
     def get_test_func(self):
         traineePosition = self
@@ -144,7 +179,26 @@ class TraineePositionAutocomplete(auto.Select2QuerySetView):
         tr3 = self.forwarded.get("trainee_position_3", None)
         tr4 = self.forwarded.get("trainee_position_4", None)
         tr5 = self.forwarded.get("trainee_position_5", None)
-        qs = TraineePosition.objects.all().exclude(id=tr1)
+        student = UndergraduateStudent.objects.get(user=self.request.user)
+
+        qs = TraineePosition.objects.filter(
+            carrier_assignment__carrier__department=student.department
+        )
+        if tr1:
+            qs = qs.exclude(id=tr1)
+        if tr2:
+            qs = qs.exclude(id=tr2)
+        if tr3:
+            qs = qs.exclude(id=tr3)
+        if tr4:
+            qs = qs.exclude(id=tr4)
+        if tr5:
+            qs = qs.exclude(id=tr5)
         if self.q:
-            qs = qs.filter(name__icontains=self.q)
+
+            qs = qs.filter(
+                Q(title__icontains=self.q)
+                | Q(carrier_assignment__carrier__official_name__icontains=self.q)
+            )
+
         return qs

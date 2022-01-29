@@ -3,8 +3,9 @@
 {% load i18n %}
 {% load carrier_tags %}
 
-{%block title %} {% trans "Job Postings" %} {% endblock title %}
-{% block content%}
+{% block title %} {% trans "Job Postings" %} {% endblock title %}
+
+{% block content %}
 <h4 class="mb-4">Job Postings</h4>
 {% is_active request.user as is_active %}
 {% if is_active %}
@@ -13,7 +14,7 @@
         {% if tps %}
         {% for i in tps|slice:"0:1"%}    
            <h4> Carrier assignement period for {{i.carrier_assignment.carrier.official_name}} is from {{i.carrier_assignment.from_date}} to  {{i.carrier_assignment.to_date}} </h4>
-        {% endfor %}
+        {% endfor %}  
         </br>
         </br>
         {% for tp in tps %}
@@ -51,7 +52,7 @@
     {% endif %}
     </div>
 {% else %}
-    <p>No available assignment period! </p>
+    <p>No available carrier assignment period! </p>
     <a href="/" class="btn btn-info mb-2 ">Go back</a>
 {% endif %}
 {% endblock content %}

@@ -33,7 +33,22 @@ urlpatterns = [
         views.TraineePositionDeleteView.as_view(),
         name="traineeposition_delete",
     ),
-    path("consents", views.CreateCarrierConsentView.as_view(), name="carrier_consent"),
-    path("assignement", views.CreateAssignemtView.as_view(), name="assignement"),
-    # path("assignements", views.AssignmentDetailView.as_view(), name="assignements"),
+    path("consents/", views.CarrierConsentsListView.as_view(), name="carrier_consent"),
+    path(
+        "consents/create",
+        views.CarrierConsentAcceptRejectView.as_view(),
+        name="carrier_consent_accept_reject",
+    ),
+    path(
+        "consents/<int:pk>/accept",
+        views.CarrierConsentAcceptRejectView.as_view(),
+        name="carrier_consent",
+    ),
+    path("assesments/", views.CarrierAssesmentsView.as_view(), name="assesments"),
+    path(
+        "assesments/<int:pk>/accept",
+        views.CreateCarrierAssesmentView.as_view(),
+        name="create_assesments",
+    ),
+    path("assignement", views.CreateAssignmentView.as_view(), name="assignement"),
 ]

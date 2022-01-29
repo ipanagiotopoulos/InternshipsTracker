@@ -17,23 +17,21 @@ class CarrierAssignmentPeriod(models.Model):
         return self.carrier.official_name
 
 
-class AssignmentPeriod(models.Model):
+# Create your models here.
+class ApplicationPeriod(models.Model):
     carrier = models.ForeignKey(Carrier, on_delete=models.CASCADE)
     from_date = models.DateField()
     to_date = models.DateField()
-    complementary = models.BooleanField(default=False)
 
     def __str__(self):
         return self.carrier.official_name
 
 
-# Create your models here.
-
-
-class ApplicationPeriod(models.Model):
+class AssignmentPeriod(models.Model):
     carrier = models.ForeignKey(Carrier, on_delete=models.CASCADE)
     from_date = models.DateField()
     to_date = models.DateField()
+    complementary = models.BooleanField(default=False)
 
     def __str__(self):
         return self.carrier.official_name
@@ -48,7 +46,7 @@ class TraineePosition(models.Model):
     application_period = models.ForeignKey(ApplicationPeriod, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title
+        return self.title + ":" + self.carrier_assignment.carrier.official_name
 
 
 class Assignment(models.Model):
