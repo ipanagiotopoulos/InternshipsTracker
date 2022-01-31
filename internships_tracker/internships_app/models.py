@@ -10,7 +10,7 @@ class Address(models.Model):
     country = models.CharField(max_length=30)
     city = models.CharField(max_length=40)
     street_name = models.CharField(max_length=100)
-    street_no = models.IntegerField(
+    street_number = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(9999)]
     )
     postal_code = models.IntegerField(
@@ -18,7 +18,7 @@ class Address(models.Model):
     )
 
     class Meta:
-        unique_together = ("country", "city", "street_name", "street_no", "postal_code")
+        unique_together = ("country", "city", "street_name", "street_number", "postal_code")
 
     def __str__(self):
         return (
@@ -28,13 +28,13 @@ class Address(models.Model):
             + " "
             + self.street_name
             + " "
-            + str(self.street_no)
+            + str(self.street_number)
         )
 
 
 class Carrier(models.Model):
     official_name = models.CharField(max_length=120, unique=True)
-    full_address = models.ForeignKey(Address, on_delete=models.CASCADE, unique=True)
+    full_address = models.OneToOneField(Address, on_delete=models.CASCADE)
     description = models.TextField(max_length=1000)
     department = models.CharField(
         max_length=3, choices=DEPARTMENT_CHOICES
@@ -51,16 +51,16 @@ class Profile(User):
     father_name = models.CharField(max_length=255)
     mother_name = models.CharField(max_length=255)
     birth_day = models.DateField()
-    address = models.ForeignKey(Address, on_delete=models.CASCADE, unique=True)
-    msisdn = PhoneNumberField(null=False, blank=False, unique=True)
-    tel_no2 = PhoneNumberField(null=False, blank=False, unique=True)
+    address = models.OneToOneField(Address, on_delete=models.CASCADE)
+    mobile_phone = PhoneNumberField(null=False, blank=False, unique=True)
+    home_phone = PhoneNumberField(null=False, blank=False, unique=True)
 
     class Meta:
         abstract = True
 
 
 class CarrierNode(Profile):
-    carrier = models.ForeignKey(Carrier, on_delete=models.CASCADE)
+    carrier = models.OneToOneField(Carrier, on_delete=models.CASCADE)
     department = models.CharField(max_length=150)  # he needs ch
 
     class Meta:
@@ -70,7 +70,7 @@ class CarrierNode(Profile):
 
 class UndergraduateStudent(Profile):
     register_number = models.CharField(max_length=10, unique=True)
-    register_date = models.DateField()
+    register_date = models.DateField(auto_now_add=True)
     department = models.CharField(max_length=3, choices=DEPARTMENT_CHOICES)
 
     class Meta:
@@ -80,7 +80,7 @@ class UndergraduateStudent(Profile):
 
 class Supervisor(Profile):
     register_number = models.CharField(max_length=10, unique=True)
-    register_date = models.DateField()
+    register_date = models.DateField(auto_now_add=True)
     department = models.CharField(max_length=3, choices=DEPARTMENT_CHOICES)
 
     class Meta:

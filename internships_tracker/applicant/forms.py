@@ -4,7 +4,7 @@ from django import forms
 from dal import autocomplete
 
 
-class PreferenceCreateForm(forms.ModelForm):
+class PreferenceForm(forms.ModelForm):
     trainee_position_1 = forms.ModelChoiceField(
         required=False,
         queryset=TraineePosition.objects.none(),
@@ -83,7 +83,7 @@ class PreferenceCreateForm(forms.ModelForm):
         )
 
     def clean(self):
-        cleaned_data = super(PreferenceCreateForm, self).clean()
+        cleaned_data = super(PreferenceForm, self).clean()
 
         if not cleaned_data.get("trainee_position_1"):
             raise forms.ValidationError(

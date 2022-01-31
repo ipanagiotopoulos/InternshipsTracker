@@ -21,15 +21,18 @@ class UndergraduateStudentForm(UserCreationForm):
     country = forms.CharField(max_length=30, required=True)
     city = forms.CharField(max_length=40, required=True)
     street_name = forms.CharField(max_length=100, required=True)
-    msisdn = PhoneNumberField()
-    tel_no2 = PhoneNumberField()
-    street_no = forms.IntegerField(
+    mobile_phone = PhoneNumberField()
+    home_phone = PhoneNumberField()
+    street_number = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(9999)], required=True
     )
     postal_code = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(99999)], required=True
     )
-    register_date = forms.DateTimeField()
+    birth_day = forms.DateField(
+        required=True,
+        widget=forms.TextInput(attrs={"type": "date"}),
+    )
     register_number = forms.CharField(max_length=6, min_length=3, required=True)
 
     class Meta:
@@ -45,20 +48,17 @@ class UndergraduateStudentForm(UserCreationForm):
             "father_name",
             "mother_name",
             "birth_day",
-            "msisdn",
-            "tel_no2",
+            "mobile_phone",
+            "home_phone",
             "department",
             "country",
             "city",
             "street_name",
-            "street_no",
+            "street_number",
             "postal_code",
-            "register_date",
             "register_number",
         )
         widgets = {
-            "register_date": DateInput(),
-            "birth_day": forms.TextInput(attrs={"class": "datetime-input"}),
             "first_name": forms.TextInput(
                 attrs={
                     "class": "form-control",
@@ -92,7 +92,7 @@ class StudentUpdateForm(UserChangeForm):
     country = forms.CharField(max_length=30, required=True)
     city = forms.CharField(max_length=40, required=True)
     street_name = forms.CharField(max_length=100, required=True)
-    street_no = forms.IntegerField(
+    street_number = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(9999)], required=True
     )
     postal_code = forms.IntegerField(
@@ -107,12 +107,12 @@ class StudentUpdateForm(UserChangeForm):
             "last_name",
             "username",
             "email",
-            "msisdn",
-            "tel_no2",
+            "mobile_phone",
+            "home_phone",
             "country",
             "city",
             "street_name",
-            "street_no",
+            "street_number",
             "postal_code",
             "register_number",
         )
@@ -125,16 +125,15 @@ class SupervisorForm(UserCreationForm):
     country = forms.CharField(max_length=30, required=True)
     city = forms.CharField(max_length=40, required=True)
     street_name = forms.CharField(max_length=100, required=True)
-    street_no = forms.IntegerField(
+    street_number = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(9999)], required=True
     )
-    msisdn = PhoneNumberField()
-    tel_no2 = PhoneNumberField()
+    mobile_phone = PhoneNumberField()
+    home_phone = PhoneNumberField()
     postal_code = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(99999)], required=True
     )
-    register_date = forms.DateField(
-        label=("Register Date"),
+    birth_day = forms.DateField(
         required=True,
         widget=forms.TextInput(attrs={"type": "date"}),
     )
@@ -153,17 +152,16 @@ class SupervisorForm(UserCreationForm):
             "father_name",
             "mother_name",
             "birth_day",
-            "msisdn",
-            "tel_no2",
+            "mobile_phone",
+            "home_phone",
             "department",
             "country",
             "city",
             "street_name",
-            "street_no",
+            "street_number",
             "postal_code",
         )
         widgets = {
-            "register_date": DateInput(),
             "birth_day": forms.TextInput(attrs={"class": "datetime-input"}),
         }
 
@@ -182,7 +180,7 @@ class SupervisorUpdateForm(UserChangeForm):
     country = forms.CharField(max_length=30, required=True)
     city = forms.CharField(max_length=40, required=True)
     street_name = forms.CharField(max_length=100, required=True)
-    street_no = forms.IntegerField(
+    street_number = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(9999)], required=True
     )
     postal_code = forms.IntegerField(
@@ -196,12 +194,13 @@ class SupervisorUpdateForm(UserChangeForm):
             "first_name",
             "last_name",
             "username",
-            "msisdn",
-            "tel_no2",
+            "email",
+            "mobile_phone",
+            "home_phone",
             "country",
             "city",
             "street_name",
-            "street_no",
+            "street_number",
             "postal_code",
             "register_number",
         )
@@ -211,19 +210,21 @@ class CarrierNodeForm(UserCreationForm):
     first_name = forms.CharField(max_length=100, validators=[alphanumeric])
     last_name = forms.CharField(max_length=100, validators=[alphanumeric])
     email = forms.EmailField(max_length=100, help_text="Required", required=True)
+    mobile_phone = PhoneNumberField()
+    home_phone = PhoneNumberField()
     country = forms.CharField(max_length=30, required=True)
     city = forms.CharField(max_length=40, required=True)
     street_name = forms.CharField(max_length=100, required=True)
-    msisdn = PhoneNumberField()
-    tel_no2 = PhoneNumberField()
-    street_no = forms.IntegerField(
+    street_number = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(9999)], required=True
     )
     postal_code = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(99999)], required=True
     )
-    carrrier = forms.ModelChoiceField(queryset=Carrier.objects.all())
-
+    birth_day = forms.DateField(
+        required=True,
+        widget=forms.TextInput(attrs={"type": "date"}),
+    )
     class Meta:
         model = CarrierNode
         fields = (
@@ -237,25 +238,16 @@ class CarrierNodeForm(UserCreationForm):
             "father_name",
             "mother_name",
             "birth_day",
-            "msisdn",
-            "tel_no2",
-            "carrier",
+            "mobile_phone",
+            "home_phone",
             "department",
+            "carrier",
             "country",
             "city",
             "street_name",
-            "street_no",
+            "street_number",
             "postal_code",
         )
-        widgets = {
-            "register_date": DateInput(),
-            "birth_day": forms.DateTimeInput(
-                attrs={
-                    "class": "form-control datetimepicker-input",
-                    "data-target": "#datetimepicker1",
-                }
-            ),
-        }
 
 
 class CarrierUpdateForm(UserChangeForm):
@@ -272,7 +264,7 @@ class CarrierUpdateForm(UserChangeForm):
     country = forms.CharField(max_length=30, required=True)
     city = forms.CharField(max_length=40, required=True)
     street_name = forms.CharField(max_length=100, required=True)
-    street_no = forms.IntegerField(
+    street_number = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(9999)], required=True
     )
     postal_code = forms.IntegerField(
@@ -285,11 +277,11 @@ class CarrierUpdateForm(UserChangeForm):
             "first_name",
             "last_name",
             "username",
-            "msisdn",
-            "tel_no2",
+            "mobile_phone",
+            "home_phone",
             "country",
             "city",
             "street_name",
-            "street_no",
+            "street_number",
             "postal_code",
         )
