@@ -12,9 +12,9 @@
     <a href="{% url 'carrier:traineeposition_create' %}" class="btn btn-success mt-5 mb-5">Create Job Posting</a>
     <div class="container-fluid border-border-dark" >
         {% if tps %}
-        {% for i in tps|slice:"0:1"%}    
-           <h4> Carrier assignement period for {{i.carrier_assignment.carrier.official_name}} is from {{i.carrier_assignment.from_date}} to  {{i.carrier_assignment.to_date}} </h4>
-        {% endfor %}  
+        {% for i in tps|slice:"0:1"%}
+           <h4> Carrier assignement period for {{i.carrier_assignment.department}} is from {{i.carrier_assignment.from_date}} to  {{i.carrier_assignment.to_date}} </h4>
+        {% endfor %}
         </br>
         </br>
         {% for tp in tps %}
@@ -29,7 +29,7 @@
                         <p>Description:</p>
                     </div>
                     <div class="card-body">
-                      <p class="pt-2">{{tp.description}} </p>  
+                      <p class="pt-2">{{tp.description}} </p>
                     </div>
                     <div class="card-footer bg-white">
                       <p> Carrier Assingment Period </p>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="card-footer">
                     <a href="/carrier/traineepositions/{{tp.pk}}/update" class="btn btn-info mb-2 btn-block">Edit </a>
-                    <form  action="/carrier/traineepositions/{{tp.pk}}/delete" method="GET" > 
+                    <form  action="/carrier/traineepositions/{{tp.pk}}/delete" method="GET" >
                     <button type="submit" class="btn btn-danger btn-block" > Delete </button>
                    </form>
                 </div>

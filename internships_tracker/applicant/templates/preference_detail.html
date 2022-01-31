@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %} {% trans "My Application" %} {% endblock title %}
+{% block content%}
+{% if preference %}
+    <div class="card ">
+        <div class="card-header bg-white text-info">
+            <h4>My Application</h4>
+        </div>
+        <div class="card-body ">
+            <p>Preference 1: {{preference.trainee_position_1}}</p>
+            {% if preference.trainee_position_2%} <p>Preference 2: {{preference.trainee_position_2}}</p>{% endif %}
+            {% if preference.trainee_position_3%} <p>Preference 2: {{preference.trainee_position_3}}</p>{% endif %}
+            {% if preference.trainee_position_4%} <p>Preference 2: {{preference.trainee_position_4}}</p>{% endif %}
+            {% if preference.trainee_position_5%} <p>Preference 2: {{preference.trainee_position_5}}</p>{% endif %}
+        </div>
+        <div class="card-footer">
+            <a href="{% url 'applicant:student_preference_update'  %}" class="btn btn-info">Update</a>
+        </div>
+    </div>
+{% else %}
+<div class="row">
+    <div class="col col-12">
+        <div class="alert alert-danger">{% translate "You haven't submited any application !" %}</div>
+    </div>
+  </div>
+{% endif %}
+{% endblock content %}

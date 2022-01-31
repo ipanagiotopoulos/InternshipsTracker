@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "My carrier" %}{% endblock title %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <h2>{% trans "My Carrier" %}</h2>
+    </div>
+    <div class="card-body">
+        <p><b>Name:</b> {{carrier.official_name}} </p>
+        <p><b>Address:</b> {{carrier.full_address}} </p>
+        <p><b>Description:</b> {{carrier.description}} </p>
+        <p><b>Department:</b> {{carrier.department}} </p>
+
+    </div>
+    <div class="card-footer ">
+        <a href="{% url 'carrier:carrier_update' %}" class="btn btn-success ">{% trans "Update" %}</a>
+    </div>
+</div>
+
+{% endblock %}

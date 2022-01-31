@@ -20,6 +20,8 @@ from django.urls import path
 from django.views.generic.base import TemplateView
 from decorator_include import decorator_include
 from utils import decorators
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -31,19 +33,28 @@ urlpatterns = [
     path(
         "studentapplications/",
         decorator_include(
-            [login_required],
+            [login_required,decorators.group_required('student')],
             "applicant.urls",
         ),
     ),
     path(
         "carrier/",
         decorator_include(
-            [login_required],
+            [login_required,decorators.group_required('carrier_node')],
             "carrier.urls",
+        ),
+    ),
+    path(
+        "supervisor/",
+        decorator_include(
+            [login_required,decorators.group_required('supervisor')],
+            "supervisor.urls",
         ),
     ),
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
 ]
+if settings.DEBUG==True:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = "internships_app.views.handler404"
 

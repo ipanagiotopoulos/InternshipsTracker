@@ -3,112 +3,41 @@ from .models import *
 from internships_app.models import Carrier
 
 
-class CreateTraineePositionForm(forms.ModelForm):
-    class Meta:
-        model = TraineePosition
-        fields = ("title", "description", "carrier_assignment", "application_period")
-
-
-class UpdateTraineePositionForm(forms.ModelForm):
+class TraineePositionForm(forms.ModelForm):
     title = forms.CharField(required=True, max_length=200, min_length=5)
     description = forms.CharField(
         required=True, max_length=1500, min_length=10, widget=forms.Textarea
     )
-
     class Meta:
         model = TraineePosition
-        fields = ("title", "description")
-
-
-class CarrierConsentCreateForm(forms.ModelForm):
-    class Meta:
-        model = CarrierConsent
-        fields = ("carrier", "assignement_upon", "date")
-
-
-class CarrierConsentAcceptRejectForm(forms.ModelForm):
-    # carrier = forms.ModelChoiceField(
-    #     queryset=Carrier.objects.all(),
-    #     required=True,
-    #     widget=forms.TextInput(attrs={"readonly": "readonly"}),
-    # )
-    # assignement_upon = forms.ModelChoiceField(
-    #     queryset=CarrierConsent.objects.all(),
-    #     required=True,
-    #     widget=forms.TextInput(attrs={"readonly": "readonly"}),
-    # )
-    consent = forms.TypedChoiceField(
-        required=True,
-        choices=((True, "Accept"), (False, "Reject")),
-        widget=forms.RadioSelect,
-    )
-
-    class Meta:
-        model = CarrierConsent
-        fields = ("consent",)
-
-
-class CreateAssignmentForm(forms.ModelForm):
-    class Meta:
-        model = Assignment
         fields = (
-            "trainee",
-            "trainee_position",
-            "supervisor",
-            "assignment_period",
-            "date",
+            "title",
+            "description",
         )
-
 
 class CreateCarrierAssementForm(forms.ModelForm):
     class Meta:
         model = CarrierAssesement
         fields = (
-            "date",
             "assignement_upon",
             "comments",
             "grade",
         )
 
-
-class SearchCarrierConsentsForms(forms.ModelForm):
-
-    search = forms.CharField(
-        widget=forms.TextInput(attrs={"placeholder": "Looking For ..."}), required=False
+class CarrierUpdateForm(forms.ModelForm):
+    country = forms.CharField(max_length=30, required=True)
+    city = forms.CharField(max_length=40, required=True)
+    street_name = forms.CharField(max_length=100, required=True)
+    street_number = forms.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(9999)], required=True
     )
-    date = forms.ModelMultipleChoiceField(
-        queryset=CarrierConsent.objects.values_list("date", flat=True).distinct(),
-        widget=forms.CheckboxSelectMultiple(),
-        required=False,
+    postal_code = forms.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(99999)], required=True
     )
-    carrier = forms.ModelMultipleChoiceField(
-        queryset=CarrierConsent.objects.values_list("date", flat=True).distinct(),
-        widget=forms.CheckboxSelectMultiple(),
-        required=False,
-    )
-
     class Meta:
-        fields = "__all__"
-
-    def __init__(self, *args, request_data=None, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["search"].initial = request_data.GET.get("search", "")
-
-
-class SearchCarrierAssesmentsForm(forms.ModelForm):
-
-    search = forms.CharField(
-        widget=forms.TextInput(attrs={"placeholder": "Looking For ..."}), required=False
-    )
-    date = forms.ModelMultipleChoiceField(
-        queryset=CarrierConsent.objects.values_list("date", flat=True).distinct(),
-        widget=forms.CheckboxSelectMultiple(),
-        required=False,
-    )
-
-    class Meta:
-        fields = "__all__"
-
-    def __init__(self, *args, request_data=None, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["search"].initial = request_data.GET.get("search", "")
+        model = Carrier
+        fields = (
+            "official_name",
+            "description",
+            "department",
+        )
