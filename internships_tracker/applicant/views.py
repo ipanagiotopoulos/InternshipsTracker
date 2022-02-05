@@ -1,26 +1,29 @@
-from carrier.models import CarrierAssignmentPeriod
-from internships_app.models import (
-    UndergraduateStudent,
-)
-from carrier.models import TraineePosition
+from carrier.models import CarrierAssignmentPeriod,CarrierConsent,Assignment
+from internships_app.models import UndergraduateStudent
+from carrier.models import TraineePosition,Assignment,IntershipReportPeriod
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
-from braces.views import GroupRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, redirect
-from .forms import PreferenceCreateForm
-from .models import Preference
-from django.core.exceptions import PermissionDenied
+from .forms import PreferenceForm
+from .models import Preference,InternshipReport
+from django.shortcuts import render
 from django.urls import reverse
-from .mixins import ApplicationExistsRequiredMixin
+from .mixins import ApplicationPeriodRequiredMixin,InternshipReportPeriodRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 # Create your views here.
-class CreatePreferenceView(
-    GroupRequiredMixin, LoginRequiredMixin, ApplicationExistsRequiredMixin, CreateView
-):
+
+def application_period_not_found(request):
+    return render(request, 'application_period_not_found.html')
+
+def report_period_not_found(request):
+    return render(request, 'report_period_not_found.html')
+
+
+class CreatePreferenceView(ApplicationPeriodRequiredMixin, CreateView):
     model = Preference
-    form_class = PreferenceCreateForm
+    form_class = PreferenceForm
     template_name = "preference_create.html"
-    success_url = "/"
-    group_required = "student"
+    success_url = "/studentapplications/application/my"
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
@@ -29,7 +32,7 @@ class CreatePreferenceView(
             form.fields[
                 "trainee_position_" + str(i)
             ].queryset = TraineePosition.objects.filter(
-                carrier_assignment__carrier__department=student.department
+                carrier_assignment__department=student.department
             )
         return form
 
@@ -38,22 +41,13 @@ class CreatePreferenceView(
         form.instance.applicant = student
         return super().form_valid(form)
 
-    # def get_form_kwargs(self):
-    #     """Passes the request object to the form class.
-    #     This is necessary to only display members that belong to a given user"""
-    #     print(self.__dict__)
-    #     kwargs = super(CreatePreferenceView, self).get_form_kwargs()
-    #     #kwargs["request"] = self
-    #     return kwargs
 
-
-class PreferenceUpdateView(LoginRequiredMixin, GroupRequiredMixin, UpdateView):
+class PreferenceUpdateView(ApplicationPeriodRequiredMixin, UpdateView):
     model = Preference
     context_object_name = "preference"
     template_name = "preference_update.html"
-    group_required = "student"
-    form_class = PreferenceCreateForm
-    success_url = "/"
+    form_class = PreferenceForm
+    success_url = "/studentapplications/application/my"
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
@@ -62,7 +56,7 @@ class PreferenceUpdateView(LoginRequiredMixin, GroupRequiredMixin, UpdateView):
             form.fields[
                 "trainee_position_" + str(i)
             ].queryset = TraineePosition.objects.filter(
-                carrier_assignment__carrier__department=student.department
+                carrier_assignment__department=student.department
             )
         return form
 
@@ -71,31 +65,93 @@ class PreferenceUpdateView(LoginRequiredMixin, GroupRequiredMixin, UpdateView):
         return Preference.objects.get(applicant=student)
 
 
-class PreferenceDetailView(LoginRequiredMixin, GroupRequiredMixin, DetailView):
+class PreferenceDetailView(DetailView):
     model = Preference
     context_object_name = "preference"
     template_name = "preference_detail.html"
-    group_required = "student"
 
     def get_object(self):
         student = UndergraduateStudent.objects.get(user=self.request.user)
-        return Preference.objects.get(applicant=student)
+        preference = Preference.objects.filter(applicant=student)
+        if preference.exists():
+            return preference.first()
+        return None
 
 
-class TraineePositionStudentListView(GroupRequiredMixin, ListView):
+class TraineePositionStudentListView(ListView):
     model = TraineePosition
     context_object_name = "tps"
     template_name = "student_trainee_positions.html"
-    group_required = u"student"
 
     def get_queryset(self):
         student = UndergraduateStudent.objects.get(id=self.request.user.id)
-        trainee_pos = TraineePosition.objects.all()
-        tps = []
-        for trainee in trainee_pos:
-            ca = CarrierAssignmentPeriod.objects.get(id=trainee.carrier_assignment_id)
-            if ca.carrier.department == student.department:
-                tps.append(trainee)
+        return TraineePosition.objects.filter(carrier_assignment__department=student.department)
 
-        print(tps)
-        return tps
+class MyCarrierConsentDetailView(DetailView):
+    model = CarrierConsent
+    context_object_name = "carrier_consent"
+    template_name = "my_carrier_consent.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        student = UndergraduateStudent.objects.get(id=self.request.user.id)
+        report= InternshipReport.objects.filter(assignment__trainee=student)
+        if report.exists():
+            context["report"]=report.first()
+        context["carrier_consent"]=self.get_object()
+        return context
+
+    def get_object(self):
+        student = UndergraduateStudent.objects.get(user=self.request.user)
+        carrier_consent=CarrierConsent.objects.filter(assignement_upon__trainee=student,consent=True)
+        if carrier_consent.exists():
+            return carrier_consent.first()
+        return None
+
+
+class InternshipReportCreateView(InternshipReportPeriodRequiredMixin, CreateView):
+    model=InternshipReport
+    fields=['report_file','comments']
+    template_name = "report_create.html"
+
+    def form_valid(self, form):
+        form.instance.assignment=Assignment.objects.get(pk=self.kwargs.get('pk'))
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        student = UndergraduateStudent.objects.get(id=self.request.user.id)
+        context["assignment"] = Assignment.objects.get(pk=self.kwargs.get('pk'))
+        context["report_period"] = IntershipReportPeriod.objects.filter(department=student.department)
+        return context
+
+    def get_success_url(self):
+        return reverse('applicant:my_carrier_consent')
+
+class InternshipReportUpdateView(UserPassesTestMixin, InternshipReportPeriodRequiredMixin, UpdateView):
+    model=InternshipReport
+    fields=['report_file','comments']
+    template_name = "report_update.html"
+
+    def test_func(self):
+        student = UndergraduateStudent.objects.get(id=self.request.user.id)
+        if self.get_object().assignment.trainee==student:
+            return True
+        return False
+
+    def form_valid(self, form):
+        form.instance.assignment=Assignment.objects.get(pk=self.kwargs.get('pk'))
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        student = UndergraduateStudent.objects.get(id=self.request.user.id)
+        context["assignment"] = Assignment.objects.get(pk=self.kwargs.get('pk'))
+        context["report_period"] = IntershipReportPeriod.objects.filter(department=student.department)
+        return context
+
+    def get_object(self):
+        return InternshipReport.objects.get(pk=self.kwargs.get('report_id'))
+
+    def get_success_url(self):
+        return reverse('applicant:my_carrier_consent')

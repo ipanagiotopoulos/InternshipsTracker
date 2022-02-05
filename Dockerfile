@@ -14,5 +14,5 @@ COPY requirements.txt /reqs/
 RUN pip install -r /reqs/requirements.txt
 RUN pip install django-phonenumber-field[phonenumbers]
 COPY ./internships_tracker /appinternships
-#RUN python3 manage.py makemigrations && python3 manage.py migrate 
-CMD  /usr/local/bin/gunicorn internships_tracker.wsgi:application -w 2 -b :8001 --reload
+RUN chmod +x /appinternships/hua_intern_init.sh
+CMD /appinternships/hua_intern_init.sh

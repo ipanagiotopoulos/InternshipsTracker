@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %} {% trans "Internship Report Period Not Found" %} {% endblock title %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col col-12">
+        <div class="alert alert-danger">{% translate "Internship Report Period Not Found" %}</div>
+    </div>
+</div>
+
+{% endblock %}

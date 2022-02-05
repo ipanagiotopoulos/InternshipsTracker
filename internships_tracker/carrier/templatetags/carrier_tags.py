@@ -12,7 +12,9 @@ register = template.Library()
 @register.simple_tag
 def is_active(user):
     cn = CarrierNode.objects.get(id=user.id)
-    cas = CarrierAssignmentPeriod.objects.filter(carrier=cn.carrier).first()
+    cas = CarrierAssignmentPeriod.objects.filter(
+        department=cn.carrier.department
+    ).first()
     if cas == None:
         return False
     elif cas.from_date <= date.today() <= cas.to_date:
@@ -23,7 +25,7 @@ def is_active(user):
 @register.simple_tag
 def is_application_approval_active(user):
     cn = CarrierNode.objects.get(id=user.id)
-    cas = ApplicationPeriod.objects.filter(carrier=cn.carrier).first()
+    cas = ApplicationPeriod.objects.filter(department=cn.carrier.department).first()
     if cas == None:
         return False
     elif cas.to_date < date.today():

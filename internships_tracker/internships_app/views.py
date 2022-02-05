@@ -31,7 +31,7 @@ class PasswordsChangeView(PasswordChangeView):
 
 class UserCreateView(CreateView):
     template_name = "../templates/register.html"
-    success_url = "/users/login"
+    success_url = "/accounts/login"
 
     def get_form_class(self):
         my_model = self.kwargs.get("type", None)
@@ -45,7 +45,7 @@ class UserCreateView(CreateView):
             country=form.cleaned_data["country"],
             city=form.cleaned_data["city"],
             street_name=form.cleaned_data["street_name"],
-            street_no=form.cleaned_data["street_no"],
+            street_number=form.cleaned_data["street_number"],
             postal_code=form.cleaned_data["postal_code"],
         )
         us.address = ad
@@ -72,7 +72,7 @@ class UnderGraduateStudentUpdateView(
         form.fields["country"].initial = self.object.address.country
         form.fields["city"].initial = self.object.address.city
         form.fields["street_name"].initial = self.object.address.street_name
-        form.fields["street_no"].initial = self.object.address.street_no
+        form.fields["street_number"].initial = self.object.address.street_number
         form.fields["postal_code"].initial = self.object.address.postal_code
         form.fields["password"].widget = forms.HiddenInput()
 
@@ -83,7 +83,7 @@ class UnderGraduateStudentUpdateView(
         us.address.country = (form.cleaned_data["country"],)
         us.address.city = (form.cleaned_data["city"],)
         us.address.street_name = (form.cleaned_data["street_name"],)
-        us.address.street_no = (form.cleaned_data["street_no"],)
+        us.address.street_number = (form.cleaned_data["street_number"],)
         us.address.postal_code = (form.cleaned_data["postal_code"],)
         us.save()
         return super().form_valid(form)
@@ -116,7 +116,7 @@ class SupervisorUpdateView(LoginRequiredMixin, GroupRequiredMixin, UpdateView):
         form.fields["country"].initial = self.object.address.country
         form.fields["city"].initial = self.object.address.city
         form.fields["street_name"].initial = self.object.address.street_name
-        form.fields["street_no"].initial = self.object.address.street_no
+        form.fields["street_number"].initial = self.object.address.street_number
         form.fields["postal_code"].initial = self.object.address.postal_code
         form.fields["password"].widget = forms.HiddenInput()
         return form
@@ -126,7 +126,7 @@ class SupervisorUpdateView(LoginRequiredMixin, GroupRequiredMixin, UpdateView):
         us.address.country = (form.cleaned_data["country"],)
         us.address.city = (form.cleaned_data["city"],)
         us.address.street_name = (form.cleaned_data["street_name"],)
-        us.address.street_no = (form.cleaned_data["street_no"],)
+        us.address.street_number = (form.cleaned_data["street_number"],)
         us.address.postal_code = (form.cleaned_data["postal_code"],)
         us.save()
         return super().form_valid(form)
@@ -157,7 +157,7 @@ class CarrierNodeUpdateView(LoginRequiredMixin, GroupRequiredMixin, UpdateView):
         form.fields["country"].initial = self.object.address.country
         form.fields["city"].initial = self.object.address.city
         form.fields["street_name"].initial = self.object.address.street_name
-        form.fields["street_no"].initial = self.object.address.street_no
+        form.fields["street_number"].initial = self.object.address.street_number
         form.fields["postal_code"].initial = self.object.address.postal_code
         form.fields["password"].widget = forms.HiddenInput()
         return form
@@ -167,7 +167,7 @@ class CarrierNodeUpdateView(LoginRequiredMixin, GroupRequiredMixin, UpdateView):
         us.address.country = (form.cleaned_data["country"],)
         us.address.city = (form.cleaned_data["city"],)
         us.address.street_name = (form.cleaned_data["street_name"],)
-        us.address.street_no = (form.cleaned_data["street_no"],)
+        us.address.street_number = (form.cleaned_data["street_number"],)
         us.address.postal_code = (form.cleaned_data["postal_code"],)
         us.save()
         return super().form_valid(form)

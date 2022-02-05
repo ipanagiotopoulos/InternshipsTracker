@@ -12,6 +12,8 @@ def carrier_node_add_to_default_group(sender, **kwargs):
         if created == True:
             carrierNodeGroup.save()
         cn.groups.add(carrierNodeGroup)
+        cn.is_active=False
+        cn.save()
 
 
 @receiver(post_save, sender=Supervisor)
@@ -22,7 +24,8 @@ def supervisor_add_to_default_group(sender, **kwargs):
         if created == True:
             supervisorGroup.save()
         supervisor.groups.add(supervisorGroup)
-
+        supervisor.is_active=False
+        supervisor.save()
 
 @receiver(post_save, sender=UndergraduateStudent)
 def student_add_to_default_group(sender, **kwargs):
@@ -32,3 +35,5 @@ def student_add_to_default_group(sender, **kwargs):
         if created == True:
             studentGroup.save()
         student.groups.add(studentGroup)
+        student.is_active=False
+        student.save()
