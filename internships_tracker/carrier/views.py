@@ -1,141 +1,61 @@
-from braces.views import GroupRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import DetailView, ListView, DeleteView, UpdateView
-from django.shortcuts import get_object_or_404
-from django.views.generic import CreateView
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.views.generic import DetailView, ListView, DeleteView, UpdateView, CreateView
+from django.shortcuts import render, get_object_or_404, redirect
+from django.core.exceptions import PermissionDenied
 from dal import autocomplete as auto
 from django.urls import reverse
 from .forms import *
 from .models import *
 from internships_app.models import CarrierNode
-
 from django.db.models import Q
+from .mixins import CarrierAssignmentRequiredMixin
+from applicant.models import InternshipReport
 
 # Create your views here.
 
+def carrier_assignment_not_found(request):
+    return render(request, 'carrier_assignment_not_found.html')
 
-class CreateCarrierAssesmentView(GroupRequiredMixin, CreateView):
-    model = CarrierAssesement
-    form_class = CreateCarrierAssementForm
-    template_name = "carrier_assesment_create.html"
-    success_url = "/"
-    group_required = u"carrier_node"
-
-
-class CarrierAssesmentsView(GroupRequiredMixin, ListView):
-    form = SearchCarrierAssesmentsForm
-    model = CarrierConsent
-    template_name = "carrier_assesments.html"
-    group_required = u"carrier_node"
-    context_object_name = "ca"
-
-    def get_queryset(self):
-        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
-        queryset = CarrierConsent.objects.filter(carrier=carrier_node.carrier)
-        return queryset
-
-
-class AssignmentListView(GroupRequiredMixin, DetailView):
-    model = Assignment
-    template_name = "assignments.html"
-
-    def get_queryset(self):
-        queryset = CarrierNode.objects.filter(Q(carrier=self.object.carrier))
-        return queryset
-
-
-class CreateAssignmentView(GroupRequiredMixin, CreateView):
-    model = Assignment
-    form_class = CreateAssignmentForm
-    template_name = "assignment_create.html"
-    success_url = "/"
-    group_required = u"carrier_node"
-
-
-class CarrierConsentsListView(GroupRequiredMixin, ListView):
-    form = SearchCarrierConsentsForms
-    model = CarrierConsent
-    template_name = "carrier_consents.html"
-    group_required = u"carrier_node"
-    context_object_name = "cs"
-
-    def get_queryset(self):
-        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
-        queryset = CarrierConsent.objects.filter(carrier=carrier_node.carrier)
-        return queryset
-
-
-class CarrierConsentAcceptRejectView(GroupRequiredMixin, UpdateView):
-    model = CarrierConsent
-    form_class = CarrierConsentAcceptRejectForm
-    template_name = "carrier_consent_accept_reject.html"
-    success_url = "/"
-    group_required = u"carrier_node"
-
-
-class TraineePositionListView(LoginRequiredMixin, GroupRequiredMixin, ListView):
+class TraineePositionListView(CarrierAssignmentRequiredMixin, ListView):
     model = TraineePosition
-    group_required = u"carrier_node"
     template_name = "trainee_positions.html"
     context_object_name = "tps"
 
     def get_queryset(self):
         carrier_node = CarrierNode.objects.get(id=self.request.user.id)
         return TraineePosition.objects.filter(
-            carrier_assignment__carrier=carrier_node.carrier
+            carrier_assignment__department=carrier_node.carrier.department
         )
 
 
-class TraineePositionCreateView(LoginRequiredMixin, GroupRequiredMixin, CreateView):
+class TraineePositionCreateView(CarrierAssignmentRequiredMixin, CreateView):
     model = TraineePosition
-    form_class = CreateTraineePositionForm
+    form_class = TraineePositionForm
     template_name = "trainee_position_create.html"
     success_url = "/carrier/traineepositions/list"
-    group_required = u"carrier_node"
-
-    # def get_test_func(self):
-    #     traineePosition = self
-    #     user = self.request.user
-    #     carrier_node = CarrierNode.objects.filter(user=user)
-    #     if traineePosition.carrier == carrier_node.carrier:
-    #         return True
-    #     return False
 
     def form_valid(self, form):
         carrier_node = CarrierNode.objects.get(id=self.request.user.id)
-        ca = CarrierAssignmentPeriod.objects.get(carrier=carrier_node.carrier)
-        a_p = ApplicationPeriod.objects.get(carrier=carrier_node.carrier)
+        ca = CarrierAssignmentPeriod.objects.get(
+            department=carrier_node.carrier.department
+        )
+        form.instance.carrier = carrier_node.carrier
         form.instance.carrier_assignment = ca
-        form.instance.application_period = a_p
         return super().form_valid(form)
 
 
-class TraineePositionDetailView(LoginRequiredMixin, DetailView):
+class TraineePositionDetailView(CarrierAssignmentRequiredMixin, DetailView):
     model = TraineePosition
     template_name = "trainee_positions.html"
 
-    # def get_test_func(self):
-    #     traineePosition = self
-    #     user = self.request.user
-    #     carrier_node = CarrierNode.objects.filter(user=user)
-    #     if traineePosition.carrier == carrier_node.carrier:
-    #         return True
-    #     return False
-
-    def get_object(self):
-        pk_ = self.kwargs.get("pk")
-        return get_object_or_404(TraineePosition, pk=pk_)
-
-
-class TraineePositionDeleteView(LoginRequiredMixin, DeleteView):
+class TraineePositionDeleteView(UserPassesTestMixin,CarrierAssignmentRequiredMixin, DeleteView):
     model = TraineePosition
     template_name = "trainee_position_delete.html"
-    context_object_name = "some"
+    context_object_name = "tp"
 
-    def get_test_func(self):
-        traineePosition = self
-        user = self.request.user
-        carrier_node = CarrierNode.objects.filter(user=user)
-        if traineePosition.carrier == carrier_node.carrier:
+    def test_func(self):
+        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        if self.get_object().carrier == carrier_node.carrier:
             return True
         return False
 
@@ -143,33 +63,124 @@ class TraineePositionDeleteView(LoginRequiredMixin, DeleteView):
         return reverse("carrier:traineeposition_list")
 
 
-class TraineePositionUpdateView(GroupRequiredMixin, UpdateView):
+class TraineePositionUpdateView(UserPassesTestMixin,CarrierAssignmentRequiredMixin, UpdateView):
     model = TraineePosition
-    form_class = UpdateTraineePositionForm
+    form_class = TraineePositionForm
     template_name = "trainee_position_update.html"
     success_url = "/carrier/traineepositions/list"
     group_required = u"carrier_node"
 
-    # def test_func(self, request):
-    #     traineePosition = self
-    #     user = request.user
-    #     if traineePosition.user == user:
-    #         return True
-    #     return False
+    def test_func(self):
+        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        if self.get_object().carrier == carrier_node.carrier:
+            return True
+        return False
 
-    def get_form(self, *args, **kwargs):
-        form = super().get_form(*args, **kwargs)
-        form.fields["title"].initial = self.object.title
-        form.fields["description"].initial = self.object.description
-        # form.fields["description"].widget = forms.Textarea
-        # form.fields["carrier_assignment"].widget = forms.HiddenInput()
-        # form.fields["application_period"].widget = forms.HiddenInput()
-        return form
+class AsssignmentListView( ListView):
+    model= Assignment
+    template_name = "assignments.html"
+    context_object_name="assignments"
 
-    def get_object(self):
-        pk_ = self.kwargs.get("pk")
-        return get_object_or_404(TraineePosition, pk=pk_)
+    def get_queryset(self):
+        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        return Assignment.objects.filter(
+            assignment_period__department=carrier_node.carrier.department,finalized="P"
+        )
 
+class AsssignmentDetailView(UserPassesTestMixin,DetailView):
+    model= Assignment
+    template_name = "assignment_detail.html"
+    context_object_name="assignment"
+
+    def test_func(self):
+        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        if self.get_object().trainee_position.carrier == carrier_node.carrier:
+            return True
+        return False
+
+
+def assignment_accept(request, pk):
+    carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+    assignment = get_object_or_404(Assignment, pk=pk)
+    if assignment.trainee_position.carrier == carrier_node.carrier:
+        if CarrierConsent.objects.filter(assignement_upon=assignment).exists():
+            context={
+                'message' : 'Carrier consent already exists !',
+                'assignment': assignment
+            }
+            return render(request,'assignment_detail.html',context)
+        else:
+            assignment.finalized="A"
+            assignment.save()
+            CarrierConsent.objects.create(carrier=assignment.trainee_position.carrier,assignement_upon=assignment,consent=True)
+            return redirect('carrier:assignments')
+    else:
+        raise PermissionDenied()
+
+def assignment_reject(request, pk):
+    carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+    assignment = get_object_or_404(Assignment, pk=pk)
+    if assignment.trainee_position.carrier == carrier_node.carrier:
+        if CarrierConsent.objects.filter(assignement_upon=assignment).exists():
+            context={
+                    'message' : 'Carrier consent already exists !',
+                    'assignment': assignment
+                }
+            return render(request,'assignment_detail.html',context)
+        else:
+            assignment.finalized="R"
+            assignment.save()
+            CarrierConsent.objects.create(carrier=assignment.trainee_position.carrier,assignement_upon=assignment,consent=False)
+            return redirect('carrier:assignments')
+    else:
+        raise PermissionDenied()
+
+
+class AcceptedAsssignmentListView( ListView):
+    model= Assignment
+    template_name = "accepted_assignments.html"
+    context_object_name="assignments"
+
+    def get_queryset(self):
+        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        return Assignment.objects.filter(
+            assignment_period__department=carrier_node.carrier.department,finalized="A"
+        )
+
+class AcceptedAsssignmentDetailView(UserPassesTestMixin,DetailView):
+    model= Assignment
+    template_name = "accepted_assignment_detail.html"
+    context_object_name="assignment"
+
+    def test_func(self):
+        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        if self.get_object().trainee_position.carrier == carrier_node.carrier:
+            return True
+        return False
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        assignment=self.get_object()
+        context["assignment"]=assignment
+        report=InternshipReport.objects.filter(assignment=assignment)
+        if report.exists():
+            context["report"]=report.first()
+        assesment=CarrierAssesement.objects.filter(assignement_upon=assignment)
+        if assesment.exists():
+            context["assesment"]=assesment.first()
+        return context
+
+class CarrierAssesementCreateView(CreateView):
+    model = CarrierAssesement
+    fields=['comments','grade']
+    template_name = "carrier_assesment_create.html"
+
+    def form_valid(self, form):
+        form.instance.assignement_upon = Assignment.objects.get(id=self.kwargs.get('pk'))
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse("carrier:accepted_assignment_detail" ,kwargs={'pk':self.kwargs.get('pk')})
 
 class TraineePositionAutocomplete(auto.Select2QuerySetView):
     def get_queryset(self):
@@ -182,7 +193,7 @@ class TraineePositionAutocomplete(auto.Select2QuerySetView):
         student = UndergraduateStudent.objects.get(user=self.request.user)
 
         qs = TraineePosition.objects.filter(
-            carrier_assignment__carrier__department=student.department
+            carrier_assignment__department=student.department
         )
         if tr1:
             qs = qs.exclude(id=tr1)
@@ -202,3 +213,45 @@ class TraineePositionAutocomplete(auto.Select2QuerySetView):
             )
 
         return qs
+
+class CarrierDetailView(DetailView):
+    model= Carrier
+    template_name = "carrier_detail.html"
+    context_object_name="carrier"
+
+    def get_object(self):
+        carrier_node = CarrierNode.objects.get(user=self.request.user)
+        return carrier_node.carrier
+
+class CarrierUpdateView(UpdateView):
+    model= Carrier
+    form_class=CarrierUpdateForm
+    template_name = "carrier_update.html"
+    context_object_name="carrier"
+
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        form.fields["country"].initial = self.object.full_address.country
+        form.fields["city"].initial = self.object.full_address.city
+        form.fields["street_name"].initial = self.object.full_address.street_name
+        form.fields["street_number"].initial = self.object.full_address.street_number
+        form.fields["postal_code"].initial = self.object.full_address.postal_code
+        return form
+
+    def form_valid(self, form):
+        saved_form = form.save(commit=False)
+        saved_form.full_address.country = form.cleaned_data["country"],
+        saved_form.full_address.city = form.cleaned_data["city"],
+        saved_form.full_address.street_name = form.cleaned_data["street_name"],
+        saved_form.full_address.street_number = form.cleaned_data["street_number"],
+        saved_form.full_address.postal_code = form.cleaned_data["postal_code"],
+        saved_form.save()
+        return super().form_valid(saved_form)
+
+    def get_success_url(self):
+        return reverse("carrier:carrier_detail" )
+
+    def get_object(self):
+        carrier_node = CarrierNode.objects.get(user=self.request.user)
+        return carrier_node.carrier
+

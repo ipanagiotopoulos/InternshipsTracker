@@ -10,20 +10,19 @@
    <p><a href="{% url 'logout' %}">Log Out</a></p>
  {% else %}
  
- <div class="card  d-flex my-auto ">
-    <div class="container d-flex p-4">
-    <div class="card-body bg-white">
-     <blockquote class="blockquote mb-0 text-center">
-      <h4 class="nav-link text-dark col "> You are not logged in!</h4>
+  <div class="container text-center bg-white">
+    <div class="card">
+      <div class="card-header bg-white">
+        <h3 class="nav-link text-dark col "> You are not logged in!</h3>
+      </div>
+      <div class="card-body">
             <a  href="/accounts/login"
-              class="text-info text-center pr-5">Login</a>
+              class="h4 text-info text-center pr-5">Login</a>
             <a  href="/accounts/register/carrier_node"
-                class="text-info text-center">Register<a/>
-     </blockquote>
+                class="h4 text-info text-center">Register<a/>
+      </div>
     </div>
   </div>
-</div>
- 
 {% endif %}
 
 {% endblock %}

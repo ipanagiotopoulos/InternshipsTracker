@@ -3,3 +3,5 @@ logs/
 internships_tracker/.env
 .env
 .DS_Store
+static/django_extensions
+static/bootstrap_icons

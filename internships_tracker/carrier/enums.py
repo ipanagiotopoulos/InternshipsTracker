@@ -1,8 +1,8 @@
+P = "P"
 A = "A"
-D = "D"
-FD = "FD"
+R = "R"
 APPLICATION_STATUS = [
+    (P, "Pending"),
     (A, "Accepted"),
-    (D, "Deleted"),
-    (FD, "Finalized and Declined"),
+    (R, "Rejected"),
 ]

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block title %}{% trans "My Carrier Consent" %}{% endblock title %}
+{% block content %}
+
+{% if not carrier_consent %}
+    <div class="row">
+        <div class="col col-12">
+            <div class="alert alert-danger">You havent any assignment yet !</div>
+        </div>
+    </div>
+{% else %}
+    <div class="card">
+        <div class="card-header">
+            <h2>{% trans "Assignment information" %}</h2>
+        </div>
+        <div class="card-body">
+            <h3>My Assignment</h3>
+            </br>
+            <p><b>Date:</b><span class="text-info">{{carrier_consent.date}}</span></p>
+            <p><b>Student:</b> {{carrier_consent.assignement_upon.trainee.first_name}} {{carrier_consent.assignement_upon.trainee.last_name}}</p>
+            <p><b>Register Number:</b> {{carrier_consent.assignement_upon.trainee.register_number}} </p>
+            <hr>
+            <h3>Position details</h3>
+            </br>
+            <p><b>Position:</b> {{carrier_consent.assignement_upon.trainee_position.title}}</p>
+            <p><b>Carrier:</b> {{carrier_consent.assignement_upon.trainee_position.carrier.official_name}} </p>
+            <p><b>Assignment period:</b>  <span class="text-info"> {{carrier_consent.assignement_upon.assignment_period.from_date}} - {{carrier_consent.assignement_upon.assignment_period.to_date}} </span> </p>
+        </div>
+        <div class="card-footer">
+            {% if not report %}
+                    <a href="{% url 'applicant:report_create' carrier_consent.assignement_upon.pk %}" class="btn btn-success ">{% trans "Upload Internship Report" %}</a>
+            {% else %}
+            <hr>
+                <h3>My Internship report</h3>
+                <p><b>File: </b><a href="{{report.report_file.url}}">{{report.report_file}} </a> </p>
+                <p><b>Date: </b>  <span class="text-info"> {{report.date}}</p>
+                <p><b>Comments: </b> {{report.comments}}</p>
+                <a href="{% url 'applicant:report_update' carrier_consent.assignement_upon.pk report.pk %}" class="btn btn-success ">{% trans "Update Internship Report" %}</a>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
+{% endblock content %}

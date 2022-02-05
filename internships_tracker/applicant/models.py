@@ -1,7 +1,6 @@
 from django.db import models
-from carrier.models import TraineePosition
+from carrier.models import TraineePosition,Assignment
 from internships_app.models import UndergraduateStudent
-
 
 class Preference(models.Model):
     applicant = models.OneToOneField(UndergraduateStudent, on_delete=models.CASCADE)
@@ -44,3 +43,9 @@ class Preference(models.Model):
         null=True,
         on_delete=models.CASCADE,
     )
+
+class InternshipReport(models.Model):
+    report_file = models.FileField()
+    assignment = models.OneToOneField(Assignment, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    comments = models.TextField()
