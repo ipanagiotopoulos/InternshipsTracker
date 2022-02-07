@@ -6,14 +6,14 @@
 {% block title %} {% trans "Job Postings" %} {% endblock title %}
 
 {% block content %}
-<h4 class="mb-4">Job Postings</h4>
+<h4 class="mb-3">Job Postings</h4>
 {% is_active request.user as is_active %}
 {% if is_active %}
-    <a href="{% url 'carrier:traineeposition_create' %}" class="btn btn-success mt-5 mb-5">Create Job Posting</a>
+    <a href="{% url 'carrier:traineeposition_create' %}" class="btn btn-success mt-3 mb-3">Create Job Posting</a>
     <div class="container-fluid border-border-dark" >
         {% if tps %}
         {% for i in tps|slice:"0:1"%}
-           <h4> Carrier assignement period for {{i.carrier_assignment.department}} is from {{i.carrier_assignment.from_date}} to  {{i.carrier_assignment.to_date}} </h4>
+           <h4 class="mt-4"> Carrier assignement period for {{i.carrier_assignment.department}} is from {{i.carrier_assignment.from_date}} to  {{i.carrier_assignment.to_date}} </h4>
         {% endfor %}
         </br>
         </br>
