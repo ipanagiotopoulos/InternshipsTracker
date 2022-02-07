@@ -20,22 +20,22 @@ urlpatterns = [
         name="user_register",
     ),
     path(
-        "carrier_node/edit/",
+        "carrier_node/edit",
         views.CarrierNodeUpdateView.as_view(),
         name="carrier_node_edit",
     ),
     path(
-        "carrier_node/my_carrier/",
+        "carrier_node/my_carrier",
         views.CarrierNodeUpdateView.as_view(),
         name="carrier_node_edit",
     ),
     path(
-        "carrier_node/detail/",
+        "carrier_node/detail",
         views.CarrierNodeDetaillView.as_view(),
         name="carrier_node_detail",
     ),
     path(
-        "supervisor/edit/",
+        "supervisor/edit",
         views.SupervisorUpdateView.as_view(),
         name="supervisor_update",
     ),

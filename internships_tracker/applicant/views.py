@@ -1,15 +1,13 @@
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
-from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.mixins import UserPassesTestMixin
 from .mixins import ApplicationPeriodRequiredMixin,InternshipReportPeriodRequiredMixin
-from carrier.models import CarrierAssignmentPeriod,CarrierConsent,Assignment
+from carrier.models import CarrierConsent,Assignment
 from internships_app.models import UndergraduateStudent
 from carrier.models import TraineePosition,Assignment,IntershipReportPeriod
 from .forms import PreferenceForm
 from .models import Preference,InternshipReport
-# Create your views here.
 
 def application_period_not_found(request):
     return render(request, 'application_period_not_found.html')

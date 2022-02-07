@@ -1,6 +1,5 @@
 from django.urls import path
 from . import views
-from utils import decorators
 
 app_name = "carrier"
 urlpatterns = [

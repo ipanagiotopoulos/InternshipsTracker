@@ -6,10 +6,6 @@ from internships_app.enums import (
     DEPARTMENT_CHOICES,
 )
 
-# class CarrierDepartment(models.Model):
-#     depatment_name: models.CharField(max_length=100)
-#     carrier: models.ForeignKey(Carrier, on_delete=models.CASCADE)
-
 class CarrierAssignmentPeriod(models.Model):
     department = models.CharField(unique=True, max_length=3, choices=DEPARTMENT_CHOICES)
     from_date = models.DateField()
