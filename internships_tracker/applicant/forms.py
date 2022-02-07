@@ -1,8 +1,7 @@
-from applicant.models import Preference
-from carrier.models import TraineePosition
 from django import forms
 from dal import autocomplete
-
+from applicant.models import Preference
+from carrier.models import TraineePosition
 
 class PreferenceForm(forms.ModelForm):
     trainee_position_1 = forms.ModelChoiceField(

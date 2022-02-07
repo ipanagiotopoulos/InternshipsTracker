@@ -1,7 +1,5 @@
 from django.urls import path
-from django.contrib.auth.decorators import login_required
 from . import views
-from decorator_include import decorator_include
 from utils import decorators
 
 app_name = "carrier"

@@ -1,7 +1,7 @@
-from internships_app.models import UndergraduateStudent
-from carrier.models import ApplicationPeriod,IntershipReportPeriod
 from django.shortcuts import  redirect
 from datetime import date
+from internships_app.models import UndergraduateStudent
+from carrier.models import ApplicationPeriod,IntershipReportPeriod
 
 class ApplicationPeriodRequiredMixin:
     def dispatch(self, request, *args, **kwargs):
