@@ -2,13 +2,13 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views.generic import DetailView, ListView, DeleteView, UpdateView, CreateView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.exceptions import PermissionDenied
-from dal import autocomplete as auto
 from django.urls import reverse
+from django.db.models import Q
+from dal import autocomplete as auto
 from .forms import *
 from .models import *
 from internships_app.models import CarrierNode
-from django.db.models import Q
-from .mixins import CarrierAssignmentRequiredMixin
+from .mixins import CarrierAssignmentRequiredMixin,CarrierRequiredMixin,StudentOrCarrierRequiredMixin
 from applicant.models import InternshipReport
 
 # Create your views here.
@@ -16,7 +16,7 @@ from applicant.models import InternshipReport
 def carrier_assignment_not_found(request):
     return render(request, 'carrier_assignment_not_found.html')
 
-class TraineePositionListView(CarrierAssignmentRequiredMixin, ListView):
+class TraineePositionListView(CarrierAssignmentRequiredMixin,CarrierRequiredMixin,ListView):
     model = TraineePosition
     template_name = "trainee_positions.html"
     context_object_name = "tps"
@@ -28,7 +28,7 @@ class TraineePositionListView(CarrierAssignmentRequiredMixin, ListView):
         )
 
 
-class TraineePositionCreateView(CarrierAssignmentRequiredMixin, CreateView):
+class TraineePositionCreateView(CarrierAssignmentRequiredMixin,CarrierRequiredMixin, CreateView):
     model = TraineePosition
     form_class = TraineePositionForm
     template_name = "trainee_position_create.html"
@@ -44,11 +44,11 @@ class TraineePositionCreateView(CarrierAssignmentRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class TraineePositionDetailView(CarrierAssignmentRequiredMixin, DetailView):
+class TraineePositionDetailView(CarrierAssignmentRequiredMixin, StudentOrCarrierRequiredMixin, DetailView):
     model = TraineePosition
     template_name = "trainee_positions.html"
 
-class TraineePositionDeleteView(UserPassesTestMixin,CarrierAssignmentRequiredMixin, DeleteView):
+class TraineePositionDeleteView(UserPassesTestMixin,CarrierAssignmentRequiredMixin,CarrierRequiredMixin,DeleteView):
     model = TraineePosition
     template_name = "trainee_position_delete.html"
     context_object_name = "tp"
@@ -63,7 +63,7 @@ class TraineePositionDeleteView(UserPassesTestMixin,CarrierAssignmentRequiredMix
         return reverse("carrier:traineeposition_list")
 
 
-class TraineePositionUpdateView(UserPassesTestMixin,CarrierAssignmentRequiredMixin, UpdateView):
+class TraineePositionUpdateView(UserPassesTestMixin,CarrierAssignmentRequiredMixin,CarrierRequiredMixin,UpdateView):
     model = TraineePosition
     form_class = TraineePositionForm
     template_name = "trainee_position_update.html"
@@ -76,7 +76,7 @@ class TraineePositionUpdateView(UserPassesTestMixin,CarrierAssignmentRequiredMix
             return True
         return False
 
-class AsssignmentListView( ListView):
+class AsssignmentListView(ListView, CarrierRequiredMixin):
     model= Assignment
     template_name = "assignments.html"
     context_object_name="assignments"
@@ -87,7 +87,7 @@ class AsssignmentListView( ListView):
             assignment_period__department=carrier_node.carrier.department,finalized="P"
         )
 
-class AsssignmentDetailView(UserPassesTestMixin,DetailView):
+class AsssignmentDetailView(UserPassesTestMixin, CarrierRequiredMixin, DetailView):
     model= Assignment
     template_name = "assignment_detail.html"
     context_object_name="assignment"
@@ -100,7 +100,7 @@ class AsssignmentDetailView(UserPassesTestMixin,DetailView):
 
 
 def assignment_accept(request, pk):
-    carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+    carrier_node = CarrierNode.objects.get(id=request.user.id)
     assignment = get_object_or_404(Assignment, pk=pk)
     if assignment.trainee_position.carrier == carrier_node.carrier:
         if CarrierConsent.objects.filter(assignement_upon=assignment).exists():
@@ -136,7 +136,7 @@ def assignment_reject(request, pk):
         raise PermissionDenied()
 
 
-class AcceptedAsssignmentListView( ListView):
+class AcceptedAsssignmentListView(CarrierRequiredMixin, ListView):
     model= Assignment
     template_name = "accepted_assignments.html"
     context_object_name="assignments"
@@ -147,7 +147,7 @@ class AcceptedAsssignmentListView( ListView):
             assignment_period__department=carrier_node.carrier.department,finalized="A"
         )
 
-class AcceptedAsssignmentDetailView(UserPassesTestMixin,DetailView):
+class AcceptedAsssignmentDetailView(CarrierRequiredMixin,UserPassesTestMixin,DetailView):
     model= Assignment
     template_name = "accepted_assignment_detail.html"
     context_object_name="assignment"
@@ -170,7 +170,7 @@ class AcceptedAsssignmentDetailView(UserPassesTestMixin,DetailView):
             context["assesment"]=assesment.first()
         return context
 
-class CarrierAssesementCreateView(CreateView):
+class CarrierAssesementCreateView(CarrierRequiredMixin,CreateView):
     model = CarrierAssesement
     fields=['comments','grade']
     template_name = "carrier_assesment_create.html"
@@ -182,7 +182,7 @@ class CarrierAssesementCreateView(CreateView):
     def get_success_url(self):
         return reverse("carrier:accepted_assignment_detail" ,kwargs={'pk':self.kwargs.get('pk')})
 
-class TraineePositionAutocomplete(auto.Select2QuerySetView):
+class TraineePositionAutocomplete(StudentOrCarrierRequiredMixin,auto.Select2QuerySetView):
     def get_queryset(self):
         print(self.forwarded)
         tr1 = self.forwarded.get("trainee_position_1", None)
@@ -214,7 +214,7 @@ class TraineePositionAutocomplete(auto.Select2QuerySetView):
 
         return qs
 
-class CarrierDetailView(DetailView):
+class CarrierDetailView(CarrierRequiredMixin,DetailView):
     model= Carrier
     template_name = "carrier_detail.html"
     context_object_name="carrier"
@@ -223,7 +223,7 @@ class CarrierDetailView(DetailView):
         carrier_node = CarrierNode.objects.get(user=self.request.user)
         return carrier_node.carrier
 
-class CarrierUpdateView(UpdateView):
+class CarrierUpdateView(CarrierRequiredMixin,UpdateView):
     model= Carrier
     form_class=CarrierUpdateForm
     template_name = "carrier_update.html"
