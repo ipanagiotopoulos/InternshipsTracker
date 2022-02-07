@@ -1,8 +1,8 @@
 from .models import *
-from internships_app.models import CarrierNode
+from django.http import HttpResponseNotFound
 from django.shortcuts import  redirect
 from datetime import date
-
+from internships_app.models import CarrierNode
 
 class CarrierAssignmentRequiredMixin:
 
@@ -16,3 +16,22 @@ class CarrierAssignmentRequiredMixin:
             return super().dispatch(request, *args, **kwargs)
         else:
             return redirect("/carrier/carrier-assignment/not-found")
+
+class CarrierRequiredMixin:
+     def dispatch(self, request, *args, **kwargs):
+        user=request.user
+        for g in user.groups.all():
+          if g.name == "carrier_node":
+              return super().dispatch(request, *args, **kwargs)
+
+        return HttpResponseNotFound("Not found")
+
+class StudentOrCarrierRequiredMixin:
+     def dispatch(self, request, *args, **kwargs):
+        user=request.user
+        for g in user.groups.all():
+          if g.name == "student" or  g.name =="carrier_node":
+              return super().dispatch(request, *args, **kwargs)
+        
+        return HttpResponseNotFound("Not found") 
+              

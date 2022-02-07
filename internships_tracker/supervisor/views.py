@@ -1,10 +1,11 @@
 from .models import SupervisorAssesment
+from django.views.generic import DetailView,ListView,CreateView
+from django.shortcuts import redirect
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.urls import reverse
 from carrier.models import Assignment,CarrierAssesement
 from internships_app.models import Supervisor
 from applicant.models import InternshipReport
-from django.views.generic import DetailView, ListView, DeleteView, UpdateView, CreateView
-from django.shortcuts import redirect
-from django.contrib.auth.mixins import UserPassesTestMixin
 
 # Create your views here.
 class AsssignmentListView(ListView):

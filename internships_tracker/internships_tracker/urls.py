@@ -39,10 +39,7 @@ urlpatterns = [
     ),
     path(
         "carrier/",
-        decorator_include(
-            [login_required,decorators.group_required('carrier_node')],
-            "carrier.urls",
-        ),
+        include("carrier.urls"),
     ),
     path(
         "supervisor/",
