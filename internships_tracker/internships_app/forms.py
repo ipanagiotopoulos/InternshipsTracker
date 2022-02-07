@@ -1,26 +1,21 @@
 from django import forms
 from django.forms.widgets import (
-    DateInput,
-    EmailInput,
-    HiddenInput,
-    NumberInput,
-    PasswordInput,
     TextInput,
 )
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from phonenumber_field.formfields import PhoneNumberField
-from utils.validators import alphanumeric
+from utils.validators import alphanumeric,alphabetic
 from .models import *
 import datetime as date
 
 
 class UndergraduateStudentForm(UserCreationForm):
-    first_name = forms.CharField(max_length=100, required=True)
-    last_name = forms.CharField(max_length=100, required=True)
-    email = forms.EmailField(max_length=100, help_text="Required", required=True)
-    country = forms.CharField(max_length=30, required=True)
-    city = forms.CharField(max_length=40, required=True)
-    street_name = forms.CharField(max_length=100, required=True)
+    first_name = forms.CharField(max_length=100,validators=[alphabetic],required=True)
+    last_name = forms.CharField(max_length=100,validators=[alphabetic],required=True)
+    email = forms.EmailField(max_length=100,help_text="Required", required=True)
+    country = forms.CharField(max_length=30,validators=[alphabetic], required=True)
+    city = forms.CharField(max_length=40,validators=[alphabetic], required=True)
+    street_name = forms.CharField(max_length=100,validators=[alphabetic], required=True)
     mobile_phone = PhoneNumberField()
     home_phone = PhoneNumberField()
     street_number = forms.IntegerField(
@@ -89,9 +84,9 @@ class StudentUpdateForm(UserChangeForm):
         max_length=30, required=True, widget=TextInput(attrs={"readonly": "readonly"})
     )
     email = forms.EmailField(max_length=100, help_text="Required", required=True)
-    country = forms.CharField(max_length=30, required=True)
-    city = forms.CharField(max_length=40, required=True)
-    street_name = forms.CharField(max_length=100, required=True)
+    country = forms.CharField(max_length=30,validators=[alphabetic], required=True)
+    city = forms.CharField(max_length=40,validators=[alphabetic], required=True)
+    street_name = forms.CharField(max_length=100,validators=[alphabetic],required=True)
     street_number = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(9999)], required=True
     )
@@ -119,12 +114,12 @@ class StudentUpdateForm(UserChangeForm):
 
 
 class SupervisorForm(UserCreationForm):
-    first_name = forms.CharField(max_length=100, validators=[alphanumeric])
-    last_name = forms.CharField(max_length=100, validators=[alphanumeric])
+    first_name = forms.CharField(max_length=100, validators=[alphabetic])
+    last_name = forms.CharField(max_length=100, validators=[alphabetic])
     email = forms.EmailField(max_length=100, help_text="Required", required=True)
-    country = forms.CharField(max_length=30, required=True)
-    city = forms.CharField(max_length=40, required=True)
-    street_name = forms.CharField(max_length=100, required=True)
+    country = forms.CharField(max_length=30,validators=[alphabetic], required=True)
+    city = forms.CharField(max_length=40,validators=[alphabetic], required=True)
+    street_name = forms.CharField(max_length=100,validators=[alphabetic], required=True)
     street_number = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(9999)], required=True
     )
@@ -177,9 +172,9 @@ class SupervisorUpdateForm(UserChangeForm):
         max_length=30, required=True, widget=TextInput(attrs={"readonly": "readonly"})
     )
     email = forms.EmailField(max_length=100, help_text="Required", required=True)
-    country = forms.CharField(max_length=30, required=True)
-    city = forms.CharField(max_length=40, required=True)
-    street_name = forms.CharField(max_length=100, required=True)
+    country = forms.CharField(max_length=30,validators=[alphabetic], required=True)
+    city = forms.CharField(max_length=40,validators=[alphabetic], required=True)
+    street_name = forms.CharField(max_length=100,validators=[alphabetic], required=True)
     street_number = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(9999)], required=True
     )
@@ -207,14 +202,14 @@ class SupervisorUpdateForm(UserChangeForm):
 
 
 class CarrierNodeForm(UserCreationForm):
-    first_name = forms.CharField(max_length=100, validators=[alphanumeric])
-    last_name = forms.CharField(max_length=100, validators=[alphanumeric])
+    first_name = forms.CharField(max_length=100, validators=[alphabetic])
+    last_name = forms.CharField(max_length=100, validators=[alphabetic])
     email = forms.EmailField(max_length=100, help_text="Required", required=True)
     mobile_phone = PhoneNumberField()
     home_phone = PhoneNumberField()
-    country = forms.CharField(max_length=30, required=True)
-    city = forms.CharField(max_length=40, required=True)
-    street_name = forms.CharField(max_length=100, required=True)
+    country = forms.CharField(max_length=30,validators=[alphabetic],required=True)
+    city = forms.CharField(max_length=40,validators=[alphabetic],required=True)
+    street_name = forms.CharField(max_length=100,validators=[alphabetic], required=True)
     street_number = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(9999)], required=True
     )
@@ -261,9 +256,9 @@ class CarrierUpdateForm(UserChangeForm):
         max_length=30, required=True, widget=TextInput(attrs={"readonly": "readonly"})
     )
     # email = forms.EmailField(max_length=100, help_text="Required", required=True)
-    country = forms.CharField(max_length=30, required=True)
-    city = forms.CharField(max_length=40, required=True)
-    street_name = forms.CharField(max_length=100, required=True)
+    country = forms.CharField(max_length=30,validators=[alphabetic], required=True)
+    city = forms.CharField(max_length=40,validators=[alphabetic], required=True)
+    street_name = forms.CharField(max_length=100,validators=[alphabetic], required=True)
     street_number = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(9999)], required=True
     )
