@@ -91,3 +91,14 @@ class Supervisor(Profile):
     def __str__(self):
         return str(self.register_number)
 
+class Secratarian(Profile):
+    department = models.CharField(max_length=3, choices=DEPARTMENT_CHOICES)
+    alias_identifier = models.CharField(max_length=100, validators=[alphanumeric])
+    
+    class Meta:
+        verbose_name = "Secretarian"
+        verbose_name_plural = "Secretarians"
+
+
+    def __str__(self):
+        return str(self.alias_identifier)
