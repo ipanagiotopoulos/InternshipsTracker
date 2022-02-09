@@ -16,7 +16,7 @@ from applicant.models import InternshipReport
 def carrier_assignment_not_found(request):
     return render(request, 'carrier_assignment_not_found.html')
 
-class TraineePositionListView(CarrierAssignmentRequiredMixin,CarrierRequiredMixin,ListView):
+class TraineePositionListView(CarrierRequiredMixin,ListView):
     model = TraineePosition
     template_name = "trainee_positions.html"
     context_object_name = "tps"
@@ -84,7 +84,7 @@ class AsssignmentListView(ListView, CarrierRequiredMixin):
     def get_queryset(self):
         carrier_node = CarrierNode.objects.get(id=self.request.user.id)
         return Assignment.objects.filter(
-            assignment_period__department=carrier_node.carrier.department,finalized="P"
+            assignment_period__department=carrier_node.carrier.department,assignment_status="P"
         )
 
 class AsssignmentDetailView(UserPassesTestMixin, CarrierRequiredMixin, DetailView):
@@ -110,7 +110,7 @@ def assignment_accept(request, pk):
             }
             return render(request,'assignment_detail.html',context)
         else:
-            assignment.finalized="A"
+            assignment.assignment_status="A"
             assignment.save()
             CarrierConsent.objects.create(carrier=assignment.trainee_position.carrier,assignement_upon=assignment,consent=True)
             return redirect('carrier:assignments')
@@ -118,7 +118,7 @@ def assignment_accept(request, pk):
         raise PermissionDenied()
 
 def assignment_reject(request, pk):
-    carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+    carrier_node = CarrierNode.objects.get(id=request.user.id)
     assignment = get_object_or_404(Assignment, pk=pk)
     if assignment.trainee_position.carrier == carrier_node.carrier:
         if CarrierConsent.objects.filter(assignement_upon=assignment).exists():
@@ -128,7 +128,7 @@ def assignment_reject(request, pk):
                 }
             return render(request,'assignment_detail.html',context)
         else:
-            assignment.finalized="R"
+            assignment.assignment_status="R"
             assignment.save()
             CarrierConsent.objects.create(carrier=assignment.trainee_position.carrier,assignement_upon=assignment,consent=False)
             return redirect('carrier:assignments')
@@ -144,7 +144,7 @@ class AcceptedAsssignmentListView(CarrierRequiredMixin, ListView):
     def get_queryset(self):
         carrier_node = CarrierNode.objects.get(id=self.request.user.id)
         return Assignment.objects.filter(
-            assignment_period__department=carrier_node.carrier.department,finalized="A"
+            assignment_period__department=carrier_node.carrier.department,assignment_status="A"
         )
 
 class AcceptedAsssignmentDetailView(CarrierRequiredMixin,UserPassesTestMixin,DetailView):

@@ -7,13 +7,16 @@
 
 {% block content %}
 <h4 class="mb-3">Job Postings</h4>
+{% comment %} {% has_job request.user as has_job_postings %} {% endcomment %}
 {% is_active request.user as is_active %}
-{% if is_active %}
-    <a href="{% url 'carrier:traineeposition_create' %}" class="btn btn-success mt-3 mb-3">Create Job Posting</a>
+{% comment %} {% if has_job %} {% endcomment %}
+    {% if is_active %}
+      <a href="{% url 'carrier:traineeposition_create' %}" class="btn btn-success mt-3 mb-3">Create Job Posting</a>
+    {% endif %}
     <div class="container-fluid border-border-dark" >
-        {% if tps %}
+    {% if tps %}
         {% for i in tps|slice:"0:1"%}
-           <h4 class="mt-4"> Carrier assignement period for {{i.carrier_assignment.department}} is from {{i.carrier_assignment.from_date}} to  {{i.carrier_assignment.to_date}} </h4>
+           <h4 class="mt-4"> Carrier assignement starting date: {{i.carrier_assignment.department}}, ending date: {{i.carrier_assignment.from_date}} to  {{i.carrier_assignment.to_date}} </h4>
         {% endfor %}
         </br>
         </br>
@@ -39,9 +42,13 @@
                 </div>
                 </div>
                 <div class="card-footer">
-                    <a href="/carrier/traineepositions/{{tp.pk}}/update" class="btn btn-info mb-2 btn-block">Edit </a>
-                    <form  action="/carrier/traineepositions/{{tp.pk}}/delete" method="GET" >
-                    <button type="submit" class="btn btn-danger btn-block" > Delete </button>
+                    {% if is_active %}
+                      <a href="/carrier/traineepositions/{{tp.pk}}/update" class="btn btn-info mb-2 btn-block">Edit </a>
+                    {% endif %}
+                    {% if is_active %}
+                      <form  action="/carrier/traineepositions/{{tp.pk}}/delete" method="GET" >
+                      <button type="submit" class="btn btn-danger btn-block" > Delete </button>
+                    {% endif %}
                    </form>
                 </div>
             </div>
@@ -51,8 +58,8 @@
         <a href="/" class="btn btn-info mb-2 ">Go back</a>
     {% endif %}
     </div>
-{% else %}
+{% comment %} {% else %}
     <p>No available carrier assignment period! </p>
     <a href="/" class="btn btn-info mb-2 ">Go back</a>
-{% endif %}
+{% endif %} {% endcomment %}
 {% endblock content %}

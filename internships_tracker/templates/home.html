@@ -6,7 +6,7 @@
  {% block content %}
  
   {% if user.is_authenticated %}
-    Hi {{ user.username }} from DIT!
+    Hi {{ user.username }}!
    <p><a href="{% url 'logout' %}">Log Out</a></p>
  {% else %}
  
