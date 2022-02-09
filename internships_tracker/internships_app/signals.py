@@ -37,3 +37,14 @@ def student_add_to_default_group(sender, **kwargs):
         student.groups.add(studentGroup)
         student.is_active=False
         student.save()
+
+@receiver(post_save, sender=Secratarian)
+def secretarian_add_to_default_group(sender, **kwargs):
+    secretarian = kwargs["instance"]
+    if kwargs["created"]:
+        secretarianGroup, created = Group.objects.get_or_create(name="secretarian")
+        if created == True:
+            secretarianGroup.save()
+        secretarian.groups.add(secretarianGroup)
+        secretarian.is_active=False
+        secretarian.save()
