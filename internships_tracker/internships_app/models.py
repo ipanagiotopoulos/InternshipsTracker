@@ -4,12 +4,13 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from phonenumber_field.modelfields import PhoneNumberField
 from .enums import DEPARTMENT_CHOICES
+from utils.validators import alphanumeric,alphabetic
 
 
 class Address(models.Model):
-    country = models.CharField(max_length=30)
-    city = models.CharField(max_length=40)
-    street_name = models.CharField(max_length=100)
+    country = models.CharField(max_length=30,validators=[alphabetic])
+    city = models.CharField(max_length=40,validators=[alphabetic])
+    street_name = models.CharField(max_length=100,validators=[alphabetic])
     street_number = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(9999)]
     )
@@ -48,8 +49,8 @@ class Carrier(models.Model):
 class Profile(User):
     user = models.OneToOneField(User, parent_link=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
-    father_name = models.CharField(max_length=255)
-    mother_name = models.CharField(max_length=255)
+    father_name = models.CharField(max_length=255,validators=[alphabetic])
+    mother_name = models.CharField(max_length=255,validators=[alphabetic])
     birth_day = models.DateField()
     address = models.OneToOneField(Address, on_delete=models.CASCADE)
     mobile_phone = PhoneNumberField(null=False, blank=False, unique=True)
@@ -61,7 +62,7 @@ class Profile(User):
 
 class CarrierNode(Profile):
     carrier = models.OneToOneField(Carrier, on_delete=models.CASCADE)
-    department = models.CharField(max_length=150)  # he needs ch
+    department = models.CharField(max_length=150, validators=[alphanumeric])  # he needs ch
 
     class Meta:
         verbose_name = "Carrier Node"
@@ -69,7 +70,7 @@ class CarrierNode(Profile):
 
 
 class UndergraduateStudent(Profile):
-    register_number = models.CharField(max_length=10, unique=True)
+    register_number = models.CharField(max_length=10,validators=[alphanumeric],unique=True)
     register_date = models.DateField(auto_now_add=True)
     department = models.CharField(max_length=3, choices=DEPARTMENT_CHOICES)
 
@@ -79,7 +80,7 @@ class UndergraduateStudent(Profile):
 
 
 class Supervisor(Profile):
-    register_number = models.CharField(max_length=10, unique=True)
+    register_number = models.CharField(max_length=10,validators=[alphanumeric], unique=True)
     register_date = models.DateField(auto_now_add=True)
     department = models.CharField(max_length=3, choices=DEPARTMENT_CHOICES)
 
@@ -89,3 +90,4 @@ class Supervisor(Profile):
 
     def __str__(self):
         return str(self.register_number)
+

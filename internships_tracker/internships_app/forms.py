@@ -4,7 +4,7 @@ from django.forms.widgets import (
 )
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from phonenumber_field.formfields import PhoneNumberField
-from utils.validators import alphanumeric,alphabetic
+from utils.validators import alphabetic,alphanumeric
 from .models import *
 import datetime as date
 
@@ -28,7 +28,7 @@ class UndergraduateStudentForm(UserCreationForm):
         required=True,
         widget=forms.TextInput(attrs={"type": "date"}),
     )
-    register_number = forms.CharField(max_length=6, min_length=3, required=True)
+    register_number = forms.CharField(max_length=6, min_length=3,validators=[alphanumeric], required=True)
 
     class Meta:
         model = UndergraduateStudent
@@ -93,7 +93,7 @@ class StudentUpdateForm(UserChangeForm):
     postal_code = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(99999)], required=True
     )
-    register_number = forms.CharField(max_length=6, min_length=3, required=True)
+    register_number = forms.CharField(max_length=6, min_length=3,validators=[alphanumeric], required=True)
 
     class Meta:
         model = UndergraduateStudent
@@ -132,7 +132,7 @@ class SupervisorForm(UserCreationForm):
         required=True,
         widget=forms.TextInput(attrs={"type": "date"}),
     )
-    register_number = forms.CharField(max_length=6, min_length=3, required=True)
+    register_number = forms.CharField(max_length=6, min_length=3,validators=[alphanumeric], required=True)
 
     class Meta:
         model = Supervisor
@@ -181,7 +181,7 @@ class SupervisorUpdateForm(UserChangeForm):
     postal_code = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(99999)], required=True
     )
-    register_number = forms.CharField(max_length=6, min_length=3, required=True)
+    register_number = forms.CharField(max_length=6, min_length=3,validators=[alphanumeric], required=True)
 
     class Meta:
         model = Supervisor
