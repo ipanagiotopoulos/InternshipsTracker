@@ -11,22 +11,25 @@
     </svg>
     <span class="h2">Positions</span>
 </div>
-    <div class="container mt-4" >
+<div class="container-fluid border-border-dark mt-4" >
         {% if tps %}
         {% for tp in tps %}
             <div class="card mb-5">
-                <div class="card-body bg-light">
+                <div class="header">
+                </div>
+                <div class="card-body bg-white">
                     <h4>{{tp.title}} for {{tp.carrier.official_name}}</h4>
                     <hr>
                     <b><h4>Description:</h4></b>
                     <p class="pt-2">{{tp.description}} </p>
                 </div>
-                </div>
+              <div class="card-footer">
+              </div>
             </div>
         {% endfor %}
     {% else %}
         <p>No Job postings found</p>
         <a href="/" class="btn btn-info mb-2 ">Go back</a>
     {% endif %}
-    </div>
+</div>
 {% endblock content %}

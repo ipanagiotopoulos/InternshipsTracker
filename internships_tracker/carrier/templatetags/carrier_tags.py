@@ -21,6 +21,16 @@ def is_active(user):
         return True
     return False
 
+@register.simple_tag
+def has_job_postings(user):
+    cn = CarrierNode.objects.get(id=user.id)
+    print("here is the carrier node:",cn)
+    trainee_positions = TraineePosition.objects.filter(carrier = cn.carrier).first()
+    print("here is the first trainee position", trainee_positions)
+    if trainee_positions.exists():
+        return True
+    else:
+        return False
 
 @register.simple_tag
 def is_application_approval_active(user):

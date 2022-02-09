@@ -48,7 +48,6 @@ class TraineePosition(models.Model):
         CarrierAssignmentPeriod, on_delete=models.CASCADE
     )
     description = models.TextField(max_length=1500)
-
     def __str__(self):
         return self.title + ":" + self.carrier.official_name
 
@@ -59,7 +58,7 @@ class Assignment(models.Model):
     trainee_position = models.ForeignKey(TraineePosition, on_delete=models.CASCADE)
     supervisor = models.ForeignKey(Supervisor, on_delete=models.CASCADE)
     assignment_period = models.ForeignKey(AssignmentPeriod, on_delete=models.CASCADE)
-    finalized = models.CharField(max_length=1, choices=APPLICATION_STATUS, default="P")
+    assignment_status = models.CharField(max_length=1, choices=APPLICATION_STATUS, default="P")
 
     def __str__(self):
         return self.trainee_position.title
