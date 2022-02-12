@@ -30,7 +30,7 @@ Steps:
  
  4.http://localhost:8000/ will redirect you to the intial page of internships internshipsystem_web service
 
- 5.You are ready to go with http://localhost:8001/admin, and create all the users you need.
+ 5.You are ready to go with http://localhost:8000/admin, and create all the users you need.
 
  6.You can make live changes to the code , and wwsgi server in internships_web container reloads everytime when there is no runtime error.
 
