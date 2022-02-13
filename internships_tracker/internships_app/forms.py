@@ -206,8 +206,8 @@ class CarrierNodeForm(UserCreationForm):
     last_name = forms.CharField(max_length=100, validators=[alphabetic])
     email = forms.EmailField(max_length=100, help_text="Required", required=True)
     mobile_phone = PhoneNumberField()
-    home_phone = PhoneNumberField()
     country = forms.CharField(max_length=30,validators=[alphabetic],required=True)
+    home_phone = PhoneNumberField()
     city = forms.CharField(max_length=40,validators=[alphabetic],required=True)
     street_name = forms.CharField(max_length=100,validators=[alphabetic], required=True)
     street_number = forms.IntegerField(
