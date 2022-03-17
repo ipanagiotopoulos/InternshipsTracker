@@ -1,11 +1,8 @@
 from django.contrib import admin
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
-
 from .models import *
 
-# Register your models here.
-# admin.site.unregister(User)
 class SupervisorAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
         (
@@ -69,6 +66,7 @@ class SecretarianAdmin(UserAdmin):
             {
                 "fields": (
                     "title",
+                    "uni_department",
                     "father_name",
                     "mother_name",
                     "birth_day",
@@ -76,7 +74,7 @@ class SecretarianAdmin(UserAdmin):
                     "mobile_phone",
                     "home_phone",
                     "department",
-                    "alias_identifier"
+                    "alias_identifier",
                 )
             },
         ),
@@ -88,6 +86,7 @@ class UndergraduateStudentAdmin(UserAdmin):
             {
                 "fields": (
                     "title",
+                    "uni_department",
                     "father_name",
                     "mother_name",
                     "birth_day",
@@ -106,6 +105,7 @@ class UndergraduateStudentAdmin(UserAdmin):
             {
                 "fields": (
                     "title",
+                    "uni_department",
                     "father_name",
                     "mother_name",
                     "birth_day",
@@ -159,7 +159,8 @@ class CarrierNodeAdmin(UserAdmin):
     )
 
 
-admin.site.unregister(User)
+admin.site.register(Token)
+admin.site.register(User)
 admin.site.register(Supervisor, SupervisorAdmin)
 admin.site.register(CarrierNode, CarrierNodeAdmin)
 admin.site.register(UndergraduateStudent, UndergraduateStudentAdmin)

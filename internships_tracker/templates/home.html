@@ -3,11 +3,16 @@
 
 {% block title %}Home{% endblock %}
  {% load bootstrap_icons %}
+ {% load internships_app_tags %}
  {% block content %}
  
   {% if user.is_authenticated %}
     Hi {{ user.username }}!
-   <p><a href="{% url 'logout' %}">Log Out</a></p>
+    {% if is_student == True %}
+      <p><a href="{% url 'logout' %}">Log Out as student</a></p>
+    {% else %}
+      <p><a href="{% url 'logout' %}">Log Out as something else</a></p>
+    {% endif %}
  {% else %}
  
   <div class="container text-center bg-white">

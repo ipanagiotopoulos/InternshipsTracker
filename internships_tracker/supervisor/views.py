@@ -15,7 +15,7 @@ class AsssignmentListView(ListView):
     def get_queryset(self):
         supervisor = Supervisor.objects.get(id=self.request.user.id)
         return Assignment.objects.filter(
-            supervisor=supervisor,finalized="A"
+            supervisor=supervisor,assignment_status="A"
         )
 
 class AsssignmentDetailView(UserPassesTestMixin,DetailView):
@@ -51,7 +51,7 @@ class SupervisorAssesmentCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.assignement_upon = Assignment.objects.get(id=self.kwargs.get('pk'))
-        form.instance.supervisor=Supervisor.objects.get(id=self.request.user.id)
+        form.instance.supervisor=Supervisor.objects.get(user_ptr_id=self.request.user.id)
 
         return super().form_valid(form)
 

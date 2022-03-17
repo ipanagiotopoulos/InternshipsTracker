@@ -9,10 +9,10 @@ from .models import *
 import datetime as date
 
 
-class UndergraduateStudentForm(UserCreationForm):
-    first_name = forms.CharField(max_length=100,validators=[alphabetic],required=True)
-    last_name = forms.CharField(max_length=100,validators=[alphabetic],required=True)
-    email = forms.EmailField(max_length=100,help_text="Required", required=True)
+class UndergraduateStudentForm(forms.ModelForm):
+    email = forms.EmailField(max_length=100,required=True,widget=TextInput(attrs={"readonly": "readonly"}))
+    register_number = forms.IntegerField(widget=TextInput(attrs={"readonly": "readonly"}))
+    uni_department = forms.CharField(max_length=100, min_length=3,required=True, widget=TextInput(attrs={"readonly": "readonly"}))
     country = forms.CharField(max_length=30,validators=[alphabetic], required=True)
     city = forms.CharField(max_length=40,validators=[alphabetic], required=True)
     street_name = forms.CharField(max_length=100,validators=[alphabetic], required=True)
@@ -28,30 +28,23 @@ class UndergraduateStudentForm(UserCreationForm):
         required=True,
         widget=forms.TextInput(attrs={"type": "date"}),
     )
-    register_number = forms.CharField(max_length=6, min_length=3,validators=[alphanumeric], required=True)
 
     class Meta:
         model = UndergraduateStudent
         fields = (
-            "username",
             "email",
-            "first_name",
-            "last_name",
-            "password1",
-            "password2",
-            "title",
+            "register_number",
+            "uni_department",
             "father_name",
             "mother_name",
             "birth_day",
             "mobile_phone",
             "home_phone",
-            "department",
             "country",
             "city",
             "street_name",
             "street_number",
             "postal_code",
-            "register_number",
         )
         widgets = {
             "first_name": forms.TextInput(
@@ -80,10 +73,8 @@ class StudentUpdateForm(UserChangeForm):
     last_name = forms.CharField(
         max_length=30, required=True, widget=TextInput(attrs={"readonly": "readonly"})
     )
-    username = forms.CharField(
-        max_length=30, required=True, widget=TextInput(attrs={"readonly": "readonly"})
-    )
-    email = forms.EmailField(max_length=100, help_text="Required", required=True)
+    email = forms.EmailField(max_length=100,required=True,widget=TextInput(attrs={"readonly": "readonly"}))
+    register_number = forms.CharField(max_length=6, min_length=3,validators=[alphanumeric], required=True, widget=TextInput(attrs={"readonly": "readonly"}))
     country = forms.CharField(max_length=30,validators=[alphabetic], required=True)
     city = forms.CharField(max_length=40,validators=[alphabetic], required=True)
     street_name = forms.CharField(max_length=100,validators=[alphabetic],required=True)
@@ -93,15 +84,14 @@ class StudentUpdateForm(UserChangeForm):
     postal_code = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(99999)], required=True
     )
-    register_number = forms.CharField(max_length=6, min_length=3,validators=[alphanumeric], required=True)
 
     class Meta:
         model = UndergraduateStudent
         fields = (
             "first_name",
             "last_name",
-            "username",
             "email",
+            "register_number",
             "mobile_phone",
             "home_phone",
             "country",
@@ -109,17 +99,14 @@ class StudentUpdateForm(UserChangeForm):
             "street_name",
             "street_number",
             "postal_code",
-            "register_number",
         )
 
 
-class SupervisorForm(UserCreationForm):
-    first_name = forms.CharField(max_length=100, validators=[alphabetic])
-    last_name = forms.CharField(max_length=100, validators=[alphabetic])
-    email = forms.EmailField(max_length=100, help_text="Required", required=True)
+class SupervisorForm(forms.ModelForm):
     country = forms.CharField(max_length=30,validators=[alphabetic], required=True)
     city = forms.CharField(max_length=40,validators=[alphabetic], required=True)
     street_name = forms.CharField(max_length=100,validators=[alphabetic], required=True)
+    uni_department = forms.CharField(max_length=100, min_length=3,required=True, widget=TextInput(attrs={"readonly": "readonly"}))
     street_number = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(9999)], required=True
     )
@@ -132,24 +119,15 @@ class SupervisorForm(UserCreationForm):
         required=True,
         widget=forms.TextInput(attrs={"type": "date"}),
     )
-    register_number = forms.CharField(max_length=6, min_length=3,validators=[alphanumeric], required=True)
-
     class Meta:
         model = Supervisor
         fields = (
-            "username",
-            "email",
-            "first_name",
-            "last_name",
-            "password1",
-            "password2",
-            "title",
+            "uni_department",
             "father_name",
             "mother_name",
             "birth_day",
             "mobile_phone",
             "home_phone",
-            "department",
             "country",
             "city",
             "street_name",
@@ -171,6 +149,7 @@ class SupervisorUpdateForm(UserChangeForm):
     username = forms.CharField(
         max_length=30, required=True, widget=TextInput(attrs={"readonly": "readonly"})
     )
+    register_number = forms.IntegerField(widget=TextInput(attrs={"readonly": "readonly"}))
     email = forms.EmailField(max_length=100, help_text="Required", required=True)
     country = forms.CharField(max_length=30,validators=[alphabetic], required=True)
     city = forms.CharField(max_length=40,validators=[alphabetic], required=True)
@@ -181,14 +160,13 @@ class SupervisorUpdateForm(UserChangeForm):
     postal_code = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(99999)], required=True
     )
-    register_number = forms.CharField(max_length=6, min_length=3,validators=[alphanumeric], required=True)
+
 
     class Meta:
         model = Supervisor
         fields = (
             "first_name",
             "last_name",
-            "username",
             "email",
             "mobile_phone",
             "home_phone",
@@ -205,6 +183,7 @@ class CarrierNodeForm(UserCreationForm):
     first_name = forms.CharField(max_length=100, validators=[alphabetic])
     last_name = forms.CharField(max_length=100, validators=[alphabetic])
     email = forms.EmailField(max_length=100, help_text="Required", required=True)
+    uni_department = forms.CharField(max_length=100, min_length=3,required=True, widget=TextInput(attrs={"readonly": "readonly"}))
     mobile_phone = PhoneNumberField()
     country = forms.CharField(max_length=30,validators=[alphabetic],required=True)
     home_phone = PhoneNumberField()
@@ -223,13 +202,12 @@ class CarrierNodeForm(UserCreationForm):
     class Meta:
         model = CarrierNode
         fields = (
-            "username",
+            "uni_department",
             "email",
             "first_name",
             "last_name",
             "password1",
             "password2",
-            "title",
             "father_name",
             "mother_name",
             "birth_day",

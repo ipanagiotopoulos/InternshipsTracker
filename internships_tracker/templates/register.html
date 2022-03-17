@@ -9,21 +9,26 @@
 <div class="card">
   <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a class="nav-link text-info {% if type == 'undergraduate student' %} active {% endif %}" href="{% url 'thesis_app:user_register' type='undergraduate_student' %}">Register as Student</a>
+      <a class="nav-link text-info {% if type == 'undergraduate student' %} active {% endif %}" href="{% url 'internships_app:user_register' type='undergraduate_student' %}">Register as Student</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link text-info {% if type == 'supervisor' %} active {% endif %}" href="{% url 'thesis_app:user_register' type='supervisor' %}">Register as Supervisor</a>
+      <a class="nav-link text-info {% if type == 'supervisor' %} active {% endif %}" href="{% url 'internships_app:user_register' type='supervisor' %}">Register as Supervisor</a>
     </li>
     <li class="nav-item">
-      <a class=" nav-link text-info {% if type == 'carrier node' %} active {% endif %}" href="{% url 'thesis_app:user_register' type='carrier_node' %}">Register as Carrier Node</a>
+      <a class=" nav-link text-info {% if type == 'carrier node' %} active {% endif %}" href="{% url 'internships_app:user_register' type='carrier_node' %}">Register as Carrier Node</a>
     </li>
   </ul>
     <div class="card-body">
-        <h5 class="pb-4"> {{ type|capfirst }} form </h5>
+        <h4 class="pb-4"> {{ type|capfirst }} form </h4>
+        <br>
+        <h5>Welcome {{user.first_name}}   {{user.last_name}} </h5>
+        <br>
+        <h5>Your department is  {{user.uni_department}}</h5>
+        <br>
         <form method="POST" class="form-group">
             {% csrf_token %}
             {{ form|crispy }}
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-info">Register</button>
         </form>
     </div>
   </div>

@@ -11,9 +11,9 @@
         <div class="card-body ">
             <p>Preference 1: {{preference.trainee_position_1}}</p>
             {% if preference.trainee_position_2%} <p>Preference 2: {{preference.trainee_position_2}}</p>{% endif %}
-            {% if preference.trainee_position_3%} <p>Preference 2: {{preference.trainee_position_3}}</p>{% endif %}
-            {% if preference.trainee_position_4%} <p>Preference 2: {{preference.trainee_position_4}}</p>{% endif %}
-            {% if preference.trainee_position_5%} <p>Preference 2: {{preference.trainee_position_5}}</p>{% endif %}
+            {% if preference.trainee_position_3%} <p>Preference 3: {{preference.trainee_position_3}}</p>{% endif %}
+            {% if preference.trainee_position_4%} <p>Preference 4: {{preference.trainee_position_4}}</p>{% endif %}
+            {% if preference.trainee_position_5%} <p>Preference 5: {{preference.trainee_position_5}}</p>{% endif %}
         </div>
         <div class="card-footer">
             <a href="{% url 'applicant:student_preference_update'  %}" class="btn btn-info">Update</a>

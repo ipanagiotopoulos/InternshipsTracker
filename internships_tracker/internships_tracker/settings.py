@@ -11,10 +11,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-
+from django_auth_ldap.config import LDAPSearch
 # from django.utils.translation import get_language
 import os
+import ldap 
 import environ
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -54,6 +56,7 @@ INSTALLED_APPS = [
     "django_bootstrap_icons",
 ]
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -84,11 +87,9 @@ TEMPLATES = [
     },
 ]
 
-LOGIN_REDIRECT_URL = "home"  # equals '/'
+LOGIN_REDIRECT_URL = "internships_app:redirect_base"  # equals '/'
 LOGOUT_REDIRECT_URL = "home"  # equals '/'
 WSGI_APPLICATION = "internships_tracker.wsgi.application"
-
-# AUTH_USER_MODEL = "internships_app.Profile"
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -140,6 +141,71 @@ USE_L10N = True
 
 USE_TZ = True
 
+#auth django
+AUTH_USER_MODEL = 'internships_app.User'
+AUTHENTICATION_BACKENDS = [
+    "internships_app.backends.EmailBackend", "django_auth_ldap.backend.LDAPBackend"]
+AUTH_LDAP_SERVER_URI = env('AUTH_LDAP_SERVER_URI')
+AUTH_LDAP_BIND_DN = env('AUTH_LDAP_BIND_DN')
+AUTH_LDAP_BIND_PASSWORD = env('AUTH_LDAP_BIND_PASSWORD')
+AUTH_LDAP_START_TLS = env('AUTH_LDAP_START_TLS') == 'True'
+AUTH_LDAP_BASE_DN = env('AUTH_LDAP_BASE_DN')
+AUTH_LDAP_USER_SEARCH_ATTR = env('AUTH_LDAP_USER_SEARCH_ATTR')
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+    AUTH_LDAP_BASE_DN,
+    ldap.SCOPE_SUBTREE,
+    "(" + AUTH_LDAP_USER_SEARCH_ATTR + "=%(user)s)"
+)
+AUTH_LDAP_SN = env('AUTH_LDAP_SN')
+AUTH_LDAP_EMAIL = env('AUTH_LDAP_EMAIL')
+AUTH_LDAP_TITLE = env('AUTH_LDAP_TITLE')
+AUTH_LDAP_DEPARTMENT = env('AUTH_LDAP_DEPARTMENT')
+AUTH_LDAP_GIVEN_NAME = env('AUTH_LDAP_GIVEN_NAME')
+AUTH_LDAP_USER_ATTR_MAP = {
+    "first_name": AUTH_LDAP_GIVEN_NAME,
+    "last_name": AUTH_LDAP_SN,
+    "email": AUTH_LDAP_EMAIL,
+    'uni_department': AUTH_LDAP_DEPARTMENT,
+    'title': AUTH_LDAP_TITLE
+}
+# AUTH_LDAP_USER_FLAGS_BY_GROUP = {
+#     "is_active": "cn=active,ou=django,ou=people,dc=hua,dc=gr",
+#     "is_staff": "cn=staff,ou=django,ou=people,dc=hua,dc=gr",
+#     "is_superuser": "cn=superuser,ou=people,ou=groups,dc=hua,dc=gr",
+# }
+AUTH_LDAP_INTERNAL_DOMAIN = env('AUTH_LDAP_INTERNAL_DOMAIN')
+
+#logging in internships app
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{asctime} {levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': '/var/log/django_app.log',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'django_auth_ldap': {
+            'level': 'DEBUG',
+            'handlers': ['file', 'console']
+        },
+        'huaskel': {
+            'level': 'DEBUG',
+            'handlers': ['file', 'console'],
+        }
+    }
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

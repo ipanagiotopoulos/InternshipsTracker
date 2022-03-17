@@ -81,9 +81,9 @@ class AssignmentPeriodAdmin(admin.ModelAdmin):
 
 admin.site.register(AssignmentPeriod, AssignmentPeriodAdmin)
 
-class  IntershipReportPeriodForm(forms.ModelForm):
+class  InternshipReportPeriodForm(forms.ModelForm):
     class Meta:
-        model = IntershipReportPeriod
+        model = InternshipReportPeriod
         fields='__all__'
 
     def clean(self):
@@ -102,8 +102,8 @@ class  IntershipReportPeriodForm(forms.ModelForm):
             raise forms.ValidationError("Assignment Period doesnt exist")
         return self.cleaned_data
 
-class IntershipReportPeriodAdmin(admin.ModelAdmin):
-        form = IntershipReportPeriodForm
+class InternshipReportPeriodAdmin(admin.ModelAdmin):
+        form = InternshipReportPeriodForm
 
 
-admin.site.register(IntershipReportPeriod, IntershipReportPeriodAdmin)
+admin.site.register(InternshipReportPeriod, InternshipReportPeriodAdmin)

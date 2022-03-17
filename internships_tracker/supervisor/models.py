@@ -16,4 +16,4 @@ class SupervisorAssesment(models.Model):
     )
 
     def __str__(self):
-        return self.trainee_position
+        return self.assignement_upon.trainee_position.title

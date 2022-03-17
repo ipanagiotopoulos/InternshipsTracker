@@ -2,10 +2,11 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.mixins import UserPassesTestMixin
+from datetime import date
 from .mixins import ApplicationPeriodRequiredMixin,InternshipReportPeriodRequiredMixin
 from carrier.models import CarrierConsent,Assignment
 from internships_app.models import UndergraduateStudent
-from carrier.models import TraineePosition,Assignment,IntershipReportPeriod
+from carrier.models import TraineePosition,Assignment,InternshipReportPeriod, CarrierAssignmentPeriod
 from .forms import PreferenceForm
 from .models import Preference,InternshipReport
 
@@ -24,7 +25,7 @@ class CreatePreferenceView(ApplicationPeriodRequiredMixin, CreateView):
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
-        student = UndergraduateStudent.objects.get(user=self.request.user)
+        student = UndergraduateStudent.objects.get(user_ptr_id=self.request.user.id)
         for i in range(1, 5):
             form.fields[
                 "trainee_position_" + str(i)
@@ -34,7 +35,7 @@ class CreatePreferenceView(ApplicationPeriodRequiredMixin, CreateView):
         return form
 
     def form_valid(self, form):
-        student = UndergraduateStudent.objects.get(pk=self.request.user.id)
+        student = UndergraduateStudent.objects.get(user_ptr_id=self.request.user.id)
         form.instance.applicant = student
         return super().form_valid(form)
 
@@ -48,7 +49,7 @@ class PreferenceUpdateView(ApplicationPeriodRequiredMixin, UpdateView):
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
-        student = UndergraduateStudent.objects.get(user=self.request.user)
+        student = UndergraduateStudent.objects.get(user_ptr_id=self.request.user.id)
         for i in range(1, 5):
             form.fields[
                 "trainee_position_" + str(i)
@@ -58,7 +59,7 @@ class PreferenceUpdateView(ApplicationPeriodRequiredMixin, UpdateView):
         return form
 
     def get_object(self):
-        student = UndergraduateStudent.objects.get(user=self.request.user)
+        student = UndergraduateStudent.objects.get(user_ptr_id=self.request.user.id)
         return Preference.objects.get(applicant=student)
 
 
@@ -68,7 +69,7 @@ class PreferenceDetailView(DetailView):
     template_name = "preference_detail.html"
 
     def get_object(self):
-        student = UndergraduateStudent.objects.get(user=self.request.user)
+        student = UndergraduateStudent.objects.get(user_ptr_id=self.request.user.id)
         preference = Preference.objects.filter(applicant=student)
         if preference.exists():
             return preference.first()
@@ -82,7 +83,10 @@ class TraineePositionStudentListView(ListView):
 
     def get_queryset(self):
         student = UndergraduateStudent.objects.get(id=self.request.user.id)
-        return TraineePosition.objects.filter(carrier_assignment__department=student.department)
+        student_dep_carrier_assignment_period = CarrierAssignmentPeriod.objects.filter(department=student.department).first()
+        if( student_dep_carrier_assignment_period and student_dep_carrier_assignment_period.from_date <= date.today() <= student_dep_carrier_assignment_period.to_date):
+
+            return TraineePosition.objects.filter(carrier_assignment__department=student.department)
 
 class MyCarrierConsentDetailView(DetailView):
     model = CarrierConsent
@@ -91,7 +95,7 @@ class MyCarrierConsentDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        student = UndergraduateStudent.objects.get(id=self.request.user.id)
+        student = UndergraduateStudent.objects.get(user_ptr_id=self.request.user.id)
         report= InternshipReport.objects.filter(assignment__trainee=student)
         if report.exists():
             context["report"]=report.first()
@@ -99,7 +103,7 @@ class MyCarrierConsentDetailView(DetailView):
         return context
 
     def get_object(self):
-        student = UndergraduateStudent.objects.get(user=self.request.user)
+        student = UndergraduateStudent.objects.get(user_ptr_id=self.request.user.id)
         carrier_consent=CarrierConsent.objects.filter(assignement_upon__trainee=student,consent=True)
         if carrier_consent.exists():
             return carrier_consent.first()
@@ -117,9 +121,9 @@ class InternshipReportCreateView(InternshipReportPeriodRequiredMixin, CreateView
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        student = UndergraduateStudent.objects.get(id=self.request.user.id)
+        student = UndergraduateStudent.objects.get(user_ptr_id=self.request.user.id)
         context["assignment"] = Assignment.objects.get(pk=self.kwargs.get('pk'))
-        context["report_period"] = IntershipReportPeriod.objects.filter(department=student.department)
+        context["report_period"] = InternshipReportPeriod.objects.filter(department=student.department)
         return context
 
     def get_success_url(self):
@@ -131,7 +135,7 @@ class InternshipReportUpdateView(UserPassesTestMixin, InternshipReportPeriodRequ
     template_name = "report_update.html"
 
     def test_func(self):
-        student = UndergraduateStudent.objects.get(id=self.request.user.id)
+        student = UndergraduateStudent.objects.get(user_ptr_id=self.request.user.id)
         if self.get_object().assignment.trainee==student:
             return True
         return False
@@ -142,9 +146,9 @@ class InternshipReportUpdateView(UserPassesTestMixin, InternshipReportPeriodRequ
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        student = UndergraduateStudent.objects.get(id=self.request.user.id)
+        student = UndergraduateStudent.objects.get(user_ptr_id=self.request.user.id)
         context["assignment"] = Assignment.objects.get(pk=self.kwargs.get('pk'))
-        context["report_period"] = IntershipReportPeriod.objects.filter(department=student.department)
+        context["report_period"] = InternshipReportPeriod.objects.filter(department=student.department)
         return context
 
     def get_object(self):

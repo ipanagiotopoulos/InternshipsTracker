@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-app_name = "thesis_app"
+app_name = "internships_app"
 
 urlpatterns = [
     path(
@@ -44,6 +44,7 @@ urlpatterns = [
         views.SupervisorDetailView.as_view(),
         name="student_detail",
     ),
+    path("redirect",views.redirect_based_on_user, name="redirect_base"),
     path(
         "student/edit/",
         views.UnderGraduateStudentUpdateView.as_view(),
