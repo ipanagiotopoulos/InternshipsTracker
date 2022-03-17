@@ -33,7 +33,7 @@ class AssignmentPeriod(models.Model):
     def __str__(self):
         return self.department
 
-class IntershipReportPeriod(models.Model):
+class InternshipReportPeriod(models.Model):
     department = models.CharField(unique=True, max_length=3, choices=DEPARTMENT_CHOICES)
     from_date = models.DateField()
     to_date = models.DateField()
@@ -43,13 +43,14 @@ class IntershipReportPeriod(models.Model):
 
 class TraineePosition(models.Model):
     title = models.CharField(max_length=200)
+    no_id = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(10)])
     carrier = models.ForeignKey(Carrier, on_delete=models.CASCADE)
     carrier_assignment = models.ForeignKey(
         CarrierAssignmentPeriod, on_delete=models.CASCADE
     )
     description = models.TextField(max_length=1500)
     def __str__(self):
-        return self.title + ":" + self.carrier.official_name
+        return self.title + ":"+str(no_id)+":"+ self.carrier.official_name
 
 
 class Assignment(models.Model):
@@ -83,4 +84,4 @@ class CarrierAssesement(models.Model):
     )
 
     def __str__(self):
-        return self.assignement_upon
+        return self.assignement_upon.trainee_position.title

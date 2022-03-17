@@ -1,12 +1,13 @@
 from django.db import models
 from django.db import models
-from django.contrib.auth.models import User
+from django.utils import timezone
+
+from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 from phonenumber_field.modelfields import PhoneNumberField
+
 from .enums import DEPARTMENT_CHOICES
 from utils.validators import alphanumeric,alphabetic
-
-
 class Address(models.Model):
     country = models.CharField(max_length=30,validators=[alphabetic])
     city = models.CharField(max_length=40,validators=[alphabetic])
@@ -44,20 +45,55 @@ class Carrier(models.Model):
     def __str__(self):
         return self.official_name
 
+   
 
-# we removed extends user
+class User(AbstractUser):
+    username = models.CharField('username', max_length=200, unique=True)
+    email = models.EmailField('email address', unique=True)
+    title = models.CharField('title',max_length=200)
+    uni_department = models.CharField('uni_department',max_length=200)
+   
+
+
+
 class Profile(User):
-    user = models.OneToOneField(User, parent_link=True, on_delete=models.CASCADE)
-    title = models.CharField(max_length=120)
     father_name = models.CharField(max_length=255,validators=[alphabetic])
     mother_name = models.CharField(max_length=255,validators=[alphabetic])
     birth_day = models.DateField()
     address = models.OneToOneField(Address, on_delete=models.CASCADE)
     mobile_phone = PhoneNumberField(null=False, blank=False, unique=True)
     home_phone = PhoneNumberField(null=False, blank=False, unique=True)
-
     class Meta:
         abstract = True
+
+class TokenManager(models.Manager):
+
+    # get all expired tokens
+    def get_expired(self):
+        return Token.objects.filter( expiration__lt = timezone.now() )
+
+    # delete all expired tokens
+    def delete_expired(self):
+        expired_tokens = self.get_expired()
+        for token in expired_tokens:
+            token.delete()
+class Token(models.Model):
+    """
+    model for token generators
+    """
+    token = models.CharField ( max_length = 200 )
+    expiration = models.DateTimeField('expiration date' )
+    externalMail = models.EmailField( max_length = 100 )
+    username = models.CharField( max_length = 100 )
+    type = models.CharField( max_length = 20, default = 'activation' )
+    objects = TokenManager()
+
+    def __str__(self):
+        return "token %s used for %s belonging to user %s expires at %s" %(self.token,
+                self.type, self.username, self.expiration)
+
+    def has_expired(self):
+        return self.expiration < timezone.now()
 
 
 class CarrierNode(Profile):
@@ -71,7 +107,6 @@ class CarrierNode(Profile):
 
 class UndergraduateStudent(Profile):
     register_number = models.CharField(max_length=10,validators=[alphanumeric],unique=True)
-    register_date = models.DateField(auto_now_add=True)
     department = models.CharField(max_length=3, choices=DEPARTMENT_CHOICES)
 
     class Meta:
@@ -81,7 +116,6 @@ class UndergraduateStudent(Profile):
 
 class Supervisor(Profile):
     register_number = models.CharField(max_length=10,validators=[alphanumeric], unique=True)
-    register_date = models.DateField(auto_now_add=True)
     department = models.CharField(max_length=3, choices=DEPARTMENT_CHOICES)
 
     class Meta:

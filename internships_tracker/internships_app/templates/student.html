@@ -9,18 +9,26 @@
         <h4>Student Profile</h4>
     </div>
     <div class="card-body ">
-        <p >Username: {{student.username}}</p>
-        <p>email: {{student.email}}</p>
-        <p>Title: {{student.title}}</p>
-        <p>Father name: {{student.father_name}}</p>
-        <p>Mother name: {{student.mother_name}}</p>
-        <p>BirthDay: {{student.birth_day}}</p>
-        <p>Mobile Phone: {{student.mobile_phone}}</p>
-        <p>Home Phone: {{student.home_phone}}</p>
-        <p>Department: {{student.department}}</p>
+        <h6>Username:  {{student.username}}</h6>
+        <br>
+        <h6>email:  {{student.email}}</h6>
+        <br>
+        <h6>Title:  {{student.title}}</h6>
+        <br>
+        <h6>Father name:  {{student.father_name}}</h6>
+        <br>
+        <h6>Mother name:   {{student.mother_name}}</h6>
+        <br>
+        <h6>BirthDay:  {{student.birth_day}}</h6>
+        <br>
+        <h6>Mobile phhone:  {{student.mobile_phone}}</h6>
+        <br>
+        <h6>Home Phone:  {{student.home_phone}}</h6>
+        <br>
+        <h6>Department:  {{student.department}}</h6>
     </div>
     <div class="card-footer">
-        <a href="{% url 'thesis_app:student_update'  %}" class="btn btn-info">Profile Update</a>
+        <a href="{% url 'internships_app:student_update'  %}" class="btn btn-info">Profile Update</a>
     </div>
 </div>
 {% endblock content %}

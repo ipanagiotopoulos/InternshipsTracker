@@ -190,7 +190,7 @@ class TraineePositionAutocomplete(StudentOrCarrierRequiredMixin,auto.Select2Quer
         tr3 = self.forwarded.get("trainee_position_3", None)
         tr4 = self.forwarded.get("trainee_position_4", None)
         tr5 = self.forwarded.get("trainee_position_5", None)
-        student = UndergraduateStudent.objects.get(user=self.request.user)
+        student = UndergraduateStudent.objects.get(user_ptr_id=self.request.user.id)
 
         qs = TraineePosition.objects.filter(
             carrier_assignment__department=student.department
