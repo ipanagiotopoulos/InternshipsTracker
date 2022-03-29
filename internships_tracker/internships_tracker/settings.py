@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "carrier",
     "supervisor",
     "applicant",
+    "secretary",
     "crispy_forms",
     "phonenumber_field",
     "dal",
@@ -70,6 +71,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "internships_tracker.urls"
+
 
 TEMPLATES = [
     {

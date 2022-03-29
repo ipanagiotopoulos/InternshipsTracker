@@ -43,9 +43,11 @@ class Preference(models.Model):
         null=True,
         on_delete=models.CASCADE,
     )
-
+    finalized = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
 class InternshipReport(models.Model):
     report_file = models.FileField()
     assignment = models.OneToOneField(Assignment, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     comments = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)

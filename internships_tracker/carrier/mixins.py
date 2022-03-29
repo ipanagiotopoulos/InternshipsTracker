@@ -6,11 +6,12 @@ from .models import *
 class CarrierAssignmentRequiredMixin:
 
     def dispatch(self, request, *args, **kwargs):
-        user=request.user
-        cn = CarrierNode.objects.get(id=user.id)
+        uni_department = self.request.GET.get('department',None)
+        print("uni dep",uni_department)
         cas = CarrierAssignmentPeriod.objects.filter(
-            department=cn.carrier.department
+            department=uni_department
         ).first()
+        print("here is the cas", cas)
         if cas and cas.from_date <= date.today() <= cas.to_date:
             return super().dispatch(request, *args, **kwargs)
         else:

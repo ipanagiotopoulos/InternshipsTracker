@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %} {% trans "Carrier" %} {% endblock title %}
+{% block content%}
+
+<div class="card">
+    <div class="card-header">
+        <h2>Preference: {{preference.applicant.first_name}} {{preference.applicant.last_name}} </h2>
+    </div>
+    <div class="card-body">
+        <p><b>Fisrt Name:</b> {{preference.applicant.first_name}} </p>
+        <p><b>Department:</b> {{preference.applicant.uni_department}} </p>
+        <p><b>Title:</b> {{preference.applicant.register_number}} </p>
+        <p><b>Phone Number:</b> {{preference.applicant.mobile_phone}} </p>
+        <p><b>Created:</b> {{preference.created}} </p>
+        {% if preference.finalized == False %}
+            <p><b>Activated:</b>NO</p>
+            <button class="btn btn-success"><a class="text-white" href="/secretary/carriers/registrations/{{req_user.id}}/activate">Activate</button>
+            <button class="btn btn-danger"><a class="text-white" href="/secretary/carriers/registrations/{{req_user.id}}/delete">Reject</button>
+        {% else %}
+            <p><b>Activated:</b>YES</p>
+        {% endif %}
+        <hr>
+        <h2>Choices</h2>
+        {% if preference.trainee_position_1 != None %}
+          <p><b>Choice 1 :</b> {{preference.trainee_position_1}} </p>
+        {% endif %}
+        {% if preference.trainee_position_2 != None %}
+          <p><b>Choice 2 :</b> {{preference.trainee_position_2}} </p>
+        {% endif %}
+        {% if preference.trainee_position_3 != None %}
+          <p><b>Choice 3 :</b> {{preference.trainee_position_3}} </p>
+        {% endif %}
+        {% if preference.trainee_position_4 != None %}
+          <p><b>Choice 4 :</b> {{preference.trainee_position_4}} </p>
+        {% endif %}
+        {% if preference.trainee_position_5 != None %}
+          <p><b>Choice 5 :</b> {{preference.trainee_position_5}} </p>
+        {% endif %}
+   </div>
+   <div class="card-footer bg-white">
+   </div>
+</div>
+{% endblock content %}

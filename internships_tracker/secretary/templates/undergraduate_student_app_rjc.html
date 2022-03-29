@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %} {% trans "Student" %} {% endblock title %}
+{% block content%}
+
+<div class="card">
+    <div class="card-header">
+        <h2>Student: {{student.last_name}} {{student.first_name}} </h2>
+    </div>
+    <div class="card-body">
+        <p><b>Fisrt Name:</b> {{req_user.first_name}} </p>
+        <p><b>Last Name:</b> {{req_user.last_name}} </p>
+        <p><b>Father Name:</b> {{student.father_name}} </p>
+        <p><b>Mother Name:</b> {{student.mother_name}} </p>
+        <p><b>Birth Date:</b> {{student.birth_day}} </p>
+        <p><b>Email:</b> {{req_user.email}} </p>
+        <p><b>Department:</b> {{req_user.uni_department}} </p>
+        <p><b>Title:</b> {{req_user.title}} </p>
+        <p><b>Register Number:</b> {{student.register_number}} </p>
+        <p><b>Phone Number:</b> {{student.mobile_phone}} </p>
+        <p><b>Registration Date:</b> {{req_user.date_joined}} </p>
+        {% if req_user.is_active == False %}
+           <p><b>Activated:</b>NO</p>
+          <button class="btn btn-success"><a class="text-white" href="/secretary/students/registrations/{{req_user.id}}/activate">Activate</button>
+          <button class="btn btn-danger"><a class="text-white" href="/secretary/students/registrations/{{req_user.id}}/delete">Reject</button>
+        {% else %}
+           <p><b>Activated:</b>YES</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

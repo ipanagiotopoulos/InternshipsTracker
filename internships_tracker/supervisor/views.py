@@ -13,7 +13,7 @@ class AsssignmentListView(ListView):
     context_object_name="assignments"
 
     def get_queryset(self):
-        supervisor = Supervisor.objects.get(id=self.request.user.id)
+        supervisor = Supervisor.objects.get(user_ptr_id=self.request.user.id)
         return Assignment.objects.filter(
             supervisor=supervisor,assignment_status="A"
         )
@@ -24,7 +24,7 @@ class AsssignmentDetailView(UserPassesTestMixin,DetailView):
     context_object_name="assignment"
 
     def test_func(self):
-        supervisor = Supervisor.objects.get(id=self.request.user.id)
+        supervisor = Supervisor.objects.get(user_ptr_id=self.request.user.id)
         if self.get_object().supervisor == supervisor:
             return True
         return False

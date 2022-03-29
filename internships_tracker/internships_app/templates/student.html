@@ -9,9 +9,12 @@
         <h4>Student Profile</h4>
     </div>
     <div class="card-body ">
+
         <h6>Username:  {{student.username}}</h6>
         <br>
-        <h6>email:  {{student.email}}</h6>
+        <h6>First Name:  {{student.first_name}}</h6>
+        <br>
+        <h6>Last Name:  {{student.last_name}}</h6>
         <br>
         <h6>Title:  {{student.title}}</h6>
         <br>
@@ -25,7 +28,9 @@
         <br>
         <h6>Home Phone:  {{student.home_phone}}</h6>
         <br>
-        <h6>Department:  {{student.department}}</h6>
+        <h6>Department:  {{student.uni_department}}</h6>
+        <br>
+        <h6>Address: {{student.address}}</h6>
     </div>
     <div class="card-footer">
         <a href="{% url 'internships_app:student_update'  %}" class="btn btn-info">Profile Update</a>

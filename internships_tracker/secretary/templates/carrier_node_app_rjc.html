@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %} {% trans "Carrier" %} {% endblock title %}
+{% block content%}
+
+<div class="card">
+    <div class="card-header">
+        <h2>Carrier Node: {{carrier_node.last_name}} {{carrier_node.first_name}} </h2>
+    </div>
+    <div class="card-body">
+        <p><b>Fisrt Name:</b> {{req_user.first_name}} </p>
+        <p><b>Last Name:</b> {{req_user.last_name}} </p>
+        <p><b>Father Name:</b> {{carrier_node.father_name}} </p>
+        <p><b>Mother Name:</b> {{carrier_node.mother_name}} </p>
+        <p><b>Birth Date:</b> {{carrier_node.birth_day}} </p>
+        <p><b>Email:</b> {{req_user.email}} </p>
+        <p><b>Department 1:</b> {{req_user.uni_department}} </p>
+        <p><b>Title:</b> {{req_user.title}} </p>
+        <p><b>Phone Number:</b> {{carrier_node.mobile_phone}} </p>
+        <p><b>Registration Date:</b> {{req_user.date_joined}} </p>
+        {% if req_user.is_active == False %}
+            <p><b>Activated:</b>NO</p>
+            <button class="btn btn-success"><a class="text-white" href="/secretary/carriers/registrations/{{req_user.id}}/activate">Activate</button>
+            <button class="btn btn-danger"><a class="text-white" href="/secretary/carriers/registrations/{{req_user.id}}/delete">Reject</button>
+        {% else %}
+            <p><b>Activated:</b>YES</p>
+        {% endif %}
+   </div>
+   <div class="card-footer bg-white">
+    <h4> Carrier Details </h4>
+    <p><b>Carrier official name:</b> {{carrier_node.carrier.official_name}} </p>
+    <p><b>Description:</b> {{carrier_node.carrier.description}} </p>
+    <p><b>Address:</b> {{carrier_node.carrier.full_address}} </p>
+    
+   </div>
+</div>
+{% endblock content %}

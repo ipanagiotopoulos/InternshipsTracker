@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %} {% trans "Student" %} {% endblock title %}
+{% block content%}
+
+
+    <h2>Trainee Position: {{trainee_position.carrier_assignment.department}} from {{trainee_position.carrier.official_name}} </h2>
+    <br>
+    <br>
+    <div class="card">
+        <div class="card-header">
+            <h2>Position: {{trainee_position.title}} </h2>
+        </div>
+        <div class="card-body">
+            <p><b>Position:</b> {{trainee_position.title}} </p>
+            <p><b>Created at:</b> {{trainee_position.created}} </p>
+            <p><b>Carrier:</b> {{trainee_position.carrier.official_name}} </p>
+            <p><b>Job ID:</b> {{trainee_position.job_code}}:{{trainee_position.no_id}} </p>
+            <hr>
+            <p><b>Description</b></p>
+            <p>{{trainee_position.description}}</p>
+        </div>
+    </div>
+
+{% endblock content %}

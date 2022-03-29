@@ -4,27 +4,25 @@
 {% load carrier_tags %}
 
 {% block title %} {% trans "Job Postings" %} {% endblock title %}
-
 {% block content %}
-<h4 class="mb-3">Job Postings</h4>
-{% comment %} {% has_job request.user as has_job_postings %} {% endcomment %}
-{% is_active request.user as is_active %}
-{% comment %} {% if has_job %} {% endcomment %}
-    {% if is_active %}
-      <a href="{% url 'carrier:traineeposition_create' %}" class="btn btn-success mt-3 mb-3">Create Job Posting</a>
-    {% endif %}
+
+<h3 class="mb-3"> {{ request.GET.department }} Job Postings</h3>
     <div class="container-fluid border-border-dark" >
     {% if tps %}
         {% for i in tps|slice:"0:1"%}
-           <h4 class="mt-4"> Carrier assignement starting date: {{i.carrier_assignment.department}}, ending date: {{i.carrier_assignment.from_date}} to  {{i.carrier_assignment.to_date}} </h4>
+           <h5 class="mt-4"> Carrier Assignment period for University Department : {{i.carrier_assignment.department}} <br> <br> <hr> Starting date: {{i.carrier_assignment.from_date}} <br> <br> <hr> Ending date:  {{i.carrier_assignment.to_date}} </h5>
         {% endfor %}
+        <br>
+        <br>
+        {% if assignment_period  %}
+           <a href="{% url 'carrier:traineeposition_create'%}?department={{ request.GET.department }}" class="btn btn-success mb-2 ">Add Job position</a>
+        {% endif %}
         </br>
         </br>
         {% for tp in tps %}
             <div class="card mb-5">
                 <div class="card-header bg-white text-dark">
                     <h4>{{tp.title}}</h4>
-                    <h6>Carrier:{{tp.carrier_assignment.carrier.official_name}}</h6>
                 </div>
                 <div class="card-body">
                    <div class="card mb-5">
@@ -34,6 +32,9 @@
                     <div class="card-body">
                       <p class="pt-2">{{tp.description}} </p>
                     </div>
+                    <div class="card-body border">
+                      <h6 class="pt-2"> Νubmer ID:{{tp.no_id}} </h6>
+                    </div>
                     <div class="card-footer bg-white">
                       <p> Carrier Assingment Period </p>
                       <p>Start date: {{tp.carrier_assignment.from_date}}</p>
@@ -42,24 +43,24 @@
                 </div>
                 </div>
                 <div class="card-footer">
-                    {% if is_active %}
-                      <a href="/carrier/traineepositions/{{tp.pk}}/update" class="btn btn-info mb-2 btn-block">Edit </a>
+                    {% if assignment_period %}
+                      <a href="/carrier/traineepositions/{{tp.pk}}/update?department={{ request.GET.department }}" class="btn btn-info mb-2 btn-block">Edit </a>
+                      <a href="/carrier/traineepositions/{{tp.pk}}/delete?department={{ request.GET.department }}" class="btn btn-danger btn-block" >Delete </a>
                     {% endif %}
-                    {% if is_active %}
-                      <form  action="/carrier/traineepositions/{{tp.pk}}/delete" method="GET" >
-                      <button type="submit" class="btn btn-danger btn-block" > Delete </button>
-                    {% endif %}
-                   </form>
-                </div>
+               </div>
             </div>
         {% endfor %}
     {% else %}
-        <p>No Job postings found</p>
+       {% if assignment_period %}
+            <h5>No Job postings found</h5>
+            <h5>Do you want to create a new job posting?</h5>
+            <br>
+        <a href="{% url 'carrier:traineeposition_create'%}?department={{ request.GET.department }}" class="btn btn-success mb-2 ">Create Job position</a>
+        {% else %}  
+            <h4>Carrier assignment period not found</h4>
+            <br>
+        {% endif %}
         <a href="/" class="btn btn-info mb-2 ">Go back</a>
     {% endif %}
     </div>
-{% comment %} {% else %}
-    <p>No available carrier assignment period! </p>
-    <a href="/" class="btn btn-info mb-2 ">Go back</a>
-{% endif %} {% endcomment %}
 {% endblock content %}

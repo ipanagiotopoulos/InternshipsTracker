@@ -48,6 +48,13 @@ urlpatterns = [
             "supervisor.urls",
         ),
     ),
+    path(
+        "secretary/",
+        decorator_include(
+            [login_required,decorators.group_required('secretarian')],
+            "secretary.urls",
+        ),
+    ),
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
 ]
 if settings.DEBUG==True:

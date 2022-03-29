@@ -6,7 +6,7 @@ from datetime import date
 from .mixins import ApplicationPeriodRequiredMixin,InternshipReportPeriodRequiredMixin
 from carrier.models import CarrierConsent,Assignment
 from internships_app.models import UndergraduateStudent
-from carrier.models import TraineePosition,Assignment,InternshipReportPeriod, CarrierAssignmentPeriod
+from carrier.models import TraineePosition,Assignment,InternshipReportPeriod, ApplicationPeriod
 from .forms import PreferenceForm
 from .models import Preference,InternshipReport
 
@@ -82,11 +82,10 @@ class TraineePositionStudentListView(ListView):
     template_name = "student_trainee_positions.html"
 
     def get_queryset(self):
-        student = UndergraduateStudent.objects.get(id=self.request.user.id)
-        student_dep_carrier_assignment_period = CarrierAssignmentPeriod.objects.filter(department=student.department).first()
-        if( student_dep_carrier_assignment_period and student_dep_carrier_assignment_period.from_date <= date.today() <= student_dep_carrier_assignment_period.to_date):
-
-            return TraineePosition.objects.filter(carrier_assignment__department=student.department)
+        student = UndergraduateStudent.objects.get(user_ptr_id=self.request.user.id)
+        student_dep_application_period = ApplicationPeriod.objects.filter(department=student.department).first()
+        if( student_dep_application_period and student_dep_application_period.from_date <= date.today() <= student_dep_application_period.to_date):
+            return TraineePosition.objects.filter(carrier_assignment__department=student.department,finalized=True)
 
 class MyCarrierConsentDetailView(DetailView):
     model = CarrierConsent

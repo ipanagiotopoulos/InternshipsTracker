@@ -4,7 +4,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 from django.db.models import Q
+from django.http import Http404
 from dal import autocomplete as auto
+from datetime import date
 from .forms import *
 from .models import *
 from internships_app.models import CarrierNode
@@ -16,33 +18,67 @@ from applicant.models import InternshipReport
 def carrier_assignment_not_found(request):
     return render(request, 'carrier_assignment_not_found.html')
 
+
+deps = ['IT','ESD','HS','G']
 class TraineePositionListView(CarrierRequiredMixin,ListView):
     model = TraineePosition
     template_name = "trainee_positions.html"
     context_object_name = "tps"
-
-    def get_queryset(self):
-        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
-        return TraineePosition.objects.filter(
-            carrier_assignment__department=carrier_node.carrier.department
+    
+    def get_context_data(self, **kwargs):
+        department_request = self.request.GET.get("department")
+        if  department_request not in deps:
+             raise Http404
+        tps = TraineePosition.objects.filter(
+            carrier_assignment__department=department_request
         )
+        context = super().get_context_data(**kwargs)
+        carrier_assignment_period = CarrierAssignmentPeriod.objects.filter(department = department_request).first()
+        if (carrier_assignment_period != None) and (carrier_assignment_period.from_date < date.today() < carrier_assignment_period.to_date ):
+            context={
+                'assignment_period': True,
+                'tps':tps
+            }
+        else:
+            context={
+                'assignment_period': False,
+                'tps':tps
+            }
+        return context
 
-
+    def render_to_response(self, context):
+        department_request = self.request.GET.get("department")
+        carrier_assignement_check = CarrierAssignmentPeriod.objects.filter(department=department_request).first() != None
+        if carrier_assignement_check == False:
+            return redirect('carrier:carrier_assignment_not_found')
+        return super().render_to_response(context)
+        
 class TraineePositionCreateView(CarrierAssignmentRequiredMixin,CarrierRequiredMixin, CreateView):
     model = TraineePosition
     form_class = TraineePositionForm
     template_name = "trainee_position_create.html"
     success_url = "/carrier/traineepositions/list"
+    
+    def get_form(self, *args, **kwargs):
+       form = super().get_form(*args, **kwargs)
+       department = self.request.GET.get("department")
+       if  department not in deps:
+             raise Http404
+       return form
 
     def form_valid(self, form):
-        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        carrier_node = CarrierNode.objects.get(user_ptr_id=self.request.user.id)
+        uni_department = self.request.GET.get("department")
         ca = CarrierAssignmentPeriod.objects.get(
-            department=carrier_node.carrier.department
-        )
+            department=uni_department
+        )   
         form.instance.carrier = carrier_node.carrier
         form.instance.carrier_assignment = ca
         return super().form_valid(form)
-
+    
+    def get_success_url(self):
+        uni_department = self.request.GET.get("department")
+        return '/carrier/traineepositions/list?department='+uni_department
 
 class TraineePositionDetailView(CarrierAssignmentRequiredMixin, StudentOrCarrierRequiredMixin, DetailView):
     model = TraineePosition
@@ -54,13 +90,14 @@ class TraineePositionDeleteView(UserPassesTestMixin,CarrierAssignmentRequiredMix
     context_object_name = "tp"
 
     def test_func(self):
-        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        carrier_node = CarrierNode.objects.get(user_ptr_id=self.request.user.id)
         if self.get_object().carrier == carrier_node.carrier:
             return True
         return False
 
     def get_success_url(self):
-        return reverse("carrier:traineeposition_list")
+        department = self.request.GET.get('department')
+        return "/carrier/traineepositions/list?department="+department
 
 
 class TraineePositionUpdateView(UserPassesTestMixin,CarrierAssignmentRequiredMixin,CarrierRequiredMixin,UpdateView):
@@ -71,7 +108,7 @@ class TraineePositionUpdateView(UserPassesTestMixin,CarrierAssignmentRequiredMix
     group_required = u"carrier_node"
 
     def test_func(self):
-        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        carrier_node = CarrierNode.objects.get(user_ptr_id=self.request.user.id)
         if self.get_object().carrier == carrier_node.carrier:
             return True
         return False
@@ -80,11 +117,13 @@ class AsssignmentListView(ListView, CarrierRequiredMixin):
     model= Assignment
     template_name = "assignments.html"
     context_object_name="assignments"
-
+   
     def get_queryset(self):
-        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        department = self.request.GET.get("department")
+        if  department not in deps:
+             raise Http404
         return Assignment.objects.filter(
-            assignment_period__department=carrier_node.carrier.department,assignment_status="P"
+            assignment_period__department=department,assignment_status="P"
         )
 
 class AsssignmentDetailView(UserPassesTestMixin, CarrierRequiredMixin, DetailView):
@@ -93,14 +132,14 @@ class AsssignmentDetailView(UserPassesTestMixin, CarrierRequiredMixin, DetailVie
     context_object_name="assignment"
 
     def test_func(self):
-        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        carrier_node = CarrierNode.objects.get(user_ptr_id=self.request.user.id)
         if self.get_object().trainee_position.carrier == carrier_node.carrier:
             return True
         return False
 
 
 def assignment_accept(request, pk):
-    carrier_node = CarrierNode.objects.get(id=request.user.id)
+    carrier_node = CarrierNode.objects.get(user_ptr_id=request.user.id)
     assignment = get_object_or_404(Assignment, pk=pk)
     if assignment.trainee_position.carrier == carrier_node.carrier:
         if CarrierConsent.objects.filter(assignement_upon=assignment).exists():
@@ -118,7 +157,7 @@ def assignment_accept(request, pk):
         raise PermissionDenied()
 
 def assignment_reject(request, pk):
-    carrier_node = CarrierNode.objects.get(id=request.user.id)
+    carrier_node = CarrierNode.objects.get(user_ptr_id=request.user.id)
     assignment = get_object_or_404(Assignment, pk=pk)
     if assignment.trainee_position.carrier == carrier_node.carrier:
         if CarrierConsent.objects.filter(assignement_upon=assignment).exists():
@@ -142,7 +181,7 @@ class AcceptedAsssignmentListView(CarrierRequiredMixin, ListView):
     context_object_name="assignments"
 
     def get_queryset(self):
-        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        carrier_node = CarrierNode.objects.get(user_ptr_id=self.request.user.id)
         return Assignment.objects.filter(
             assignment_period__department=carrier_node.carrier.department,assignment_status="A"
         )
@@ -153,7 +192,7 @@ class AcceptedAsssignmentDetailView(CarrierRequiredMixin,UserPassesTestMixin,Det
     context_object_name="assignment"
 
     def test_func(self):
-        carrier_node = CarrierNode.objects.get(id=self.request.user.id)
+        carrier_node = CarrierNode.objects.get(user_ptr_id=self.request.user.id)
         if self.get_object().trainee_position.carrier == carrier_node.carrier:
             return True
         return False
@@ -220,7 +259,7 @@ class CarrierDetailView(CarrierRequiredMixin,DetailView):
     context_object_name="carrier"
 
     def get_object(self):
-        carrier_node = CarrierNode.objects.get(user=self.request.user)
+        carrier_node = CarrierNode.objects.get(user_ptr_id=self.request.user.id)
         return carrier_node.carrier
 
 class CarrierUpdateView(CarrierRequiredMixin,UpdateView):
@@ -236,6 +275,10 @@ class CarrierUpdateView(CarrierRequiredMixin,UpdateView):
         form.fields["street_name"].initial = self.object.full_address.street_name
         form.fields["street_number"].initial = self.object.full_address.street_number
         form.fields["postal_code"].initial = self.object.full_address.postal_code
+        form.fields["department_1"].initial = self.object.department_1
+        form.fields["department_2"].initial = self.object.department_2
+        form.fields["department_3"].initial = self.object.department_3
+        form.fields["department_4"].initial = self.object.department_4
         return form
 
     def form_valid(self, form):
@@ -252,6 +295,6 @@ class CarrierUpdateView(CarrierRequiredMixin,UpdateView):
         return reverse("carrier:carrier_detail" )
 
     def get_object(self):
-        carrier_node = CarrierNode.objects.get(user=self.request.user)
+        carrier_node = CarrierNode.objects.get(user_ptr_id=self.request.user.id)
         return carrier_node.carrier
 

@@ -6,7 +6,7 @@ from carrier.models import ApplicationPeriod,InternshipReportPeriod
 class ApplicationPeriodRequiredMixin:
     def dispatch(self, request, *args, **kwargs):
         user=request.user
-        student = UndergraduateStudent.objects.get(id=user.id)
+        student = UndergraduateStudent.objects.get(user_ptr_id=user.id)
         ap = ApplicationPeriod.objects.filter(
             department=student.department
         ).first()
@@ -18,7 +18,7 @@ class ApplicationPeriodRequiredMixin:
 class InternshipReportPeriodRequiredMixin:
     def dispatch(self, request, *args, **kwargs):
         user=request.user
-        student = UndergraduateStudent.objects.get(id=user.id)
+        student = UndergraduateStudent.objects.get(user_ptr_id=user.id)
         ap = InternshipReportPeriod.objects.filter(
             department=student.department
         ).first()

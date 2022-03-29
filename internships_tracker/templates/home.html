@@ -8,11 +8,11 @@
  
   {% if user.is_authenticated %}
     Hi {{ user.username }}!
-    {% if is_student == True %}
-      <p><a href="{% url 'logout' %}">Log Out as student</a></p>
-    {% else %}
-      <p><a href="{% url 'logout' %}">Log Out as something else</a></p>
-    {% endif %}
+    <br>
+    <br>
+    <p>Welcome to the Harokopio University of Athens Internship App System!</p>
+    <p>This app was designed in order to intersect the public and private sector with our University providing its students to have a chance to experience real working environements</p>
+    <p><a href="{% url 'logout' %}">Log Out</a></p>
  {% else %}
  
   <div class="container text-center bg-white">
