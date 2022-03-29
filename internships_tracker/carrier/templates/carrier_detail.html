@@ -11,8 +11,17 @@
         <p><b>Name:</b> {{carrier.official_name}} </p>
         <p><b>Address:</b> {{carrier.full_address}} </p>
         <p><b>Description:</b> {{carrier.description}} </p>
-        <p><b>Department:</b> {{carrier.department}} </p>
 
+        <p><b>Department 1:</b> {{carrier.department_1}} </p>
+        {% if carrier.department_2 != "NON" %}
+          <p><b>Department 2:</b> {{carrier.department_2}} </p>
+        {% endif%}
+        {% if carrier.department_3 != "NON" %}
+        <p><b>Department 3:</b> {{carrier.department_3}} </p>
+      {% endif%}
+      {% if carrier.department_4 != "NON" %}
+        <p><b>Department 4:</b> {{carrier.department_4}} </p>
+      {% endif%}
     </div>
     <div class="card-footer ">
         <a href="{% url 'carrier:carrier_update' %}" class="btn btn-success ">{% trans "Update" %}</a>

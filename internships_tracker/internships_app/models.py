@@ -18,30 +18,35 @@ class Address(models.Model):
     postal_code = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(99999)]
     )
-
-    class Meta:
-        unique_together = ("country", "city", "street_name", "street_number", "postal_code")
-
+    
     def __str__(self):
         return (
             self.country
-            + " "
+            + ", "
             + self.city
-            + " "
+            + ", "
             + self.street_name
-            + " "
+            + ", "
             + str(self.street_number)
         )
 
 
 class Carrier(models.Model):
     official_name = models.CharField(max_length=120, unique=True)
-    full_address = models.OneToOneField(Address, on_delete=models.CASCADE)
+    full_address = models.ForeignKey(Address, on_delete=models.CASCADE)
     description = models.TextField(max_length=1000)
-    department = models.CharField(
+    department_1 = models.CharField(
         max_length=3, choices=DEPARTMENT_CHOICES
     )  # each carrrier is for one department
-
+    department_2 = models.CharField(
+        max_length=3, choices=DEPARTMENT_CHOICES
+    ) 
+    department_3 = models.CharField(
+        max_length=3, choices=DEPARTMENT_CHOICES
+    )
+    department_4 = models.CharField(
+        max_length=3, choices=DEPARTMENT_CHOICES
+    )
     def __str__(self):
         return self.official_name
 
@@ -60,7 +65,7 @@ class Profile(User):
     father_name = models.CharField(max_length=255,validators=[alphabetic])
     mother_name = models.CharField(max_length=255,validators=[alphabetic])
     birth_day = models.DateField()
-    address = models.OneToOneField(Address, on_delete=models.CASCADE)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
     mobile_phone = PhoneNumberField(null=False, blank=False, unique=True)
     home_phone = PhoneNumberField(null=False, blank=False, unique=True)
     class Meta:
@@ -99,7 +104,7 @@ class Token(models.Model):
 class CarrierNode(Profile):
     carrier = models.OneToOneField(Carrier, on_delete=models.CASCADE)
     department = models.CharField(max_length=150, validators=[alphanumeric])  # he needs ch
-
+    
     class Meta:
         verbose_name = "Carrier Node"
         verbose_name_plural = "Carrier Nodes"

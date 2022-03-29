@@ -1,4 +1,6 @@
-from .enums import DEPARTMENT_CHOICES_GR
+from .enums import DEPARTMENT_CHOICES_GR,DEPARTMENT_CHOICES
+
+
 
 
 def username_to_register_number(username):
@@ -9,5 +11,7 @@ def username_to_register_number(username):
 
 def translate_uni_departments(department_alias):
     for choice in  DEPARTMENT_CHOICES_GR:
-        if( choice ==  department_alias ):
-            return choice
+        if  choice[1] ==  department_alias :
+            for choice2 in DEPARTMENT_CHOICES:
+              if choice2[0]==choice[0]:
+                 return choice2[0]

@@ -3,6 +3,7 @@
   <head>
     {% load static %}
     {% load i18n %}
+    {% load carrier_tags %}
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
@@ -15,7 +16,7 @@
     <div class="header navbar-expand-lg navbar-dark bg-info text-white"	>
       <ul class="navbar-nav ml-auto ">
         <li class=" nav-item d-flex flex-row text-white">
-          <a class="text-white rounded float-left" href="https://dit.hua.gr"><img src="/static/logo.png" width="421" height="99.5" class="img-fluid" onerror="this.onerror=null; this.src='favicon.svg'" /></a>
+          <a class="text-white rounded float-left" href="/"><img src="/static/logo.png" width="421" height="99.5" class="img-fluid" onerror="this.onerror=null; this.src='favicon.svg'" /></a>
         </li>
         <li class=" nav-item d-flex flex-row text-white pl-5">
           <h5>Δοκιμαστική έκδοση</h5>
@@ -30,7 +31,6 @@
                 </svg>
                 {{user.username}}
               </button>
-
               <div class="dropdown-menu mr-5" aria-labelledby="dropdownMenuOffset">
                 <h5 class="dropdown-header" href="#">{{user.first_name}} {{user.last_name}} </h5>
                 <a class="dropdown-item" href="/accounts/changepassword">Change Password</a>
@@ -46,9 +46,10 @@
 {% if user.is_authenticated %}
   {% for group in user.groups.all %}
     {% if group.name == 'carrier_node'  %}
+     {% all_carrier_uni_departments request.user as uni_deps %}
       <nav class="navbar navbar-expand-lg  border bg-light border-dark">
         <div class="dropdown">
-          <button class="btn dropdown-toggle text-info ml-5" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button class="btn dropdown-toggle text-info" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-gear-wide" viewBox="0 0 16 16">
               <path d="M8.932.727c-.243-.97-1.62-.97-1.864 0l-.071.286a.96.96 0 0 1-1.622.434l-.205-.211c-.695-.719-1.888-.03-1.613.931l.08.284a.96.96 0 0 1-1.186 1.187l-.284-.081c-.96-.275-1.65.918-.931 1.613l.211.205a.96.96 0 0 1-.434 1.622l-.286.071c-.97.243-.97 1.62 0 1.864l.286.071a.96.96 0 0 1 .434 1.622l-.211.205c-.719.695-.03 1.888.931 1.613l.284-.08a.96.96 0 0 1 1.187 1.187l-.081.283c-.275.96.918 1.65 1.613.931l.205-.211a.96.96 0 0 1 1.622.434l.071.286c.243.97 1.62.97 1.864 0l.071-.286a.96.96 0 0 1 1.622-.434l.205.211c.695.719 1.888.03 1.613-.931l-.08-.284a.96.96 0 0 1 1.187-1.187l.283.081c.96.275 1.65-.918.931-1.613l-.211-.205a.96.96 0 0 1 .434-1.622l.286-.071c.97-.243.97-1.62 0-1.864l-.286-.071a.96.96 0 0 1-.434-1.622l.211-.205c.719-.695.03-1.888-.931-1.613l-.284.08a.96.96 0 0 1-1.187-1.186l.081-.284c.275-.96-.918-1.65-1.613-.931l-.205.211a.96.96 0 0 1-1.622-.434L8.932.727zM8 12.997a4.998 4.998 0 1 1 0-9.995 4.998 4.998 0 0 1 0 9.996z"/>
             </svg>
@@ -61,22 +62,35 @@
           </div>
         </div>
           <ul class="navbar-nav ml-auto border-0">
-            <li class="nav-item pr-3 border-0">  <a  href="/carrier/traineepositions/list"
-              class="nav-link text-info"><i class="far fa-calendar-alt">
+            <div class="dropdown">
+              <button class="btn dropdown-toggle text-info" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
                   <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z"/>
                 </svg>
-              </i>{% trans "Job Postings" %} </a></li>
+                {% trans "Job Postings" %}
+              </button>
+              {% if uni_deps %}
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        {% for uni_dep in uni_deps %}
+                          <a class="dropdown-item" href="/carrier/traineepositions/list?department={{uni_dep}}">{{ uni_dep }} Positions</a>
+                        {% endfor %}
+                </div>
+              {% endif %}
+            </div>
             <div class="dropdown">
                   <button class="btn dropdown-toggle text-info" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-file-earmark" viewBox="0 0 16 16">
                       <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
                     </svg>
                     <i class="fas fa-clipboard-list"></i> {% trans "Assignments" %}</button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="{% url 'carrier:assignments' %}">{% trans "Accept Assignment" %}</a>
-                  </div>
-                </div>
+                    {% if uni_deps %}
+                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        {% for uni_dep in uni_deps %}
+                          <a class="dropdown-item" href="/carrier/assignments?department={{uni_dep}}">{{ uni_dep }} Assignments</a>
+                        {% endfor %}
+                    </div>
+                   {% endif %}
+             </div>
                 <div class="dropdown">
                   <button class="btn dropdown-toggle text-info" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor" class="bi bi-123" viewBox="0 0 16 16">
@@ -157,6 +171,59 @@
             <a class="mr-3 text-info" href="{% url 'applicant:my_carrier_consent' %}" class="nav-link active text-info"><i class="far fa-address-card"></i>{% trans "My Assingment" %}</a></li>
         </ul>
        </nav>
+      {% elif group.name == 'secretarian'  %}
+      <nav class="navbar navbar-expand-lg border border-dark"	>
+        <div class="dropdown">
+          <button class="btn dropdown-toggle text-info ml-5" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
+              <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+            </svg>
+            Secretary
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="/accounts/secretarian/detail">View account details</a>
+            <a class="dropdown-item" href="/accounts/secretarian/edit">Edit Account</a>
+          </div>
+        </div>
+        <ul class="navbar-nav ml-auto">
+           <li class="nav-item">
+            <div class="dropdown">
+              <button class="btn dropdown-toggle text-info" type="button" id="dropdownMenuButton_choices" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                  <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                  <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                </svg>
+                <i class="fas fa-clipboard-list"></i> {% trans "Students" %}</button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/secretary/students/registrations">Registrations</a>
+                    <a class="dropdown-item" href="/secretary/students/preferences">Applications</a>
+                </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <div class="dropdown ml-4">
+              <button class="btn dropdown-toggle text-info" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                  <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                  <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                </svg>
+                <i class="fas fa-clipboard-list"></i> {% trans "Carriers" %}</button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/secretary/carriers/registrations">Registrations</a>
+                    <a class="dropdown-item" href="/secretary/carriers/trainee_positions">Trainee Positions</a>
+                </div>
+            </div>
+          </li>
+          <li class="nav-item ml-4 mt-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+              <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+              <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+            </svg>
+            <a class="mr-3 text-info" href="#" class="nav-link active text-info"><i class="far fa-address-card"></i>{% trans "Assignments" %}</a></li>
+        </ul>
+       </nav>
+
       {% else %}
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary text-white"	>
           <a class="navbar-brand" >
@@ -187,6 +254,5 @@
 {% block footer %}
   {% include 'footer.html' %}
 {% endblock %}
-
 </body>
 </html>

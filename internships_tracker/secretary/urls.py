@@ -1,0 +1,87 @@
+from django.urls import path
+from . import views
+
+app_name = "secretary"
+urlpatterns = [
+    path(
+        "students/registrations",
+         views.ApprovalRejectionUndergraduateStudentListView.as_view(),
+        name="students_registrations",
+    ),
+    path(
+       "students/registrations/<int:pk>/edit",
+        views.student_approval_rejection,
+        name="students_registrations_edit", 
+    ),
+    path(
+       "students/registrations/<int:pk>/activate",
+        views.student_approve,
+        name="students_registrations_activate", 
+    ),
+    path(
+       "students/registrations/<int:pk>/delete",
+        views.student_reject,
+        name="students_registrations_delete", 
+    ),
+    path(
+        "carriers/registrations",
+         views.ApprovalRejectionCarrierNodeListView.as_view(),
+        name="carriers_registrations",
+    ),
+    path(
+       "carriers/registrations/<int:pk>/edit",
+        views.carrier_node_approval_rejection,
+        name="carriers_registrations_edit", 
+    ),
+    path(
+       "carriers/registrations/<int:pk>/activate",
+        views.carrier_node_approve,
+        name="carriers_registrations_activate", 
+    ),
+    path(
+       "carriers/registrations/<int:pk>/delete",
+        views.carrier_node_reject,
+        name="carriers_registrations_delete", 
+    ),
+      path(
+        "carriers/trainee_positions",
+         views.ApprovalTraineePositionsListView.as_view(),
+        name="carrier_trainee_positions",
+    ),
+    path(
+       "carriers/trainee_positions/<int:pk>/edit",
+        views.trainee_position_approval_rejection,
+        name="carrier_trainee_positions_edit", 
+    ),
+    path(
+       "carriers/trainee_positions/<int:pk>/accept",
+        views.trainee_position_approve,
+        name="carrier_trainee_positions_accept", 
+    ),
+    path(
+       "carriers/trainee_positions/<int:pk>/delete",
+        views.SecretaryTraineePositionDeleteView.as_view(),
+        name="carrier_trainee_positions_delete", 
+    ),
+    path(
+        "students/preferences",
+        views.ApprovalPreferencesListView.as_view(),
+        name="students_preferences",
+    ),
+    path(
+       "students/preferences/<int:pk>/edit",
+        views.preference_approval_rejection,
+        name="students_preferences_approve", 
+    ),
+    path(
+       "students/preferences/<int:pk>/accept",
+        views.preferences_approve,
+        name="students_preferences_approve", 
+    ),
+    path(
+       "students/preferences/<int:pk>/delete",
+        views.SecretaryPreferenceDeleteView.as_view(),
+        name="students_preferences_delete", 
+    ),
+  
+]

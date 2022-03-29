@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %} {% trans "Student" %} {% endblock title %}
+{% block content%}
+{% if message %}
+  {{message}}
+{% endif %}
+<table id="datatable" class="table align-items-center table-flush">
+    <thead class="bg-light">
+        <tr>
+        <th scope="col">{% trans "Name" %}</th>
+        <th scope="col">{% trans "email" %}</th>
+        <th scope="col">{% trans "Department" %}</th>
+        <th scope="col">{% trans "Created at" %}</th>
+        <th scope="col">{% trans "Accepted" %}</th>
+        <th scope="col">{% trans "Register Number" %}</th>
+        <th scope="col">{% trans "Action" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pref in preferences %}                                                            
+        <tr>
+            <td>{{pref.applicant.fist_name}} {{pref.applicant.last_name}}</td>
+            <td>{{pref.applicant.email}}</td>
+            <td>{{pref.applicant.uni_department}}</td>
+            <td>{{pref.created}}</td>
+            {% if pref.finalized == False %}
+            <td class="text-right row">
+                <div class="btn-group" role="group">
+                    <div class="col-md-5 custom">
+                        <button type="button" class="btn btn-sm btn-success"> <a class="text-white" href="/secretary/students/preferences/{{pref.id}}/accept"> Accept</button>        
+                    </div>
+                    <div class="col-md-5 custom">
+                        <form action="" method="POST">
+                            <button type="button" class="btn btn-sm btn-danger"> <a class="text-white" href="/secretary/students/preferences/{{pref.id}}/delete"> Reject</button>
+                        </form>
+                    </div>
+                </div>
+            </td>
+            {% else %}
+             <td>YES</td>
+           {% endif %}
+            <td>{{pref.applicant.register_number}}</td>
+            <td>
+                <a class="btn btn-outline-info" href="/secretary/students/preferences/{{pref.id}}/edit">{% trans "View" %}</a>
+            </td>
+       </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

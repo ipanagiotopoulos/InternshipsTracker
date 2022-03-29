@@ -1,4 +1,7 @@
 from django import forms
+from django.forms.widgets import (
+    TextInput,
+)
 from .models import *
 from internships_app.models import Carrier
 from utils.validators import alphabetic
@@ -8,11 +11,15 @@ class TraineePositionForm(forms.ModelForm):
     description = forms.CharField(
         required=True, max_length=1500, min_length=10, widget=forms.Textarea
     )
+    no_id = forms.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(99999)])
+    job_code = forms.CharField(required=True, max_length=100, min_length=2)
     class Meta:
         model = TraineePosition
         fields = (
             "title",
             "description",
+            "no_id",
+            "job_code"
         )
 
 class CreateCarrierAssementForm(forms.ModelForm):
@@ -34,10 +41,13 @@ class CarrierUpdateForm(forms.ModelForm):
     postal_code = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(99999)], required=True
     )
+    department_1 = forms.ChoiceField(choices = DEPARTMENT_CHOICES,disabled=True)
+    department_2 = forms.ChoiceField(choices = DEPARTMENT_CHOICES,disabled=True)
+    department_3 = forms.ChoiceField(choices = DEPARTMENT_CHOICES,disabled=True)
+    department_4 = forms.ChoiceField(choices = DEPARTMENT_CHOICES,disabled=True)
     class Meta:
         model = Carrier
         fields = (
             "official_name",
             "description",
-            "department",
         )

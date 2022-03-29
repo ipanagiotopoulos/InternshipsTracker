@@ -43,14 +43,17 @@ class InternshipReportPeriod(models.Model):
 
 class TraineePosition(models.Model):
     title = models.CharField(max_length=200)
+    job_code = models.CharField(max_length=100)
     no_id = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(10)])
     carrier = models.ForeignKey(Carrier, on_delete=models.CASCADE)
     carrier_assignment = models.ForeignKey(
         CarrierAssignmentPeriod, on_delete=models.CASCADE
     )
     description = models.TextField(max_length=1500)
+    created = models.DateTimeField(auto_now_add=True)
+    finalized = models.BooleanField(default=False)
     def __str__(self):
-        return self.title + ":"+str(no_id)+":"+ self.carrier.official_name
+        return self.title +" in "+self.carrier.official_name
 
 
 class Assignment(models.Model):
@@ -60,7 +63,7 @@ class Assignment(models.Model):
     supervisor = models.ForeignKey(Supervisor, on_delete=models.CASCADE)
     assignment_period = models.ForeignKey(AssignmentPeriod, on_delete=models.CASCADE)
     assignment_status = models.CharField(max_length=1, choices=APPLICATION_STATUS, default="P")
-
+    created = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.trainee_position.title
 
@@ -70,7 +73,7 @@ class CarrierConsent(models.Model):
     carrier = models.ForeignKey(Carrier, on_delete=models.CASCADE)
     assignement_upon = models.ForeignKey(Assignment, on_delete=models.CASCADE)
     consent = models.BooleanField()
-
+    created = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.assignement_upon.trainee_position.title
 
@@ -82,6 +85,6 @@ class CarrierAssesement(models.Model):
     grade = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(10)]
     )
-
+    created = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.assignement_upon.trainee_position.title

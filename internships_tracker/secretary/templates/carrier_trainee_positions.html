@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %} {% trans "Student" %} {% endblock title %}
+{% block content%}
+
+<div class="card ">
+    <div class="card-header bg-white text-info">
+        <h4></h4>
+    </div>
+    <div class="card-body ">
+     <h3>Deparmtment choices:</h3>
+     <div>
+        <input type="radio" id="it" name="dep" value="IT"
+               checked>
+        <label for="IT">Informatics and Telematics</label>
+      </div>
+      
+      <div>
+        <input type="radio" id="gs" name="dep" value="GS">
+        <label for="GS">Geography</label>
+      </div> 
+      <div>
+        <input type="radio" id="ds" name="dep" value="DS">
+        <label for="DS">Nutrition and Dietics</label>
+      </div>
+      <div>
+        <input type="radio" id="hs" name="dep" value="HS">
+        <label for="HS">Home economics and sustainability</label>
+      </div>
+    </div>
+    <div class="card-footer">
+
+    </div>
+</div>
+{% endblock content %}

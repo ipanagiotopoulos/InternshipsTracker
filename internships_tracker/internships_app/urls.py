@@ -10,15 +10,20 @@ urlpatterns = [
         name="passwords_change",
     ),
     path(
-        "register/",
-        views.UserCreateView.as_view(),
-        name="user_register",
+        "register/undergraduate_student",
+        views.UndergraduateStudentCreateView.as_view(),
+        name="student_register",
     ),
     path(
-        "register/<type>",
-        views.UserCreateView.as_view(),
-        name="user_register",
+        "register/supervisor",
+        views.SupervisorCreateView.as_view(),
+        name="supervisor_register",
     ),
+    path(
+         "register/carrier_node",
+         views.CarrierNodeCreateView.as_view(),
+         name="user_register",
+     ),
     path(
         "carrier_node/edit/",
         views.CarrierNodeUpdateView.as_view(),
@@ -43,6 +48,16 @@ urlpatterns = [
         "supervisor/detail/",
         views.SupervisorDetailView.as_view(),
         name="student_detail",
+    ),
+    path(
+        "secretarian/edit/",
+        views.SecretarianUpdateView.as_view(),
+        name="secretarian_update",
+    ),
+    path(
+        "secretarian/detail/",
+        views.SecretarianDetailView.as_view(),
+        name="secretarian_detail",
     ),
     path("redirect",views.redirect_based_on_user, name="redirect_base"),
     path(
