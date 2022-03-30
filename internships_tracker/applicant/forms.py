@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.safestring import mark_safe
 from dal import autocomplete
 from applicant.models import Preference
 from carrier.models import TraineePosition
@@ -7,6 +8,7 @@ class PreferenceForm(forms.ModelForm):
     trainee_position_1 = forms.ModelChoiceField(
         required=False,
         queryset=TraineePosition.objects.none(),
+        label=mark_safe("<strong> <h5> Trainee position 1 </h5> </strong>"),
         widget=autocomplete.ModelSelect2(
             url="carrier:traineeposition_autocomple",
             forward=[
@@ -15,11 +17,13 @@ class PreferenceForm(forms.ModelForm):
                 "trainee_position_4",
                 "trainee_position_5",
             ],
+            attrs={"data-width": "100%"},
         ),
     )
     trainee_position_2 = forms.ModelChoiceField(
         required=False,
         queryset=TraineePosition.objects.none(),
+        label=mark_safe("<strong> <h5> Trainee position 2 </h5> </strong>"),
         widget=autocomplete.ModelSelect2(
             url="carrier:traineeposition_autocomple",
             forward=[
@@ -28,11 +32,13 @@ class PreferenceForm(forms.ModelForm):
                 "trainee_position_4",
                 "trainee_position_5",
             ],
+            attrs={"data-width": "100%"},
         ),
     )
     trainee_position_3 = forms.ModelChoiceField(
         required=False,
         queryset=TraineePosition.objects.none(),
+        label=mark_safe("<strong> <h5> Trainee position 3 </h5> </strong>"),
         widget=autocomplete.ModelSelect2(
             url="carrier:traineeposition_autocomple",
             forward=[
@@ -47,6 +53,7 @@ class PreferenceForm(forms.ModelForm):
     trainee_position_4 = forms.ModelChoiceField(
         required=False,
         queryset=TraineePosition.objects.none(),
+        label=mark_safe("<strong> <h5> Trainee position 4 </h5> </strong>"),
         widget=autocomplete.ModelSelect2(
             url="carrier:traineeposition_autocomple",
             forward=[
@@ -60,6 +67,7 @@ class PreferenceForm(forms.ModelForm):
     trainee_position_5 = forms.ModelChoiceField(
         required=False,
         queryset=TraineePosition.objects.none(),
+        label=mark_safe("<strong> <h5> Trainee position 5 </h5> </strong>"),
         widget=autocomplete.ModelSelect2(
             url="carrier:traineeposition_autocomple",
             forward=[

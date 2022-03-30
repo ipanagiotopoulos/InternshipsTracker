@@ -11,39 +11,81 @@
     <div class="card-body">
         <h3>Student details</h3>
         <hr>
-        <p><b>Student:</b> {{assignment.trainee.first_name}} {{assignment.trainee.last_name}}</p>
-        <p><b>Register Number:</b> {{assignment.trainee.register_number}} </p>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Student: </b> 
+            <span style="font-size: 1.3rem;" > {{assignment.trainee.first_name}} {{assignment.trainee.last_name}}</span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Register Number: </b> 
+            <span style="font-size: 1.3rem;" > {{assignment.trainee.register_number}} </span>
+        </div>  
         <hr>
         <h3>Position details</h3>
         <hr>
-        <p><b>Position</b> {{assignment.trainee_position.title}}</p>
-        <p><b>Carrier:</b> {{assignment.trainee_position.carrier.official_name}} </p>
-        <p><b>Assignment period:</b>  <span class="text-info"> {{assignment.assignment_period.from_date}} - {{assignment.assignment_period.to_date}} </span> </p>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Position: </b> 
+            <span style="font-size: 1.3rem;" > {{assignment.trainee_position.title}} </span>
+        </div>  
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Carrier: </b> 
+            <span style="font-size: 1.3rem;" > {{assignment.trainee_position.carrier.official_name}} </span>
+        </div> 
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Assignment Period: </b> 
+            <span style="font-size: 1.3rem;" > {{assignment.assignment_period.from_date}} - {{assignment.assignment_period.to_date}}  </span>
+        </div> 
         {% if report %}
             <hr>
             <h3>Internship Report </h3>
             <hr>
-            <p><b>File: </b><a href="{{report.report_file.url}}">{{report.report_file}} </a> </p>
-            <p><b>Date: </b>  <span class="text-info"> {{report.date}}</p>
-            <p><b>Comments: </b> {{report.comments}}</p>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.5rem; "> File: </b> 
+                <span style="font-size: 1.3rem;" > {{report.report_file.url}}">{{report.report_file}}  </span>
+            </div> 
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.5rem; "> Date: </b> 
+                <span style="font-size: 1.3rem;" > {{report.date}}  </span>
+            </div> 
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.5rem; "> Comment: </b> 
+                <span style="font-size: 1.3rem;" > {{report.comments}}  </span>
+            </div> 
             {% if carrier_assesment %}
                 <hr>
                 <h3>Carrier Assesment</h3>
                 <hr>
-                <p><b>Date: </b>  <span class="text-info"> {{carrier_assesment.date}}</p>
-                <p><b>Comments: </b> {{carrier_assesment.comments}}</p>
-                <p><b>Grade: </b> {{carrier_assesment.grade}}</p>
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.5rem; "> Date: </b> 
+                    <span style="font-size: 1.3rem;" > {{carrier_assesment.date}}  </span>
+                </div> 
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.5rem; "> Comments: </b> 
+                    <span style="font-size: 1.3rem;" > {{carrier_assesment.comments}}  </span>
+                </div> 
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.5rem; "> Grade: </b> 
+                    <span style="font-size: 1.3rem;" > {{carrier_assesment.grade}}  </span>
+                </div> 
                 {% if supervisor_assesment %}
                     <hr>
                     <h3>My Assesment</h3>
                     <hr>
-                    <p><b>Date: </b>  <span class="text-info"> {{supervisor_assesment.date}}</p>
-                    <p><b>Comments: </b> {{supervisor_assesment.comments}}</p>
-                    <p><b>Grade: </b> {{supervisor_assesment.grade}}</p>
+                    <div style="margin-bottom: 1rem;"> 
+                        <b style="font-size: 1.5rem; "> Date: </b> 
+                        <span style="font-size: 1.3rem;" > {{supervisor_assesment.date}}  </span>
+                    </div> 
+                    <div style="margin-bottom: 1rem;"> 
+                        <b style="font-size: 1.5rem; "> Comments: </b> 
+                        <span style="font-size: 1.3rem;" > {{supervisor_assesment.comments}}  </span>
+                    </div> 
+                    <div style="margin-bottom: 1rem;"> 
+                        <b style="font-size: 1.5rem; "> Grade: </b> 
+                        <span style="font-size: 1.3rem;" > {{supervisor_assesment.grade}}  </span>
+                    </div> 
                 {% else %}
                     </div>
                         <div class="card-footer ">
-                            <a  href="{% url 'supervisor:create_assesment' assignment.pk %}" class="btn btn-success ml-3">{% trans "Create Assesment" %}</a>
+                            <a  href="{% url 'supervisor:create_assesment' assignment.pk %}" class="btn btn-lg btn-success ml-3">{% trans "Create Assesment" %}</a>
                         </div>
                 {% endif %}
             {% endif %}

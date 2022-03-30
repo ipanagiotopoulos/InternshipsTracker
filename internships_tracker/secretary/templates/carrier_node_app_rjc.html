@@ -6,33 +6,104 @@
 
 <div class="card">
     <div class="card-header">
-        <h2>Carrier Node: {{carrier_node.last_name}} {{carrier_node.first_name}} </h2>
+        <h2>{{carrier_node.carrier.official_name}}: {{carrier_node.last_name}} {{carrier_node.first_name}} </h2>
     </div>
     <div class="card-body">
-        <p><b>Fisrt Name:</b> {{req_user.first_name}} </p>
-        <p><b>Last Name:</b> {{req_user.last_name}} </p>
-        <p><b>Father Name:</b> {{carrier_node.father_name}} </p>
-        <p><b>Mother Name:</b> {{carrier_node.mother_name}} </p>
-        <p><b>Birth Date:</b> {{carrier_node.birth_day}} </p>
-        <p><b>Email:</b> {{req_user.email}} </p>
-        <p><b>Department 1:</b> {{req_user.uni_department}} </p>
-        <p><b>Title:</b> {{req_user.title}} </p>
-        <p><b>Phone Number:</b> {{carrier_node.mobile_phone}} </p>
-        <p><b>Registration Date:</b> {{req_user.date_joined}} </p>
-        {% if req_user.is_active == False %}
-            <p><b>Activated:</b>NO</p>
-            <button class="btn btn-success"><a class="text-white" href="/secretary/carriers/registrations/{{req_user.id}}/activate">Activate</button>
-            <button class="btn btn-danger"><a class="text-white" href="/secretary/carriers/registrations/{{req_user.id}}/delete">Reject</button>
-        {% else %}
-            <p><b>Activated:</b>YES</p>
-        {% endif %}
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> First Name: </b> 
+            <span style="font-size: 1.3rem;" > {{carrier_node.first_name}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Last Name: </b> 
+            <span style="font-size: 1.3rem;" > {{carrier_node.last_name}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Father Name: </b> 
+            <span style="font-size: 1.3rem;" > {{carrier_node.father_name}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Mother Name: </b> 
+            <span style="font-size: 1.3rem;" > {{carrier_node.mother_name}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Birth Date: </b> 
+            <span style="font-size: 1.3rem;" > {{carrier_node.birth_day}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Email: </b> 
+            <span style="font-size: 1.3rem;" > {{carrier_node.email}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Department: </b> 
+            <span style="font-size: 1.3rem;" > {{carrier_node.department}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Title: </b> 
+            <span style="font-size: 1.3rem;" > {{carrier_node.title}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Phone Number: </b> 
+            <span style="font-size: 1.3rem;" > {{carrier_node.phone_number}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Registration Date: </b> 
+            <span style="font-size: 1.3rem;" > {{carrier_node.date_joined}} </span>
+        </div>
    </div>
    <div class="card-footer bg-white">
-    <h4> Carrier Details </h4>
-    <p><b>Carrier official name:</b> {{carrier_node.carrier.official_name}} </p>
-    <p><b>Description:</b> {{carrier_node.carrier.description}} </p>
-    <p><b>Address:</b> {{carrier_node.carrier.full_address}} </p>
-    
+    <h2 style="color: black; padding-bottom:1rem;"> Carrier Details </h2>
+    <div style="margin-bottom: 1rem; color: black;"> 
+        <b style="font-size: 1.5rem; "> Carrier official name: </b> 
+        <span style="font-size: 1.3rem;" > {{carrier_node.carrier.official_name}} </span>
+    </div>
+    <div style="margin-bottom: 1rem; color: black;"> 
+        <b style="font-size: 1.5rem; "> Carrier official name: </b> 
+        <span style="font-size: 1.3rem;" > {{carrier_node.carrier.description}} </span>
+    </div>
+    <div style="margin-bottom: 1rem; color: black;"> 
+        <b style="font-size: 1.5rem; "> Address: </b> 
+        <span style="font-size: 1.3rem;" > {{carrier_node.carrier.full_address}} </span>
+    </div>
+        {% if carrier_node.carrier.department_1 != NON %}
+         <div style="margin-bottom: 1rem; color:black;"> 
+          <b style="font-size: 1.5rem; "> Department 1: </b> 
+          <span style="font-size: 1.3rem;" > {{carrier_node.carrier.department_2}}  </span>
+         </div>
+        {% endif %}
+        {% if carrier_node.carrier.department_2  != NON %}
+         <div style="margin-bottom: 1rem; color:black;"> 
+          <b style="font-size: 1.5rem; "> Department 2: </b> 
+          <span style="font-size: 1.3rem;" > {{carrier_node.carrier.department_2}}  </span>
+         </div>
+        {% endif %}
+        {% if carrier_node.carrier.department_3 != NON %}
+         <div style="margin-bottom: 1rem; color:black;"> 
+          <b style="font-size: 1.5rem; "> Department 3: </b> 
+          <span style="font-size: 1.3rem;" > {{carrier_node.carrier.department_3}}  </span>
+         </div>
+        {% endif %}
+        {% if carrier_node.carrier.department_4 != NON %}
+         <div style="margin-bottom: 1rem; color:black;"> 
+          <b style="font-size: 1.5rem; "> Department 4: </b> 
+          <span style="font-size: 1.3rem;" > {{carrier_node.carrier.department_4}}  </span>
+         </div>
+        {% endif %}
+    <hr>
+    {% if req_user.is_active == False %}
+    <div style="margin-bottom: 1rem;"> 
+        <b style="font-size: 1.5rem; "> Activated: </b> 
+        <span style="font-size: 1.3rem;" > NO </span>
+    </div>
+      <div style="float: right;">
+        <button class="btn btn-lg btn-success"><a class="text-white" href="/secretary/carriers/registrations/{{req_user.id}}/activate">Activate</button>
+        <button class="btn btn-lg btn-danger"><a class="text-white" href="/secretary/carriers/registrations/{{req_user.id}}/delete">Reject</button>
+    </div>
+    {% else %}
+    <div style="margin-bottom: 1rem;"> 
+        <b style="font-size: 1.5rem; "> Activated: </b> 
+        <span style="font-size: 1.3rem;" > YES </span>
+    </div>
+    {% endif %} 
    </div>
 </div>
 {% endblock content %}

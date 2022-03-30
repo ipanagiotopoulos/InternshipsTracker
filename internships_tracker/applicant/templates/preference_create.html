@@ -23,26 +23,23 @@
 {% if has_preference %}
   <div class="row">
     <div class="col col-12">
-        <div class="alert alert-danger">{% translate "You have already submited an application !" %}</div>
+        <div class="alert  alert-danger"><h2>{% translate "You have already submitted an application !" %}</h2></div>
+        <button class="btn btn-lg btn-info "><a class="text-white" href="/studentapplications/application/update"/> Update my application </button>
     </div>
   </div>
 {% else %}
-  <h2>{% trans "Submit Preference" %}</h2>
   <div class="card">
     <div class="card-header bg-white">
-        <h2>{% trans "Assignment information" %}</h2>
+        <h2>{% trans " Trainee Position choices" %}</h2>
     </div>
     <div class="card-body">
       <form method="post">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-info">{% trans "Submit" %}</button>
+        <button style="float: right; margin: 15px;"type="submit" class="btn btn-lg btn-info">{% trans "Submit" %}</button>
         <br>
         <br>
       </form>
-    </div>
-    <div class="card-footer">
-
     </div>
     {{ form.media }}
  </div>

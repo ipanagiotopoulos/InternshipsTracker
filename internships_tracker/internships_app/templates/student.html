@@ -6,34 +6,52 @@
 
 <div class="card ">
     <div class="card-header bg-white text-info">
-        <h4>Student Profile</h4>
+        <h2>Student Profile</h2>
     </div>
     <div class="card-body ">
-
-        <h6>Username:  {{student.username}}</h6>
-        <br>
-        <h6>First Name:  {{student.first_name}}</h6>
-        <br>
-        <h6>Last Name:  {{student.last_name}}</h6>
-        <br>
-        <h6>Title:  {{student.title}}</h6>
-        <br>
-        <h6>Father name:  {{student.father_name}}</h6>
-        <br>
-        <h6>Mother name:   {{student.mother_name}}</h6>
-        <br>
-        <h6>BirthDay:  {{student.birth_day}}</h6>
-        <br>
-        <h6>Mobile phhone:  {{student.mobile_phone}}</h6>
-        <br>
-        <h6>Home Phone:  {{student.home_phone}}</h6>
-        <br>
-        <h6>Department:  {{student.uni_department}}</h6>
-        <br>
-        <h6>Address: {{student.address}}</h6>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Username: </b> 
+            <span style="font-size: 1.3rem;" > {{student.username}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+          <b style="font-size: 1.5rem; "> First name: </b> 
+          <span style="font-size: 1.3rem;" > {{student.first_name}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Title: </b> 
+            <span style="font-size: 1.3rem;" > {{student.title}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Father name: </b> 
+            <span style="font-size: 1.3rem;" > {{student.father_name}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Mother name: </b> 
+            <span style="font-size: 1.3rem;" > {{student.mother_name}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Birth date: </b> 
+            <span style="font-size: 1.3rem;" > {{student.birth_day}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Mobile Phone: </b> 
+            <span style="font-size: 1.3rem;" > {{student.mobile_phone}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Home Phone: </b> 
+            <span style="font-size: 1.3rem;" > {{student.home_phone}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Department: </b> 
+            <span style="font-size: 1.3rem;" > {{student.uni_department}} </span>
+        </div>
+        <div style="margin-bottom: 1rem;"> 
+            <b style="font-size: 1.5rem; "> Address: </b> 
+            <span style="font-size: 1.3rem;" > {{student.address}} </span>
+        </div>
     </div>
     <div class="card-footer">
-        <a href="{% url 'internships_app:student_update'  %}" class="btn btn-info">Profile Update</a>
+        <a href="{% url 'internships_app:student_update'  %}" class="btn btn-lg btn-info">Profile Update</a>
     </div>
 </div>
 {% endblock content %}

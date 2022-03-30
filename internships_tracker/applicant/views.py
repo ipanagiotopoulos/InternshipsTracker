@@ -30,7 +30,7 @@ class CreatePreferenceView(ApplicationPeriodRequiredMixin, CreateView):
             form.fields[
                 "trainee_position_" + str(i)
             ].queryset = TraineePosition.objects.filter(
-                carrier_assignment__department=student.department
+                carrier_assignment__department=student.department, finalized=True
             )
         return form
 

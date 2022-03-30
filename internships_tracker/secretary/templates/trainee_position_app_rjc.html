@@ -13,13 +13,28 @@
             <h2>Position: {{trainee_position.title}} </h2>
         </div>
         <div class="card-body">
-            <p><b>Position:</b> {{trainee_position.title}} </p>
-            <p><b>Created at:</b> {{trainee_position.created}} </p>
-            <p><b>Carrier:</b> {{trainee_position.carrier.official_name}} </p>
-            <p><b>Job ID:</b> {{trainee_position.job_code}}:{{trainee_position.no_id}} </p>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.5rem; "> Position: </b> 
+                <span style="font-size: 1.3rem;" > {{trainee_position.title}} </span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.5rem; "> Created at: </b> 
+                <span style="font-size: 1.3rem;" > {{trainee_position.created}} </span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.5rem; "> Carrier: </b> 
+                <span style="font-size: 1.3rem;" > {{trainee_position.carrier.official_name}} </span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.5rem; "> Job ID: </b> 
+                <span style="font-size: 1.3rem;" > {{trainee_position.job_code}}:{{trainee_position.no_id}} </span>
+            </div>
             <hr>
-            <p><b>Description</b></p>
-            <p>{{trainee_position.description}}</p>
+            <h2>Description: </h2>
+
+            <div style="margin-bottom: 1rem; margin-top: 1rem;"> 
+                <span style="font-size: 1.3rem;" > {{trainee_position.description}} </span>
+            </div>
         </div>
     </div>
 
