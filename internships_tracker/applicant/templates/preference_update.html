@@ -13,12 +13,12 @@
   .select2-selection {
     padding-bottom:30px;
   }
-
 </style>
-<h2>{% trans "Update Preference" %}</h2>
+
+<h1 class="text-center mb-4">{% trans "Update Preference" %}</h1>
 <div class="card">
   <div class="card-header">
-    <h2>{% trans "Assignment information" %}</h2>
+    <h3>{% trans "Trainee Position choices" %}</h3>
   </div>
   <div class="card-body">
     <form method="post">
@@ -27,8 +27,6 @@
         <button type="submit" class="btn btn-info">{% trans "Update" %}</button>
     </form>
     {{ form.media }}
-  </div>
-  <div class="card-footer">
   </div>
 </div>
   {% endblock content %}

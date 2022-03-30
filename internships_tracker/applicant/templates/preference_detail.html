@@ -6,17 +6,42 @@
 {% if preference %}
     <div class="card ">
         <div class="card-header bg-white text-info">
-            <h4>My Application</h4>
+            <h3>My Application</h3>
         </div>
         <div class="card-body ">
-            <p>Preference 1: {{preference.trainee_position_1}}</p>
-            {% if preference.trainee_position_2%} <p>Preference 2: {{preference.trainee_position_2}}</p>{% endif %}
-            {% if preference.trainee_position_3%} <p>Preference 3: {{preference.trainee_position_3}}</p>{% endif %}
-            {% if preference.trainee_position_4%} <p>Preference 4: {{preference.trainee_position_4}}</p>{% endif %}
-            {% if preference.trainee_position_5%} <p>Preference 5: {{preference.trainee_position_5}}</p>{% endif %}
+            {% if preference.trainee_position_1%} 
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.5rem; "> Preference 1: </b> 
+                    <span style="font-size: 1.3rem;" > {{preference.trainee_position_1}} </span>
+                </div>
+            {% endif %}
+            {% if preference.trainee_position_2%} 
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.5rem; "> Preference 2: </b> 
+                    <span style="font-size: 1.3rem;" > {{preference.trainee_position_2}} </span>
+                </div>
+            {% endif %}
+            {% if preference.trainee_position_3 %} 
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.5rem; "> Preference 3: </b> 
+                    <span style="font-size: 1.3rem;" > {{preference.trainee_position_3}} </span>
+                </div>
+            {% endif %}
+            {% if preference.trainee_position_4 %} 
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.5rem; "> Preference 4: </b> 
+                    <span style="font-size: 1.3rem;" > {{preference.trainee_position_4}} </span>
+                </div>
+            {% endif %}
+            {% if preference.trainee_position_5 %} 
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.5rem; "> Preference 5: </b> 
+                    <span style="font-size: 1.3rem;" > {{preference.trainee_position_5}} </span>
+                </div>
+            {% endif %}
         </div>
         <div class="card-footer">
-            <a href="{% url 'applicant:student_preference_update'  %}" class="btn btn-info">Update</a>
+            <a href="{% url 'applicant:student_preference_update'  %}" class="btn  btn-lg btn-info">Update</a>
         </div>
     </div>
 {% else %}

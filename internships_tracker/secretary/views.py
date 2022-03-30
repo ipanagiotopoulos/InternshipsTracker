@@ -154,7 +154,7 @@ class SecretaryPreferenceUpdateView(UpdateView):
 class SecretaryPreferenceDeleteView(DeleteView):
     model = Preference
     template_name = "preference_delete.html"
-    context_object_name = "tp"
+    context_object_name = "preference"
 
     def get_success_url(self):
         return "/secretary/students/preferences"

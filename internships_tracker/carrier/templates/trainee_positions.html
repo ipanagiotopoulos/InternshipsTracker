@@ -22,7 +22,7 @@
         {% for tp in tps %}
             <div class="card mb-5">
                 <div class="card-header bg-white text-dark">
-                    <h4>{{tp.title}}</h4>
+                    <span style="color: #232C3A;" >{{tp.title}}</span>
                 </div>
                 <div class="card-body">
                    <div class="card mb-5">
@@ -57,7 +57,7 @@
             <br>
         <a href="{% url 'carrier:traineeposition_create'%}?department={{ request.GET.department }}" class="btn btn-success mb-2 ">Create Job position</a>
         {% else %}  
-            <h4>Carrier assignment period not found</h4>
+        <div class="alert alert-danger"><h4>Carrier assignment period not found</h4></div>
             <br>
         {% endif %}
         <a href="/" class="btn btn-info mb-2 ">Go back</a>

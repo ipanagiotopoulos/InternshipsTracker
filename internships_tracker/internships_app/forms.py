@@ -95,7 +95,6 @@ class StudentUpdateForm(UserChangeForm):
 
     class Meta:
         model = UndergraduateStudent
-        exclude = ['email']
         fields = (
             "first_name",
             "last_name",
