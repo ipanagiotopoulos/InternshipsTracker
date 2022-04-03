@@ -38,14 +38,15 @@ class ApplicationPeriodForm(forms.ModelForm):
         if from_date > to_date:
             raise forms.ValidationError("Dates are incorrect")
 
+        uni_department=self.cleaned_data.get('department')
         cas = CarrierAssignmentPeriod.objects.filter(
-            department=self.cleaned_data.get('department')
+            department=uni_department
         ).first()
         if cas:
             if cas.to_date > from_date:
-                raise forms.ValidationError("Carrier Assignment Period hasnt expired")
+                raise forms.ValidationError("Periods conflict on Department "+uni_department+" starting date of Application Period: "+str(from_date)+" and ending date for Carrier Assignment: "+str(cas.to_date))
         else:
-            raise forms.ValidationError("Carrier Assignment Period doesnt exist")
+            raise forms.ValidationError("Carrier Assignment Period does not exist")
         return self.cleaned_data
 
 class ApplicationPeriodAdmin(admin.ModelAdmin):
@@ -64,15 +65,15 @@ class AssignmentPeriodForm(forms.ModelForm):
         to_date = self.cleaned_data.get('to_date')
         if from_date > to_date:
             raise forms.ValidationError("Dates are incorrect")
-
-        cas = ApplicationPeriod.objects.filter(
-            department=self.cleaned_data.get('department')
+        uni_department = self.cleaned_data.get('department')
+        app_period = ApplicationPeriod.objects.filter(
+            department=uni_department
         ).first()
-        if cas:
-            if cas.to_date > from_date:
-                raise forms.ValidationError("Application Period hasnt expired")
+        if app_period:
+            if app_period.to_date > from_date:
+                raise forms.ValidationError("Periods conflict on Department "+uni_department+" starting date of Assignment Period: "+str(from_date)+" and ending date for applications: "+str(app_period.to_date))
         else:
-            raise forms.ValidationError("Application Period doesnt exist")
+            raise forms.ValidationError("Application Period does not exist")
         return self.cleaned_data
 
 class AssignmentPeriodAdmin(admin.ModelAdmin):
@@ -91,15 +92,15 @@ class  InternshipReportPeriodForm(forms.ModelForm):
         to_date = self.cleaned_data.get('to_date')
         if from_date > to_date:
             raise forms.ValidationError("Dates are incorrect")
-
-        cas = AssignmentPeriod.objects.filter(
-            department=self.cleaned_data.get('department')
+        uni_department = self.cleaned_data.get('department')
+        assignment_period = AssignmentPeriod.objects.filter(
+            department=uni_department
         ).first()
-        if cas:
-            if cas.to_date > from_date:
-                raise forms.ValidationError("Assignment Period hasnt expired")
+        if assignment_period:
+            if assignment_period.to_date > from_date:
+                raise forms.ValidationError("Periods conflict on Department "+uni_department+" starting date of Internship Reports Period: "+str(from_date)+" and ending date for assignments: "+str(assignment_period.to_date))
         else:
-            raise forms.ValidationError("Assignment Period doesnt exist")
+            raise forms.ValidationError("Assignment Period does not  exist")
         return self.cleaned_data
 
 class InternshipReportPeriodAdmin(admin.ModelAdmin):
