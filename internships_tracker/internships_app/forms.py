@@ -187,6 +187,7 @@ class SupervisorUpdateForm(UserChangeForm):
         fields = (
             "first_name",
             "last_name",
+            "username",
             "email",
             "mobile_phone",
             "home_phone",

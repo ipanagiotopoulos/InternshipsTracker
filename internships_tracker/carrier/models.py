@@ -52,8 +52,12 @@ class TraineePosition(models.Model):
     description = models.TextField(max_length=1500)
     created = models.DateTimeField(auto_now_add=True)
     finalized = models.BooleanField(default=False)
+    class Meta:
+        unique_together = ('job_code', 'no_id')
+        
     def __str__(self):
         return self.title +" in "+self.carrier.official_name
+
 
 
 class Assignment(models.Model):
