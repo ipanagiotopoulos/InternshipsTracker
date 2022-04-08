@@ -9,10 +9,11 @@ admin.site.register(Assignment)
 admin.site.register(CarrierConsent)
 admin.site.register(CarrierAssesement)
 
+
 class CarrierAssignmentPeriodForm(forms.ModelForm):
     class Meta:
         model = CarrierAssignmentPeriod
-        fields='__all__'
+        fields = '__all__'
 
     def clean(self):
         from_date = self.cleaned_data.get('from_date')
@@ -21,16 +22,18 @@ class CarrierAssignmentPeriodForm(forms.ModelForm):
             raise forms.ValidationError("Dates are incorrect")
         return self.cleaned_data
 
+
 class CarrierAssignmentPeriodAdmin(admin.ModelAdmin):
-        form = CarrierAssignmentPeriodForm
+    form = CarrierAssignmentPeriodForm
 
 
 admin.site.register(CarrierAssignmentPeriod, CarrierAssignmentPeriodAdmin)
 
+
 class ApplicationPeriodForm(forms.ModelForm):
     class Meta:
         model = ApplicationPeriod
-        fields='__all__'
+        fields = '__all__'
 
     def clean(self):
         from_date = self.cleaned_data.get('from_date')
@@ -38,27 +41,31 @@ class ApplicationPeriodForm(forms.ModelForm):
         if from_date > to_date:
             raise forms.ValidationError("Dates are incorrect")
 
-        uni_department=self.cleaned_data.get('department')
+        uni_department = self.cleaned_data.get('department')
         cas = CarrierAssignmentPeriod.objects.filter(
             department=uni_department
         ).first()
         if cas:
             if cas.to_date > from_date:
-                raise forms.ValidationError("Periods conflict on Department "+uni_department+" starting date of Application Period: "+str(from_date)+" and ending date for Carrier Assignment: "+str(cas.to_date))
+                raise forms.ValidationError("Periods conflict on Department "+uni_department+" starting date of Application Period: "+str(
+                    from_date)+" and ending date for Carrier Assignment: "+str(cas.to_date))
         else:
-            raise forms.ValidationError("Carrier Assignment Period does not exist")
+            raise forms.ValidationError(
+                "Carrier Assignment Period does not exist")
         return self.cleaned_data
 
+
 class ApplicationPeriodAdmin(admin.ModelAdmin):
-        form = ApplicationPeriodForm
+    form = ApplicationPeriodForm
 
 
 admin.site.register(ApplicationPeriod, ApplicationPeriodAdmin)
 
+
 class AssignmentPeriodForm(forms.ModelForm):
     class Meta:
         model = AssignmentPeriod
-        fields='__all__'
+        fields = '__all__'
 
     def clean(self):
         from_date = self.cleaned_data.get('from_date')
@@ -71,21 +78,24 @@ class AssignmentPeriodForm(forms.ModelForm):
         ).first()
         if app_period:
             if app_period.to_date > from_date:
-                raise forms.ValidationError("Periods conflict on Department "+uni_department+" starting date of Assignment Period: "+str(from_date)+" and ending date for applications: "+str(app_period.to_date))
+                raise forms.ValidationError("Periods conflict on Department "+uni_department+" starting date of Assignment Period: "+str(
+                    from_date)+" and ending date for applications: "+str(app_period.to_date))
         else:
             raise forms.ValidationError("Application Period does not exist")
         return self.cleaned_data
 
+
 class AssignmentPeriodAdmin(admin.ModelAdmin):
-        form = AssignmentPeriodForm
+    form = AssignmentPeriodForm
 
 
 admin.site.register(AssignmentPeriod, AssignmentPeriodAdmin)
 
-class  InternshipReportPeriodForm(forms.ModelForm):
+
+class InternshipReportPeriodForm(forms.ModelForm):
     class Meta:
         model = InternshipReportPeriod
-        fields='__all__'
+        fields = '__all__'
 
     def clean(self):
         from_date = self.cleaned_data.get('from_date')
@@ -98,13 +108,15 @@ class  InternshipReportPeriodForm(forms.ModelForm):
         ).first()
         if assignment_period:
             if assignment_period.to_date > from_date:
-                raise forms.ValidationError("Periods conflict on Department "+uni_department+" starting date of Internship Reports Period: "+str(from_date)+" and ending date for assignments: "+str(assignment_period.to_date))
+                raise forms.ValidationError("Periods conflict on Department "+uni_department+" starting date of Internship Reports Period: "+str(
+                    from_date)+" and ending date for assignments: "+str(assignment_period.to_date))
         else:
             raise forms.ValidationError("Assignment Period does not  exist")
         return self.cleaned_data
 
+
 class InternshipReportPeriodAdmin(admin.ModelAdmin):
-        form = InternshipReportPeriodForm
+    form = InternshipReportPeriodForm
 
 
 admin.site.register(InternshipReportPeriod, InternshipReportPeriodAdmin)

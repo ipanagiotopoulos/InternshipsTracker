@@ -3,6 +3,7 @@ from dal import autocomplete
 from applicant.models import Preference
 from carrier.models import TraineePosition
 
+
 class SecrataryPreferenceForm(forms.ModelForm):
     trainee_position_1 = forms.ModelChoiceField(
         required=False,
@@ -92,3 +93,7 @@ class SecrataryPreferenceForm(forms.ModelForm):
                     ]
                 }
             )
+
+
+class AssignmentSecretaryForm(forms.ModelForm):
+    some = "frwofk"

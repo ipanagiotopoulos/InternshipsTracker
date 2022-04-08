@@ -1,11 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
+{% load bootstrap %}
 {% block title %} {% trans "Student" %} {% endblock title %}
 {% block content%}
 {% if message %}
   {{message}}
 {% endif %}
+<form  class='form-group' method="GET">
+  {{ filter.form|bootstrap}}
+  <button type="submit" class="btn btn-info btn-lg ">Search</button>
+</form>
 <table id="datatable" class="table align-items-center table-flush">
     <thead class="bg-light">
         <tr>
@@ -19,7 +24,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for carrier in carriers %}
+        {% for carrier in filter.qs %}
         <tr>
             <td>{{carrier.first_name}}</td>
             <td>{{carrier.last_name}}</td>

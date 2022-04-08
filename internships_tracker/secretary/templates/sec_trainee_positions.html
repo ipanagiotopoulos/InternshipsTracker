@@ -3,9 +3,14 @@
 {% load i18n %}
 {% block title %} {% trans "Student" %} {% endblock title %}
 {% block content%}
+{% load bootstrap %}
 {% if message %}
   {{message}}
 {% endif %}
+<form  class='form-group' method="GET">
+    {{ filter.form|bootstrap}}
+    <button type="submit" class="btn btn-info btn-lg ">Search</button>
+</form>
 <table id="datatable" class="table align-items-center table-flush">
     <thead class="bg-light">
         <tr>
@@ -19,7 +24,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for tp in tps %}                                                            
+        {% for tp in filter.qs %}                                                            
         <tr>
             <td>{{tp.title}}</td>
             <td>{{tp.carrier.official_name}}</td>

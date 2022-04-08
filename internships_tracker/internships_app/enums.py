@@ -3,7 +3,7 @@ IT = "IT"
 GS = "G"
 HS = "ESD"
 DS = "ND"
-ALL ="ALL"
+ALL = "ALL"
 NON = "NON"
 DEPARTMENT_CHOICES = [
     (IT, "Informatics and Telematics"),
