@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %} {% trans "Student" %} {% endblock title %}
+{% block content%}
+{% load bootstrap %}
+{% if message %}
+  {{message}}
+{% endif %}
+<div>
+    <a href="{% url 'carrier:traineeposition_create'%}?department={{ request.GET.department }}" class="btn btn-success mb-2 ">Add assignment</a>
+</div>    
+
+{% if assignments %}
+<form  class='form-group' method="GET">
+    {{ filter.form|bootstrap}}
+    <button type="submit" class="btn btn-info btn-lg ">Search</button>
+</form>                                  
+    <table id="datatable" class="table align-items-center table-flush">
+        <thead class="bg-light">
+            <tr>
+            <th scope="col">{% trans "Name" %}</th>
+            <th scope="col">{% trans "email" %}</th>
+            <th scope="col">{% trans "Department" %}</th>
+            <th scope="col">{% trans "Created at" %}</th>
+            <th scope="col">{% trans "Accepted" %}</th>
+            <th scope="col">{% trans "Trainee Position" %}</th>
+            <th scope="col">{% trans "Carrier name" %}</th>
+            <th scope="col">{% trans "Job ID" %}</th>
+            <th scope="col">{% trans "Action" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for assignment in filter.qs %}                                                            
+            <tr>
+                <td>{{assignment.trainee.fist_name}} {{assignment.trainee.last_name}}</td>
+                <td>{{assignment.trainee.email}}</td>
+                <td>{{assignment.trainee.uni_department}}</td>
+                <td>{{assignment.created}}</td>
+                {% if pref.assignment_status != "Rejected" %}
+                <td class="text-right row">
+                    <div class="btn-group" role="group">
+                        <div class="col-md-5 custom">
+                            <button type="button" class="btn btn-sm btn-success"> <a class="text-white" href="/secretary/students/preferences/{{pref.id}}/accept"> Accept</button>        
+                        </div>
+                        <div class="col-md-5 custom">
+                            <form action="" method="POST">
+                                <button type="button" class="btn btn-sm btn-danger"> <a class="text-white" href="/secretary/students/preferences/{{pref.id}}/delete"> Reject</button>
+                            </form>
+                        </div>
+                    </div>
+                </td>
+                {% else %}
+                <td>YES</td>
+            {% endif %}
+                <td>{{assignment.trainee_position.title}}</td>
+                <td>{{assignment.trainee_position.carrier.official_name}}</td>
+                <td>{{assignment.trainee_position.job_code}}:{{assignment.trainee_position.no_id}}</td>
+                <td>
+                    <a class="btn btn-outline-info" href="#">{% trans "View" %}</a>
+                </td>
+        </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div class="row">
+        <div class="col col-12">
+            <div class="alert alert-danger"><h4>{% translate "No assignments found!" %}</h4></div>
+            <button class="btn btn-lg  btn-info"> <a  class="text-white" href="/">Go back </button>
+        </div>
+    </div>
+{% endif %}
+{% endblock content %}

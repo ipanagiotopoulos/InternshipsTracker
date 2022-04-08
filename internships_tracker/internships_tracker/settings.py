@@ -14,7 +14,7 @@ from pathlib import Path
 from django_auth_ldap.config import LDAPSearch
 # from django.utils.translation import get_language
 import os
-import ldap 
+import ldap
 import environ
 
 
@@ -54,7 +54,10 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "dal",
     "dal_select2",
+    "bootstrap5",
+    "bootstrapform",
     "django_bootstrap_icons",
+    "django_filters",
 ]
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
@@ -143,7 +146,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-#auth django
+# auth django
 AUTH_USER_MODEL = 'internships_app.User'
 AUTHENTICATION_BACKENDS = [
     "internships_app.backends.EmailBackend", "django_auth_ldap.backend.LDAPBackend"]
@@ -177,7 +180,7 @@ AUTH_LDAP_USER_ATTR_MAP = {
 # }
 AUTH_LDAP_INTERNAL_DOMAIN = env('AUTH_LDAP_INTERNAL_DOMAIN')
 
-#logging in internships app
+# logging in internships app
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
