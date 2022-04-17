@@ -1,7 +1,7 @@
 from django import forms
 from dal import autocomplete
 from applicant.models import Preference
-from carrier.models import TraineePosition
+from carrier.models import TraineePosition, Assignment
 
 
 class SecrataryPreferenceForm(forms.ModelForm):
@@ -96,4 +96,12 @@ class SecrataryPreferenceForm(forms.ModelForm):
 
 
 class AssignmentSecretaryForm(forms.ModelForm):
-    some = "frwofk"
+    class Meta:
+        model = Assignment
+        fields = (
+            "trainee",
+            "trainee_position",
+            "supervisor",
+            "assignment_period",
+            "assignment_status",
+        )

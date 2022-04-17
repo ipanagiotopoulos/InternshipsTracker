@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from django.template import context
 from django.views.generic import ListView, DeleteView, UpdateView, CreateView
+from datetime import date
 from internships_app.models import UndergraduateStudent, User, CarrierNode
 from applicant.models import Preference
 from carrier.models import TraineePosition, ApplicationPeriod, Assignment
@@ -121,16 +121,21 @@ def trainee_position_approval_rejection(request, pk):
 
 def trainee_position_approve(request, pk):
     trainee_position = TraineePosition.objects.filter(id=pk).first()
+    uni_department = trainee_position.carrier_assignment.department
     ap_per = ApplicationPeriod.objects.filter(
-        department=trainee_position.carrier_assignment.department).first() != None
+        department=uni_department).first()
 
-    if ap_per:
-        trainee_position.finalized = True
-        trainee_position.save()
-        return redirect('/secretary/carriers/trainee_positions')
+    if ap_per != None:
+        if ap_per.from_date < date.today() < ap_per.to_date:
+            trainee_position.finalized = True
+            trainee_position.save()
+            return redirect('/secretary/carriers/trainee_positions')
+        else:
+            request.session['message'] = 'Application period not available for department: '+uni_department
+            return redirect('/secretary/carriers/trainee_positions')
     else:
-        # some other page, or rendering page with some message
-        return redirect('404.html')
+        request.session['message'] = 'Application  not found! for department: '+uni_department
+        return redirect('/secretary/carriers/trainee_positions')
 
 
 def carrier_node_reject(request, pk):
@@ -231,17 +236,14 @@ class AssingmentCreateView(CreateView):
     model = Assignment
     context_object_name = "assignments"
     form_class = AssignmentSecretaryForm
-    template_name = "create_assignment.html"
-    succes_url = "/"
+    template_name = "sec_create_assignment.html"
+    succes_url = "/secretary/assignments"
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
         return form
 
     def form_valid(self, form):
-        student = Assignment.objects.get(
-            user_ptr_id=self.request.user.id)
-        form.instance.applicant = student
         return super().form_valid(form)
 
 
@@ -252,13 +254,20 @@ class AssingmentUpdateView(UpdateView):
     template_name = "create_assignment.html"
     succes_url = "/"
 
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        return form
 
-class AssingmentDeleteView(UpdateView):
+
+class AssingmentDeleteView(DeleteView):
     model = Assignment
-    context_object_name = "assignments"
+    context_object_name = "assignment"
     form_class = AssignmentSecretaryForm
-    template_name = "create_assignment.html"
+    template_name = "sec_assignment_delete.html"
     succes_url = "/"
+
+    def get_success_url(self):
+        return "/secretary/assignments"
 
 
 def assignment_approve(request, pk):

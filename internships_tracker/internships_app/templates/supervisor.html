@@ -3,47 +3,46 @@
 {% load i18n %}
 {%block title %} {% trans "Home" %} {% endblock title %}
 {% block content%}
-
-<div class="card ">
+  <div class="card">
     <div class="card-header bg-white text-info">
-        <h4>Supervisor Profile</h4>
+      <h4>Supervisor Profile</h4>
     </div>
     <div class="card-body ">
-        <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Username: </b> 
-            <span style="font-size: 1.3rem;" > {{supervisor.username}} </span>
-        </div>
-        <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Email: </b> 
-            <span style="font-size: 1.3rem;" > {{supervisor.email}} </span>
-        </div>
-        <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Father Name: </b> 
-            <span style="font-size: 1.3rem;" > {{supervisor.father_name}} </span>
-        </div>
-        <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Mother Name: </b> 
-            <span style="font-size: 1.3rem;" > {{supervisor.mother_name}} </span>
-        </div>
-        <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Birth Day: </b> 
-            <span style="font-size: 1.3rem;" > {{supervisor.birth_day}} </span>
-        </div>
-        <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Mobile Phone: </b> 
-            <span style="font-size: 1.3rem;" > {{supervisor.mobile_phone}} </span>
-        </div>
-        <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Home Phone: </b> 
-            <span style="font-size: 1.3rem;" > {{supervisor.home_phone}} </span>
-        </div>
-        <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Department: </b> 
-            <span style="font-size: 1.3rem;" > {{supervisor.department}} </span>
-        </div>
+      <div style="margin-bottom: 1rem;"> 
+        <b style="font-size: 1.5rem; "> Username: </b> 
+        <span style="font-size: 1.3rem;" > {{supervisor.username}} </span>
+      </div>
+      <div style="margin-bottom: 1rem;"> 
+        <b style="font-size: 1.5rem; "> Email: </b> 
+        <span style="font-size: 1.3rem;" > {{supervisor.email}} </span>
+      </div>
+      <div style="margin-bottom: 1rem;"> 
+        <b style="font-size: 1.5rem; "> Father Name: </b> 
+        <span style="font-size: 1.3rem;" > {{supervisor.father_name}} </span>
+      </div>
+      <div style="margin-bottom: 1rem;"> 
+        <b style="font-size: 1.5rem; "> Mother Name: </b> 
+        <span style="font-size: 1.3rem;" > {{supervisor.mother_name}} </span>
+      </div>
+      <div style="margin-bottom: 1rem;"> 
+        <b style="font-size: 1.5rem; "> Birth Day: </b> 
+        <span style="font-size: 1.3rem;" > {{supervisor.birth_day}} </span>
+      </div>
+      <div style="margin-bottom: 1rem;"> 
+        <b style="font-size: 1.5rem; "> Mobile Phone: </b> 
+        <span style="font-size: 1.3rem;" > {{supervisor.mobile_phone}} </span>
+      </div>
+      <div style="margin-bottom: 1rem;"> 
+        <b style="font-size: 1.5rem; "> Home Phone: </b> 
+        <span style="font-size: 1.3rem;" > {{supervisor.home_phone}} </span>
+      </div>
+      <div style="margin-bottom: 1rem;"> 
+        <b style="font-size: 1.5rem; "> Department: </b> 
+        <span style="font-size: 1.3rem;" > {{supervisor.department}} </span>
+      </div>
     </div>
     <div class="card-footer">
         <a href="{% url 'internships_app:supervisor_update'  %}" class="btn btn-lg btn-info">Profile Update</a>
     </div>
-</div>
+  </div>
 {% endblock content %}

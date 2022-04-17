@@ -88,5 +88,9 @@ urlpatterns = [
         views.AssingmentListView.as_view(),
         name="sec_assignments",
     ),
-
+    path(
+        "assignment",
+        views.AssingmentCreateView.as_view(),
+        name="sec_assignment_create",
+    ),
 ]

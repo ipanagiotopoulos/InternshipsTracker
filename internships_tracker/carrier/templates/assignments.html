@@ -3,49 +3,51 @@
 {% load i18n %}
 {% block title %} {% trans "Assignemnts" %}{% endblock title %}
 {% block content %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+  {% if assignments %}
+        <table id="datatable" class="table align-items-center table-flush">
+            <thead class="bg-light">
+                <tr>
+                <th scope="col">{% trans "Date" %}</th>
+                <th scope="col">{% trans "Trainee" %}</th>
+                <th scope="col">{% trans "Trainee Position" %}</th>
+                <th scope="col">{% trans "Supervisor" %}</th>
+                <th scope="col">{% trans "Actions" %}</th>
 
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"></link>
-
-{% if assignments %}
-    <table id="datatable" class="table align-items-center table-flush">
-        <thead class="bg-light">
-            <tr>
-            <th scope="col">{% trans "Date" %}</th>
-            <th scope="col">{% trans "Trainee" %}</th>
-            <th scope="col">{% trans "Trainee Position" %}</th>
-            <th scope="col">{% trans "Supervisor" %}</th>
-            <th scope="col">{% trans "Actions" %}</th>
-
-            </tr>
-        </thead>
-        <tbody>
-            {% for assignment in assignments %}
-            <tr>
-            <td>{{assignment.date}}</td>
-            <td>{{assignment.trainee}}</td>
-            <td>{{assignment.trainee_position}}</td>
-            <td>{{assignment.supervisor}}</td>
-            <td>
-                <a class="btn btn-outline-info" href="{% url 'carrier:assignment_detail' assignment.pk %}">{% trans "View" %}</a>
-            </td>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <div class="row">
-        <div class="col col-12">
-            <div class="alert alert-danger">{% translate "Assignments not found" %}</div>
+                </tr>
+            </thead>
+            <tbody>
+                {% for assignment in assignments %}
+                <tr>
+                <td>{{assignment.date}}</td>
+                <td>{{assignment.trainee}}</td>
+                <td>{{assignment.trainee_position}}</td>
+                <td>{{assignment.supervisor}}</td>
+                <td>
+                    <a class="btn btn-outline-info" href="{% url 'carrier:assignment_detail' assignment.pk %}">{% trans "View" %}</a>
+                </td>
+                {% endfor %}
+            </tbody>
+        </table>
+  {% else %}
+        <div class="row">
+            <div class="col col-12">
+                <div class="alert alert-danger">{% translate "Assignments not found" %}</div>
+            </div>
         </div>
-    </div>
-{% endif %}
-    <script type="text/javascript"
-	   src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript"
-	   src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript">
-       $('#datatable').DataTable({
-            "ordering" : false,
-        });
-    </script>
-{% endblock content %}
+  {% endif %}
+  <script type="text/javascript"
+        src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js">
+  </script>
+  <script type="text/javascript"
+        src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js">
+  </script>
+  <script type="text/javascript">
+        $('#datatable').DataTable({
+                "ordering" : false,
+            });
+  </script>
+    {% endblock content %}

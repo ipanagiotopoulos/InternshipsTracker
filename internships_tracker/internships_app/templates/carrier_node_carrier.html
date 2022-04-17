@@ -8,75 +8,75 @@
     <div class="card-header bg-white text-info">
         <h2>Carrier Node Profile</h2>
     </div>
-    <div class="card-body ">
+    <div class="card-body">
         <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Username: </b> 
-            <span style="font-size: 1.3rem;" > {{carrier_node.username}} </span>
+          <b style="font-size: 1.5rem; "> Username: </b> 
+          <span style="font-size: 1.3rem;" > {{carrier_node.username}} </span>
         </div>
         <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Email: </b> 
-            <span style="font-size: 1.3rem;" > {{carrier_node.email}} </span>
+          <b style="font-size: 1.5rem; "> Email: </b> 
+          <span style="font-size: 1.3rem;" > {{carrier_node.email}} </span>
         </div>
         <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Title: </b> 
-            <span style="font-size: 1.3rem;" > {{carrier_node.title}} </span>
+          <b style="font-size: 1.5rem; "> Title: </b> 
+          <span style="font-size: 1.3rem;" > {{carrier_node.title}} </span>
         </div>
         <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Father Νame: </b> 
-            <span style="font-size: 1.3rem;" > {{carrier_node.father_name}} </span>
+          <b style="font-size: 1.5rem; "> Father Νame: </b> 
+          <span style="font-size: 1.3rem;" > {{carrier_node.father_name}} </span>
         </div>
         <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Mother Νame: </b> 
-            <span style="font-size: 1.3rem;" > {{carrier_node.mother_name}} </span>
+          <b style="font-size: 1.5rem; "> Mother Νame: </b> 
+          <span style="font-size: 1.3rem;" > {{carrier_node.mother_name}} </span>
         </div>
         <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Birth Date: </b> 
-            <span style="font-size: 1.3rem;" > {{carrier_node.birth_day}} </span>
+          <b style="font-size: 1.5rem; "> Birth Date: </b> 
+          <span style="font-size: 1.3rem;" > {{carrier_node.birth_day}} </span>
         </div>
         <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Mobile Phone: </b> 
-            <span style="font-size: 1.3rem;" > {{carrier_node.mobile_phone}} </span>
+          <b style="font-size: 1.5rem; "> Mobile Phone: </b> 
+          <span style="font-size: 1.3rem;" > {{carrier_node.mobile_phone}} </span>
         </div>
         <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Home Phone: </b> 
-            <span style="font-size: 1.3rem;" > {{carrier_node.tel_no2}} </span>
+          <b style="font-size: 1.5rem; "> Home Phone: </b> 
+          <span style="font-size: 1.3rem;" > {{carrier_node.tel_no2}} </span>
         </div>
         <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Carrier: </b> 
-            <span style="font-size: 1.3rem;" > {{carrier_node.carrier}} </span>
+          <b style="font-size: 1.5rem; "> Carrier: </b> 
+          <span style="font-size: 1.3rem;" > {{carrier_node.carrier}} </span>
         </div>
         <div style="margin-bottom: 1rem;"> 
-            <b style="font-size: 1.5rem; "> Carrier: </b> 
-            <span style="font-size: 1.3rem;" > {{carrier_node.departme}} </span>
+          <b style="font-size: 1.5rem; "> Carrier: </b> 
+          <span style="font-size: 1.3rem;" > {{carrier_node.departme}} </span>
         </div>
         {% if carrier_node.carrier.department_1 != NON %}
          <div style="margin-bottom: 1rem; color:black;"> 
-          <b style="font-size: 1.5rem; "> Department 1: </b> 
-          <span style="font-size: 1.3rem;" > {{carrier_node.carrier.department_2}}  </span>
+           <b style="font-size: 1.5rem; "> Department 1: </b> 
+           <span style="font-size: 1.3rem;" > {{carrier_node.carrier.department_2}}  </span>
          </div>
         {% endif %}
         {% if carrier_node.carrier.department_2  != NON %}
          <div style="margin-bottom: 1rem; color:black;"> 
-          <b style="font-size: 1.5rem; "> Department 2: </b> 
-          <span style="font-size: 1.3rem;" > {{carrier_node.carrier.department_2}}  </span>
+           <b style="font-size: 1.5rem; "> Department 2: </b> 
+           <span style="font-size: 1.3rem;" > {{carrier_node.carrier.department_2}}  </span>
          </div>
         {% endif %}
         {% if carrier_node.carrier.department_3 != NON %}
          <div style="margin-bottom: 1rem; color:black;"> 
-          <b style="font-size: 1.5rem; "> Department 3: </b> 
-          <span style="font-size: 1.3rem;" > {{carrier_node.carrier.department_3}}  </span>
+           <b style="font-size: 1.5rem; "> Department 3: </b> 
+           <span style="font-size: 1.3rem;" > {{carrier_node.carrier.department_3}}  </span>
          </div>
         {% endif %}
         {% if carrier_node.carrier.department_4 != NON %}
          <div style="margin-bottom: 1rem; color:black;"> 
-          <b style="font-size: 1.5rem; "> Department 4: </b> 
-          <span style="font-size: 1.3rem;" > {{carrier_node.carrier.department_4}}  </span>
+           <b style="font-size: 1.5rem; "> Department 4: </b> 
+           <span style="font-size: 1.3rem;" > {{carrier_node.carrier.department_4}}  </span>
          </div>
         {% endif %}
     </div>
     <div class="card-footer">
-        <a href="{%url 'internships_app:carrier_node_edit'  %}" class="btn btn-lg btn-primary">Profile Update</a>
-        <a href="/" class="btn btn-lg btn-primary">See assignment periods</a>
+      <a href="{%url 'internships_app:carrier_node_edit'  %}" class="btn btn-lg btn-primary">Profile Update</a>
+      <a href="/" class="btn btn-lg btn-primary">See assignment periods</a>
     </div>
 </div>
 {% endblock content %}
