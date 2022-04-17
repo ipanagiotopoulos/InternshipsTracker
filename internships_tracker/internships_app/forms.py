@@ -7,7 +7,6 @@ from phonenumber_field.formfields import PhoneNumberField
 from utils.validators import alphabetic, alphanumeric
 from .models import *
 from .enums import *
-import datetime as date
 
 
 class UndergraduateStudentForm(forms.ModelForm):

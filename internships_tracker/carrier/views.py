@@ -20,13 +20,12 @@ def carrier_assignment_not_found(request):
     return render(request, 'carrier_assignment_not_found.html')
 
 
-deps = ['IT', 'ND', 'HS', 'G']
+deps = ['IT', 'ND', 'ESD', 'G']
 
 
 class TraineePositionListView(CarrierRequiredMixin, ListView):
     model = TraineePosition
     template_name = "trainee_positions.html"
-    paginate_by = 10
     context_object_name = "tps"
 
     def get_context_data(self, **kwargs):
@@ -39,7 +38,7 @@ class TraineePositionListView(CarrierRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         carrier_assignment_period = CarrierAssignmentPeriod.objects.filter(
             department=department_request).first()
-        if (carrier_assignment_period != None) and (carrier_assignment_period.from_date < date.today() < carrier_assignment_period.to_date):
+        if (carrier_assignment_period != None) and (carrier_assignment_period.from_date <= date.today() <= carrier_assignment_period.to_date):
             context = {
                 'assignment_period': True,
                 'tps': tps

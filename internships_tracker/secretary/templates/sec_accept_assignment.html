@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
-{% block title %} {% trans "Student application" %} {% endblock title %}
+{% block title %} {% trans "Accept Assignment" %} {% endblock title %}
 {% block content%}
 
 <div class="card">
@@ -33,13 +33,13 @@
       <b style="font-size: 1.5rem; "> Created </b> 
       <span style="font-size: 1.3rem;" > {{preference.created}}  </span>
     </div>
-        <div class="card-footer bg-white mt-3">
+    <div class="card-footer bg-white mt-3">
         <h2 style="color:black; margin-bottom: 2rem;">Choices</h2>
         {% if preference.trainee_position_1 != None %}
           <div style="margin-bottom: 1rem; color:black;"> 
             <b style="font-size: 1.5rem; "> Choice 1 : </b> 
             <span style="font-size: 1.3rem;" > {{preference.trainee_position_1}}  </span>
-          </div>
+           </div>
         {% endif %}
         {% if preference.trainee_position_2 != None %}
           <div style="margin-bottom: 1rem; color:black;"> 
@@ -47,6 +47,7 @@
             <span style="font-size: 1.3rem;" > {{preference.trainee_position_2}}  </span>
           </div>
         {% endif %}
+
         {% if preference.trainee_position_3 != None %}
           <div style="margin-bottom: 1rem; color:black;"> 
             <b style="font-size: 1.5rem; "> Choice 3 : </b> 
@@ -79,6 +80,7 @@
             <b style="font-size: 1.5rem; "> Activated </b> 
             <span style="font-size: 1.3rem;" > YES </span>
           </div>
+
         {% endif %}
       </div>
    </div>

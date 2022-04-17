@@ -87,7 +87,7 @@ class PreferenceDetailView(DetailView):
         return None
 
 
-class TraineePositionStudentListView(ListView):
+class TraineePositionStudentListView(ApplicationPeriodRequiredMixin, ListView):
     model = TraineePosition
     context_object_name = "tps"
     template_name = "student_trainee_positions.html"
