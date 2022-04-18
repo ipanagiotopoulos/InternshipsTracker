@@ -36,7 +36,9 @@ class TraineePositionsFilter(django_filters.FilterSet):
         fields = {
             'title': ['icontains'],
             'finalized':  ['exact'],
-            'job_code': ['exact'],
+            'job_code': ['icontains'],
+            'carrier__official_name': ['exact'],
+            'carrier_assignment__department': ['exact'],
             'no_id': ['exact'],
         }
 
@@ -59,6 +61,8 @@ class AssignmentFilter(django_filters.FilterSet):
         fields = {
             'trainee__first_name': ['icontains'],
             'trainee__last_name': ['icontains'],
+            'trainee__department': ['exact'],
+            'trainee_position__carrier__official_name': ['icontains'],
             'trainee_position__title':  ['exact'],
             'assignment_status': ['exact'],
         }

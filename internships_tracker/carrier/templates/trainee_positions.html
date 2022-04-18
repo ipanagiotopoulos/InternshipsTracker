@@ -2,65 +2,82 @@
 {% load static %}
 {% load i18n %}
 {% load carrier_tags %}
-
+{% load bootstrap %}
 {% block title %} {% trans "Job Postings" %} {% endblock title %}
 {% block content %}
-
-<h3 class="mb-3"> {{ request.GET.department }} Job Postings</h3>
+    <h3 class="mb-3"> {{ request.GET.department }} Job Postings</h3>
     <div class="container-fluid border-border-dark" >
-    {% if tps %}
-        {% for i in tps|slice:"0:1"%}
-           <h5 class="mt-4"> Carrier Assignment period for University Department : {{i.carrier_assignment.department}} <br> <br> <hr> Starting date: {{i.carrier_assignment.from_date}} <br> <br> <hr> Ending date:  {{i.carrier_assignment.to_date}} </h5>
-        {% endfor %}
-        <br>
-        <br>
-        {% if assignment_period  %}
-           <a href="{% url 'carrier:traineeposition_create'%}?department={{ request.GET.department }}" class="btn btn-success mb-2 ">Add Job position</a>
-        {% endif %}
-        </br>
-        </br>
-        {% for tp in tps %}
-            <div class="card mb-5">
-                <div class="card-header bg-white text-dark">
-                    <span style="color: #232C3A;" >{{tp.title}}</span>
-                </div>
-                <div class="card-body">
-                   <div class="card mb-5">
-                    <div class="card-header bg-white text-dark">
-                        <p>Description:</p>
+        {% if filter.qs %}
+             <button class="btn btn-info mb-4" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Search filters
+             </button>
+             <div class="collapse mt-4 mb-4" id="collapseExample">
+                <form  class='form-group' method="GET">
+                    {{ filter.form|bootstrap_horizontal}}
+                    <button type="submit" class="btn btn-info">Search</button>
+                </form>
+             </div>
+            {% for i in filter.qs|slice:"0:1"%}
+            <h5 class="mt-4"> Carrier Assignment period for University Department : {{i.carrier_assignment.department}} <br> <br> <hr> Starting date: {{i.carrier_assignment.from_date}} <br> <br> <hr> Ending date:  {{i.carrier_assignment.to_date}} </h5>
+            {% endfor %}
+            <br>
+            <br>
+            {% if assignment_period  %}
+                <a href="{% url 'carrier:traineeposition_create'%}?department={{ request.GET.department }}" class="btn btn-lg btn-success mb-2 ">Add Job position</a>
+            {% endif %}
+            <br>
+            <br>
+            {% for tp in filter.qs %}
+                <div class="card mb-5">
+                    <div class="card-header text-dark">
+                        <span style="color: #232C3A; font-size: 2rem;" >{{tp.title}}</span>
                     </div>
                     <div class="card-body">
-                      <p class="pt-2">{{tp.description}} </p>
+                        <div class="card mb-5">
+                            <div class="card-header bg-white text-dark" style="font-size: 1.3rem;">
+                                <b>Description:</b>
+                            </div>
+                            <div class="card-body">
+                                <p class="pt-2" style="font-size: 1.1rem;">{{tp.description}}</p>
+                            </div>
+                            <div class="card-body border">
+                                <h6 class="pt-2" style="font-size: 1.3rem;"> <b>Job  Id:</b>  {{tp.job_code}}:{{tp.no_id}}  </h6>
+                            </div>
+                            <div class="card-footer bg-white">
+                                <div style="font-size: 1.3rem; padding-bottom: 1rem;">
+                                    <b> Carrier Assingment Period </b>
+                                    <hr>
+                                </div>
+                                <div style="margin-bottom: 1rem;"> 
+                                  <b style="font-size: 1.3rem; "> Start Date: </b> 
+                                  <span style="font-size: 1.1rem;" > {{tp.carrier_assignment.from_date}}</span>
+                                </div>
+                                <div style="margin-bottom: 1rem;"> 
+                                  <b style="font-size: 1.3rem; "> End Date: </b> 
+                                  <span style="font-size: 1.1rem;" > {{tp.carrier_assignment.to_date}}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body border">
-                      <h6 class="pt-2"> Job  Id: {{tp.job_code}}:{{tp.no_id}} </h6>
-                    </div>
-                    <div class="card-footer bg-white">
-                      <p> Carrier Assingment Period </p>
-                      <p>Start date: {{tp.carrier_assignment.from_date}}</p>
-                      <p>End Date: {{tp.carrier_assignment.to_date}}</p>
-                    </div>
+                    <div class="card-footer">
+                        {% if assignment_period %}
+                        <a href="/carrier/traineepositions/{{tp.pk}}/update?department={{ request.GET.department }}" class="btn btn-info mb-2 btn-block">Edit </a>
+                        <a href="/carrier/traineepositions/{{tp.pk}}/delete?department={{ request.GET.department }}" class="btn btn-danger btn-block" >Delete </a>
+                        {% endif %}
                 </div>
                 </div>
-                <div class="card-footer">
-                    {% if assignment_period %}
-                      <a href="/carrier/traineepositions/{{tp.pk}}/update?department={{ request.GET.department }}" class="btn btn-info mb-2 btn-block">Edit </a>
-                      <a href="/carrier/traineepositions/{{tp.pk}}/delete?department={{ request.GET.department }}" class="btn btn-danger btn-block" >Delete </a>
-                    {% endif %}
-               </div>
-            </div>
-        {% endfor %}
-    {% else %}
-       {% if assignment_period %}
-            <h5>No Job postings found</h5>
-            <h5>Do you want to create a new job posting?</h5>
-            <br>
-        <a href="{% url 'carrier:traineeposition_create'%}?department={{ request.GET.department }}" class="btn btn-success mb-2 ">Create Job position</a>
-        {% else %}  
-        <div class="alert alert-danger"><h4>Carrier assignment period not found</h4></div>
-            <br>
+            {% endfor %}
+        {% else %}
+        {% if assignment_period %}
+                <h5>No Job postings found</h5>
+                <h5>Do you want to create a new job posting?</h5>
+                <br>
+            <a href="{% url 'carrier:traineeposition_create'%}?department={{ request.GET.department }}" class="btn btn-success mb-2 ">Create Job position</a>
+            {% else %}  
+            <div class="alert alert-danger"><h4>Carrier assignment period not found</h4></div>
+                <br>
+            {% endif %}
+            <a href="/" class="btn btn-info mb-2 ">Go back</a>
         {% endif %}
-        <a href="/" class="btn btn-info mb-2 ">Go back</a>
-    {% endif %}
     </div>
 {% endblock content %}

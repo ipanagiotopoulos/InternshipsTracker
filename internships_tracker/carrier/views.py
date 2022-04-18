@@ -9,10 +9,10 @@ from dal import autocomplete as auto
 from datetime import date
 from .forms import *
 from .models import *
+from .filters import TraineePositionsFilter
 from internships_app.models import CarrierNode
 from .mixins import CarrierAssignmentRequiredMixin, CarrierRequiredMixin, StudentOrCarrierRequiredMixin
 from applicant.models import InternshipReport
-
 # Create your views here.
 
 
@@ -27,27 +27,25 @@ class TraineePositionListView(CarrierRequiredMixin, ListView):
     model = TraineePosition
     template_name = "trainee_positions.html"
     context_object_name = "tps"
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         department_request = self.request.GET.get("department")
         if department_request not in deps:
             raise Http404
-        tps = TraineePosition.objects.filter(
+        tp_queryset = TraineePosition.objects.filter(
             carrier_assignment__department=department_request
         )
-        context = super().get_context_data(**kwargs)
+        myFilter = TraineePositionsFilter(
+            self.request.GET, queryset=tp_queryset)
+        context['filter'] = myFilter
         carrier_assignment_period = CarrierAssignmentPeriod.objects.filter(
             department=department_request).first()
         if (carrier_assignment_period != None) and (carrier_assignment_period.from_date <= date.today() <= carrier_assignment_period.to_date):
-            context = {
-                'assignment_period': True,
-                'tps': tps
-            }
+            context['assignment_period'] = True
         else:
-            context = {
-                'assignment_period': False,
-                'tps': tps
-            }
+            context['assignment_period'] = False
         return context
 
     def render_to_response(self, context):
@@ -57,6 +55,15 @@ class TraineePositionListView(CarrierRequiredMixin, ListView):
         if carrier_assignement_check == False:
             return redirect('carrier:carrier_assignment_not_found')
         return super().render_to_response(context)
+
+# context = super().get_context_data(**kwargs)
+#         context = {
+#             'result': self.request.session.pop('trainee_position_message', None)
+#         }
+#         myFilter = TraineePositionsFilter(
+#             self.request.GET, queryset=self.get_queryset())
+#         context = {'filter': myFilter}
+#         return context
 
 
 class TraineePositionCreateView(CarrierAssignmentRequiredMixin, CarrierRequiredMixin, CreateView):
