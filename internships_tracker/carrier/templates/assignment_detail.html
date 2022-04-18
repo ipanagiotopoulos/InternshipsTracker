@@ -15,15 +15,32 @@
         </div>
         <div class="card-body">
             <h3>Student details</h3>
-            </br>
-            <p><b>Student:</b> {{assignment.trainee.first_name}} {{assignment.trainee.last_name}}</p>
-            <p><b>Register Number:</b> {{assignment.trainee.register_number}} </p>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Student: </b> 
+                <span style="font-size: 1.1rem;" > {{assignment.trainee.first_name}} {{assignment.trainee.last_name}}</span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Register Number: </b> 
+                <span style="font-size: 1.1rem;" > {{assignment.trainee.first_name}} {{assignment.trainee.last_name}}</span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Register Number: </b> 
+                <span style="font-size: 1.1rem;" > {{assignment.trainee.register_number}}</span>
+            </div>
             <hr>
-            <h3>Position details</h3>
-            </br>
-            <p><b>Position</b> {{assignment.trainee_position.title}}</p>
-            <p><b>Carrier:</b> {{assignment.trainee_position.carrier.official_name}} </p>
-            <p><b>Assignment period:</b>  <span class="text-info"> {{assignment.assignment_period.from_date}} - {{assignment.assignment_period.to_date}} </span> </p>
+            <h3 style="margin-bottom: 2rem;">Position details</h3>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Position: </b> 
+                <span style="font-size: 1.1rem;" > {{assignment.trainee_position.title}}</span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Carrier: </b> 
+                <span style="font-size: 1.1rem;" > {{assignment.trainee_position.carrier.official_name}}</span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Assignment period: </b> 
+                <span style="font-size: 1.1rem;" > {{assignment.assignment_period.from_date}} - {{assignment.assignment_period.to_date}}</span>
+            </div>
         </div>
         <div class="card-footer ">
             <a href="{% url 'carrier:assignment_accept' assignment.pk %}" class="btn btn-success ">{% trans "Accept" %}</a>

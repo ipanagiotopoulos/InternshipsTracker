@@ -2,19 +2,17 @@
 {% load crispy_forms_tags %}
 {% load i18n %}
 {% block title %}{% trans "Update Application!" %}{% endblock title %}
-
 {% block content %}
-  <style type="text/css">
-    .select2-selection__clear {
-      font-size: 25px;
-      color:red;
+    <style type="text/css">
+      .select2-selection__clear {
+        font-size: 25px;
+        color:red;
 
-    }
-    .select2-selection {
-      padding-bottom:30px;
-    }
-
-  </style>
+      }
+      .select2-selection {
+        padding-bottom:30px;
+      }
+    </style>
     <h2>{% trans "Update Internship Report" %}</h2>
     <form method="post" enctype="multipart/form-data" >
       {% csrf_token %}
@@ -24,5 +22,4 @@
       <br>
     </form>
     {{ form.media }}
-
   {% endblock content %}

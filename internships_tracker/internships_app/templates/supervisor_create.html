@@ -3,8 +3,6 @@
 {% load i18n %}
 {% block title %}{% trans "Signup As Supervisor" %}{% endblock title %}
 {% block content %}
-
-
   <h2 class="mb-5">{% trans "Signup As Supervisor" %}</h2>
   <form method="post">
     {% csrf_token %}
@@ -13,4 +11,4 @@
     <br>
     <br>
   </form>
-  {% endblock content %}
+{% endblock content %}

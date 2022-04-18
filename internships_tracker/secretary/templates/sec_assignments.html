@@ -8,9 +8,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
-
     {% if message %}
-        {{message}}
+      {{message}}
     {% endif %}
     <div>
         <div style="margin-bottom: 2rem;"> 
@@ -37,7 +36,7 @@
                 <th scope="col">{% trans "email" %}</th>
                 <th scope="col">{% trans "Department" %}</th>
                 <th scope="col">{% trans "Created at" %}</th>
-                <th scope="col">{% trans "Accepted" %}</th>
+                <th scope="col">{% trans "Assignment Status" %}</th>
                 <th scope="col">{% trans "Trainee Position" %}</th>
                 <th scope="col">{% trans "Carrier name" %}</th>
                 <th scope="col">{% trans "Job ID" %}</th>
@@ -46,34 +45,38 @@
             </thead>
             <tbody>
                 {% for assignment in filter.qs %}                                                            
-                <tr>
-                    <td>{{assignment.trainee.fist_name}} {{assignment.trainee.last_name}}</td>
-                    <td>{{assignment.trainee.email}}</td>
-                    <td>{{assignment.trainee.uni_department}}</td>
-                    <td>{{assignment.created}}</td>
-                    {% if pref.assignment_status != "Rejected" %}
-                    <td class="text-right row">
-                        <div class="btn-group" role="group">
-                            <div class="col-md-5 custom">
-                                <button type="button" class="btn btn-sm btn-success"> <a class="text-white" href="/secretary/students/preferences/{{pref.id}}/accept"> Accept</button>        
-                            </div>
-                            <div class="col-md-5 custom">
-                                <form action="" method="POST">
-                                    <button type="button" class="btn btn-sm btn-danger"> <a class="text-white" href="/secretary/students/preferences/{{pref.id}}/delete"> Reject</button>
-                                </form>
-                            </div>
-                        </div>
-                    </td>
-                    {% else %}
-                    <td>YES</td>
-                {% endif %}
-                    <td>{{assignment.trainee_position.title}}</td>
-                    <td>{{assignment.trainee_position.carrier.official_name}}</td>
-                    <td>{{assignment.trainee_position.job_code}}:{{assignment.trainee_position.no_id}}</td>
-                    <td>
-                        <a class="btn btn-outline-info" href="#">{% trans "View" %}</a>
-                    </td>
-            </tr>
+                    <tr>
+                        <td>{{assignment.trainee.fist_name}} {{assignment.trainee.last_name}}</td>
+                        <td>{{assignment.trainee.email}}</td>
+                        <td>{{assignment.trainee.uni_department}}</td>
+                        <td>{{assignment.created}}</td>
+                        {% if assignment.assignment_status == "P" %}
+                            <td class="text-right row">
+                                <div class="btn-group" role="group">
+                                    <div class="col-md-5 custom">
+                                        <button type="button" class="btn btn-sm btn-success"> <a class="text-white" href="/secretary/assignments/{{assignment.id}}/accept"> Accept</button>        
+                                    </div>
+                                    <div class="col-md-5 custom">
+                                        <form action="" method="POST">
+                                            <button type="button" class="btn btn-sm btn-danger"> <a class="text-white" href="/secretary/assignments/{{assignment.id}}/delete"> Reject</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
+                        {% else %}
+                            {% if assignment.assignment_status == "A" %}
+                              <td>Accepted</td>
+                            {% else %}
+                              <td>Rejected</td>
+                            {% endif %}
+                        {% endif %}
+                        <td>{{assignment.trainee_position.title}}</td>
+                        <td>{{assignment.trainee_position.carrier.official_name}}</td>
+                        <td>{{assignment.trainee_position.job_code}}:{{assignment.trainee_position.no_id}}</td>
+                        <td>
+                            <a class="btn btn-outline-info" href="#">{% trans "View" %}</a>
+                        </td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>
@@ -85,29 +88,27 @@
             </div>
         </div>
     {% endif %}
-        <script type="text/javascript"
+    <script type="text/javascript"
         src="https://code.jquery.com/jquery-3.5.1.js">
-        </script>
-
-        <script type="text/javascript"
+    </script>
+    <script type="text/javascript"
         src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js">
-        </script>
-        
-        <script type="text/javascript"
-        src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js">
-        </script>
-        <script type="text/javascript"
+    </script>       
+    <script type="text/javascript"
+      src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js">
+    </script>
+    <script type="text/javascript"
         src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js">
-        </script>
-        <script type="text/javascript">
-            $(document).ready(function() {
-            var table = $('#datatable').DataTable({
-                    rowReorder: {
-                        selector: 'td:nth-child(2)'
-                    },
-                    "ordering" : false,
-                    "responsive":true
-                })
+    </script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        var table = $('#datatable').DataTable({
+                rowReorder: {
+                    selector: 'td:nth-child(2)'
+                },
+                "ordering" : false,
+                "responsive":true
             })
-        </script>
+       })
+    </script>
 {% endblock content %}

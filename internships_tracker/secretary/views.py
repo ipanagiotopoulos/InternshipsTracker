@@ -98,6 +98,9 @@ class ApprovalTraineePositionsListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context = {
+            'result': self.request.session.pop('trainee_position_message', None)
+        }
         myFilter = TraineePositionsFilter(
             self.request.GET, queryset=self.get_queryset())
         context = {'filter': myFilter}
@@ -272,7 +275,7 @@ class AssingmentDeleteView(DeleteView):
 
 def assignment_approve(request, pk):
     assignment = Assignment.objects.filter(id=pk).first()
-    assignment.finalized = ""
+    assignment.finalized = "A"
     assignment.save()
     return redirect('/')
 

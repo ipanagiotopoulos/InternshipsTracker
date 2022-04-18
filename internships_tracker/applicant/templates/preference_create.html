@@ -3,11 +3,7 @@
 {% load i18n %}
 {% load applicant_tags %}
 {% block title %}{% trans "Application for Internships!" %}{% endblock title %}
-
-
-
 {% block content %}
-
   <style type="text/css">
     .select2-selection__clear {
       font-size: 25px;
@@ -17,9 +13,7 @@
     .select2-selection {
       padding-bottom:30px;
     }
-
   </style>
-
   {% has_preference request.user as has_preference %}
   {% if has_preference %}
     <div class="row">

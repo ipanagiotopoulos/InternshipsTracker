@@ -9,89 +9,89 @@
         </div>
         <div class="card-body">
             <div style="margin-bottom: 1rem;"> 
-                <b style="font-size: 1.5rem; "> First Name: </b> 
-                <span style="font-size: 1.3rem;" > {{carrier_node.first_name}} </span>
+                <b style="font-size: 1.3rem; "> First Name: </b> 
+                <span style="font-size: 1.1rem;" > {{carrier_node.first_name}} </span>
             </div>
             <div style="margin-bottom: 1rem;"> 
-                <b style="font-size: 1.5rem; "> Last Name: </b> 
-                <span style="font-size: 1.3rem;" > {{carrier_node.last_name}} </span>
+                <b style="font-size: 1.3rem; "> Last Name: </b> 
+                <span style="font-size: 1.1rem;" > {{carrier_node.last_name}} </span>
             </div>
             <div style="margin-bottom: 1rem;"> 
-                <b style="font-size: 1.5rem; "> Father Name: </b> 
-                <span style="font-size: 1.3rem;" > {{carrier_node.father_name}} </span>
+                <b style="font-size: 1.3rem; "> Father Name: </b> 
+                <span style="font-size: 1.1rem;" > {{carrier_node.father_name}} </span>
             </div>
             <div style="margin-bottom: 1rem;"> 
-                <b style="font-size: 1.5rem; "> Mother Name: </b> 
-                <span style="font-size: 1.3rem;" > {{carrier_node.mother_name}} </span>
+                <b style="font-size: 1.3rem; "> Mother Name: </b> 
+                <span style="font-size: 1.1rem;" > {{carrier_node.mother_name}} </span>
             </div>
             <div style="margin-bottom: 1rem;"> 
-                <b style="font-size: 1.5rem; "> Birth Date: </b> 
-                <span style="font-size: 1.3rem;" > {{carrier_node.birth_day}} </span>
+                <b style="font-size: 1.3rem; "> Birth Date: </b> 
+                <span style="font-size: 1.1rem;" > {{carrier_node.birth_day}} </span>
             </div>
             <div style="margin-bottom: 1rem;"> 
-                <b style="font-size: 1.5rem; "> Email: </b> 
-                <span style="font-size: 1.3rem;" > {{carrier_node.email}} </span>
+                <b style="font-size: 1.3rem; "> Email: </b> 
+                <span style="font-size: 1.1rem;" > {{carrier_node.email}} </span>
             </div>
             <div style="margin-bottom: 1rem;"> 
-                <b style="font-size: 1.5rem; "> Department: </b> 
-                <span style="font-size: 1.3rem;" > {{carrier_node.department}} </span>
+                <b style="font-size: 1.3rem; "> Department: </b> 
+                <span style="font-size: 1.1rem;" > {{carrier_node.department}} </span>
             </div>
             <div style="margin-bottom: 1rem;"> 
-                <b style="font-size: 1.5rem; "> Title: </b> 
-                <span style="font-size: 1.3rem;" > {{carrier_node.title}} </span>
+                <b style="font-size: 1.3rem; "> Title: </b> 
+                <span style="font-size: 1.1rem;" > {{carrier_node.title}} </span>
             </div>
             <div style="margin-bottom: 1rem;"> 
-                <b style="font-size: 1.5rem; "> Phone Number: </b> 
-                <span style="font-size: 1.3rem;" > {{carrier_node.phone_number}} </span>
+                <b style="font-size: 1.3rem; "> Phone Number: </b> 
+                <span style="font-size: 1.1rem;" > {{carrier_node.phone_number}} </span>
             </div>
             <div style="margin-bottom: 1rem;"> 
-                <b style="font-size: 1.5rem; "> Registration Date: </b> 
-                <span style="font-size: 1.3rem;" > {{carrier_node.date_joined}} </span>
+                <b style="font-size: 1.3rem; "> Registration Date: </b> 
+                <span style="font-size: 1.1rem;" > {{carrier_node.date_joined}} </span>
             </div>
     </div>
     <div class="card-footer bg-white">
         <h2 style="color: black; padding-bottom:1rem;"> Carrier Details </h2>
         <div style="margin-bottom: 1rem; color: black;"> 
-            <b style="font-size: 1.5rem; "> Carrier official name: </b> 
-            <span style="font-size: 1.3rem;" > {{carrier_node.carrier.official_name}} </span>
+            <b style="font-size: 1.3rem; "> Carrier official name: </b> 
+            <span style="font-size: 1.1rem;" > {{carrier_node.carrier.official_name}} </span>
         </div>
         <div style="margin-bottom: 1rem; color: black;"> 
-            <b style="font-size: 1.5rem; "> Carrier official name: </b> 
-            <span style="font-size: 1.3rem;" > {{carrier_node.carrier.description}} </span>
+            <b style="font-size: 1.3rem; "> Carrier official name: </b> 
+            <span style="font-size: 1.1rem;" > {{carrier_node.carrier.description}} </span>
         </div>
         <div style="margin-bottom: 1rem; color: black;"> 
-            <b style="font-size: 1.5rem; "> Address: </b> 
-            <span style="font-size: 1.3rem;" > {{carrier_node.carrier.full_address}} </span>
+            <b style="font-size: 1.3rem; "> Address: </b> 
+            <span style="font-size: 1.1rem;" > {{carrier_node.carrier.full_address}} </span>
         </div>
             {% if carrier_node.carrier.department_1 != NON %}
                 <div style="margin-bottom: 1rem; color:black;"> 
-                <b style="font-size: 1.5rem; "> Department 1: </b> 
-                <span style="font-size: 1.3rem;" > {{carrier_node.carrier.department_1}}  </span>
+                <b style="font-size: 1.3rem; "> Department 1: </b> 
+                <span style="font-size: 1.1rem;" > {{carrier_node.carrier.department_1}}  </span>
                 </div>
             {% endif %}
             {% if carrier_node.carrier.department_2  != NON %}
                 <div style="margin-bottom: 1rem; color:black;"> 
-                <b style="font-size: 1.5rem; "> Department 2: </b> 
-                <span style="font-size: 1.3rem;" > {{carrier_node.carrier.department_2}}  </span>
+                <b style="font-size: 1.3rem; "> Department 2: </b> 
+                <span style="font-size: 1.1rem;" > {{carrier_node.carrier.department_2}}  </span>
                 </div>
             {% endif %}
             {% if carrier_node.carrier.department_3 != NON %}
                 <div style="margin-bottom: 1rem; color:black;"> 
-                <b style="font-size: 1.5rem; "> Department 3: </b> 
-                <span style="font-size: 1.3rem;" > {{carrier_node.carrier.department_3}}  </span>
+                <b style="font-size: 1.3rem; "> Department 3: </b> 
+                <span style="font-size: 1.1rem;" > {{carrier_node.carrier.department_3}}  </span>
                 </div>
             {% endif %}
             {% if carrier_node.carrier.department_4 != NON %}
                 <div style="margin-bottom: 1rem; color:black;"> 
-                <b style="font-size: 1.5rem; "> Department 4: </b> 
-                <span style="font-size: 1.3rem;" > {{carrier_node.carrier.department_4}}  </span>
+                <b style="font-size: 1.3rem; "> Department 4: </b> 
+                <span style="font-size: 1.1rem;" > {{carrier_node.carrier.department_4}}  </span>
                 </div>
             {% endif %}
         <hr>
         {% if req_user.is_active == False %}
             <div style="margin-bottom: 1rem;"> 
-                <b style="font-size: 1.5rem; "> Activated: </b> 
-                <span style="font-size: 1.3rem;" > NO </span>
+                <b style="font-size: 1.3rem; "> Activated: </b> 
+                <span style="font-size: 1.1rem;" > NO </span>
             </div>
             <div style="float: right;">
                 <button class="btn btn-lg btn-success"><a class="text-white" href="/secretary/carriers/registrations/{{req_user.id}}/activate">Activate</button>
@@ -99,8 +99,8 @@
             </div>
         {% else %}
             <div style="margin-bottom: 1rem;"> 
-                <b style="font-size: 1.5rem; "> Activated: </b> 
-                <span style="font-size: 1.3rem;" > YES </span>
+                <b style="font-size: 1.3rem; "> Activated: </b> 
+                <span style="font-size: 1.1rem;" > YES </span>
             </div>
         {% endif %} 
     </div>

@@ -3,61 +3,60 @@
 {% load i18n %}
 {%block title %} {% trans "Carrier Node Details" %} {% endblock title %}
 {% block content%}
-
-<div class="card ">
-    <div class="card-header bg-white text-info">
-      <h2>Carrier Node</h2>
+    <div class="card ">
+        <div class="card-header bg-white text-info">
+        <h2>Carrier Node</h2>
+        </div>
+        <div class="card-body ">
+            <div class="card-body">
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.3rem; "> First Name: </b> 
+                    <span style="font-size: 1.1rem;" > {{carrier_node.first_name}} </span>
+                </div>
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.3rem; "> Last Name: </b> 
+                    <span style="font-size: 1.1rem;" > {{carrier_node.last_name}} </span>
+                </div>
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.3rem; "> Father Name: </b> 
+                    <span style="font-size: 1.1rem;" > {{carrier_node.father_name}} </span>
+                </div>
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.3rem; "> Mother Name: </b> 
+                    <span style="font-size: 1.1rem;" > {{carrier_node.mother_name}} </span>
+                </div>
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.3rem; "> Birth Date: </b> 
+                    <span style="font-size: 1.1rem;" > {{carrier_node.birth_day}} </span>
+                </div>
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.3rem; "> Email: </b> 
+                    <span style="font-size: 1.1rem;" > {{carrier_node.email}} </span>
+                </div>
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.3rem; "> Department: </b> 
+                    <span style="font-size: 1.1rem;" > {{carrier_node.department}} </span>
+                </div>
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.3rem; "> Title: </b> 
+                    <span style="font-size: 1.1rem;" > {{carrier_node.title}} </span>
+                </div>
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.3rem; "> Phone Number: </b> 
+                    <span style="font-size: 1.1rem;" > {{carrier_node.phone_number}} </span>
+                </div>
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.3rem; "> Registration Date: </b> 
+                    <span style="font-size: 1.1rem;" > {{carrier_node.date_joined}} </span>
+                </div>
+        </div>
+            <div style="margin-bottom: 1rem; color: black;"> 
+                <b style="font-size: 1.3rem; "> Carrier official name: </b> 
+                <span style="font-size: 1.1rem;" > {{carrier_node.carrier.official_name}} </span>
+            </div> 
+        </div>
+        <div class="card-footer">
+            <a href="{% url 'internships_app:carrier_node_edit'  %}" class="btn btn-info">Profile Update</a>
+        </div>
     </div>
-    <div class="card-body ">
-        <div class="card-body">
-            <div style="margin-bottom: 1rem;"> 
-              <b style="font-size: 1.5rem; "> First Name: </b> 
-              <span style="font-size: 1.3rem;" > {{carrier_node.first_name}} </span>
-            </div>
-            <div style="margin-bottom: 1rem;"> 
-              <b style="font-size: 1.5rem; "> Last Name: </b> 
-              <span style="font-size: 1.3rem;" > {{carrier_node.last_name}} </span>
-            </div>
-            <div style="margin-bottom: 1rem;"> 
-              <b style="font-size: 1.5rem; "> Father Name: </b> 
-              <span style="font-size: 1.3rem;" > {{carrier_node.father_name}} </span>
-            </div>
-            <div style="margin-bottom: 1rem;"> 
-              <b style="font-size: 1.5rem; "> Mother Name: </b> 
-              <span style="font-size: 1.3rem;" > {{carrier_node.mother_name}} </span>
-            </div>
-            <div style="margin-bottom: 1rem;"> 
-              <b style="font-size: 1.5rem; "> Birth Date: </b> 
-              <span style="font-size: 1.3rem;" > {{carrier_node.birth_day}} </span>
-            </div>
-            <div style="margin-bottom: 1rem;"> 
-              <b style="font-size: 1.5rem; "> Email: </b> 
-              <span style="font-size: 1.3rem;" > {{carrier_node.email}} </span>
-            </div>
-            <div style="margin-bottom: 1rem;"> 
-              <b style="font-size: 1.5rem; "> Department: </b> 
-              <span style="font-size: 1.3rem;" > {{carrier_node.department}} </span>
-            </div>
-            <div style="margin-bottom: 1rem;"> 
-              <b style="font-size: 1.5rem; "> Title: </b> 
-              <span style="font-size: 1.3rem;" > {{carrier_node.title}} </span>
-            </div>
-            <div style="margin-bottom: 1rem;"> 
-              <b style="font-size: 1.5rem; "> Phone Number: </b> 
-              <span style="font-size: 1.3rem;" > {{carrier_node.phone_number}} </span>
-            </div>
-            <div style="margin-bottom: 1rem;"> 
-              <b style="font-size: 1.5rem; "> Registration Date: </b> 
-              <span style="font-size: 1.3rem;" > {{carrier_node.date_joined}} </span>
-            </div>
-       </div>
-        <div style="margin-bottom: 1rem; color: black;"> 
-          <b style="font-size: 1.5rem; "> Carrier official name: </b> 
-          <span style="font-size: 1.3rem;" > {{carrier_node.carrier.official_name}} </span>
-        </div> 
-    </div>
-    <div class="card-footer">
-        <a href="{% url 'internships_app:carrier_node_edit'  %}" class="btn btn-info">Profile Update</a>
-    </div>
-</div>
 {% endblock content %}
