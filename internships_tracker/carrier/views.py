@@ -133,15 +133,16 @@ class TraineePositionUpdateView(UserPassesTestMixin, CarrierAssignmentRequiredMi
 class AsssignmentListView(ListView, CarrierRequiredMixin):
     model = Assignment
     template_name = "assignments.html"
-    paginate_by = 10
     context_object_name = "assignments"
 
     def get_queryset(self):
         department = self.request.GET.get("department")
         if department not in deps:
             raise Http404
+        carrier_node = CarrierNode.objects.filter(
+            user_ptr_id=self.request.user.id).first()
         return Assignment.objects.filter(
-            assignment_period__department=department, assignment_status="P"
+            trainee_position__carrier__official_name=carrier_node.carrier.official_name, assignment_period__department=department, assignment_status="P"
         )
 
 
@@ -151,6 +152,9 @@ class AsssignmentDetailView(UserPassesTestMixin, CarrierRequiredMixin, DetailVie
     context_object_name = "assignment"
 
     def test_func(self):
+        department_request = self.request.GET.get("department")
+        if department_request not in deps:
+            raise Http404
         carrier_node = CarrierNode.objects.get(
             user_ptr_id=self.request.user.id)
         if self.get_object().trainee_position.carrier == carrier_node.carrier:
@@ -159,10 +163,13 @@ class AsssignmentDetailView(UserPassesTestMixin, CarrierRequiredMixin, DetailVie
 
 
 def assignment_accept(request, pk):
+    department_request = request.GET.get("department")
+    if department_request not in deps:
+        raise Http404
     carrier_node = CarrierNode.objects.get(user_ptr_id=request.user.id)
     assignment = get_object_or_404(Assignment, pk=pk)
     if assignment.trainee_position.carrier == carrier_node.carrier:
-        if CarrierConsent.objects.filter(assignement_upon=assignment).exists():
+        if CarrierConsent.objects.filter(Q(assignement_upon=assignment) & Q(consent=True)).exists():
             context = {
                 'message': 'Carrier consent already exists !',
                 'assignment': assignment
@@ -173,7 +180,7 @@ def assignment_accept(request, pk):
             assignment.save()
             CarrierConsent.objects.create(
                 carrier=assignment.trainee_position.carrier, assignement_upon=assignment, consent=True)
-            return redirect('carrier:assignments')
+            return redirect('/carrier/assignments?department='+department_request)
     else:
         raise PermissionDenied()
 
@@ -181,6 +188,9 @@ def assignment_accept(request, pk):
 def assignment_reject(request, pk):
     carrier_node = CarrierNode.objects.get(user_ptr_id=request.user.id)
     assignment = get_object_or_404(Assignment, pk=pk)
+    department_request = request.GET.get("department")
+    if department_request not in deps:
+        raise Http404
     if assignment.trainee_position.carrier == carrier_node.carrier:
         if CarrierConsent.objects.filter(assignement_upon=assignment).exists():
             context = {
@@ -193,7 +203,7 @@ def assignment_reject(request, pk):
             assignment.save()
             CarrierConsent.objects.create(
                 carrier=assignment.trainee_position.carrier, assignement_upon=assignment, consent=False)
-            return redirect('carrier:assignments')
+            return redirect('carrier:assignments?department='+department_request)
     else:
         raise PermissionDenied()
 
@@ -201,16 +211,10 @@ def assignment_reject(request, pk):
 class AcceptedAsssignmentListView(CarrierRequiredMixin, ListView):
     model = Assignment
     template_name = "accepted_assignments.html"
-    paginate_by = 10
     context_object_name = "assignments"
 
     def get_queryset(self):
-        department = self.request.GET.get("department")
-        if department not in deps:
-            raise Http404
-        return Assignment.objects.filter(
-            assignment_period__department=department, assignment_status="A"
-        )
+        return Assignment.objects.filter(Q(assignment_status='A'))
 
 
 class AcceptedAsssignmentDetailView(CarrierRequiredMixin, UserPassesTestMixin, DetailView):

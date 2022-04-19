@@ -1,11 +1,14 @@
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DeleteView, UpdateView, CreateView
 from datetime import date
-from internships_app.models import UndergraduateStudent, User, CarrierNode
+from internships_app.models import UndergraduateStudent, User, CarrierNode, Supervisor
 from applicant.models import Preference
-from carrier.models import TraineePosition, CarrierAssignmentPeriod, Assignment
+from carrier.models import TraineePosition, CarrierAssignmentPeriod, Assignment, AssignmentPeriod
 from .forms import *
 from .filters import CarrierNodeFilter, UndergraduateStudentFilter, TraineePositionsFilter, PreferencesFilter, AssignmentFilter
+
+deps = ['IT', 'ND', 'ESD', 'G']
 
 
 class ApprovalRejectionUndergraduateStudentListView(ListView):
@@ -251,6 +254,27 @@ class AssingmentCreateView(CreateView):
     form_class = AssignmentSecretaryForm
     template_name = "sec_create_assignment.html"
     succes_url = "/secretary/assignments"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        department_request = self.request.GET.get("department")
+        if department_request not in deps:
+            raise Http404
+        context['form'].fields['trainee'].queryset = UndergraduateStudent.objects.filter(
+            department=department_request).all()
+        context['form'].fields['trainee_position'].queryset = TraineePosition.objects.filter(
+            carrier_assignment__department=department_request, finalized=True).all()
+        context['form'].fields['supervisor'].queryset = Supervisor.objects.filter(
+            department=department_request).all()
+        context['form'].fields['assignment_period'].queryset = AssignmentPeriod.objects.filter(
+            department=department_request).all()
+        return context
+
+    def get_success_url(self):
+        department_request = self.request.GET.get("department")
+        if department_request not in deps:
+            raise Http404
+        return "/secretary/assignments?department="+department_request
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)

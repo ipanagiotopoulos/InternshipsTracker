@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load i18n %}
+{% load applicant_tags %}
 {% block title %}{% trans "Update Application!" %}{% endblock title %}
 {% block content %}
   <style type="text/css">
@@ -22,7 +23,11 @@
       <form method="post">
           {% csrf_token %}
           {{ form|crispy }}
+        {% applicant_position_period request.user as application_period %}
+        {% if application_period %}
+          {{ application_period }}
           <button type="submit" class="btn btn-info">{% trans "Update" %}</button>
+        {% endif %}
       </form>
       {{ form.media }}
     </div>
