@@ -5,6 +5,10 @@
 {% load bootstrap %}
 {% block title %} {% trans "Job Postings" %} {% endblock title %}
 {% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
     <h3 class="mb-3"> {{ request.GET.department }} Job Postings</h3>
     <div class="container-fluid border-border-dark" >
         {% if filter.qs %}
@@ -27,46 +31,40 @@
             {% endif %}
             <br>
             <br>
-            {% for tp in filter.qs %}
-                <div class="card mb-5">
-                    <div class="card-header text-dark">
-                        <span style="color: #232C3A; font-size: 2rem;" >{{tp.title}}</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="card mb-5">
-                            <div class="card-header bg-white text-dark" style="font-size: 1.3rem;">
-                                <b>Description:</b>
-                            </div>
-                            <div class="card-body">
-                                <p class="pt-2" style="font-size: 1.1rem;">{{tp.description}}</p>
-                            </div>
-                            <div class="card-body border">
-                                <h6 class="pt-2" style="font-size: 1.3rem;"> <b>Job  Id:</b>  {{tp.job_code}}:{{tp.no_id}}  </h6>
-                            </div>
-                            <div class="card-footer bg-white">
-                                <div style="font-size: 1.3rem; padding-bottom: 1rem;">
-                                    <b> Carrier Assingment Period </b>
-                                    <hr>
-                                </div>
-                                <div style="margin-bottom: 1rem;"> 
-                                  <b style="font-size: 1.3rem; "> Start Date: </b> 
-                                  <span style="font-size: 1.1rem;" > {{tp.carrier_assignment.from_date}}</span>
-                                </div>
-                                <div style="margin-bottom: 1rem;"> 
-                                  <b style="font-size: 1.3rem; "> End Date: </b> 
-                                  <span style="font-size: 1.1rem;" > {{tp.carrier_assignment.to_date}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        {% if assignment_period %}
-                        <a href="/carrier/traineepositions/{{tp.pk}}/update?department={{ request.GET.department }}" class="btn btn-info mb-2 btn-block">Edit </a>
-                        <a href="/carrier/traineepositions/{{tp.pk}}/delete?department={{ request.GET.department }}" class="btn btn-danger btn-block" >Delete </a>
-                        {% endif %}
-                </div>
-                </div>
-            {% endfor %}
+            <table id="datatable" class="table align-items-center table-flush">
+                <thead class="bg-light">
+                    <tr>
+                    <th scope="col">{% trans "Title" %}</th>
+                    <th scope="col">{% trans "Job ID" %}</th>
+                    <th scope="col">{% trans "Created" %}</th>
+                    <th scope="col">{% trans "Status" %}</th>
+                    <th scope="col">{% trans "Action" %}</th>
+                    <th scope="col>">{% trans "Department"%}</th>
+                    <th scope="col">{% trans "Description" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tp in filter.qs %}
+                        <tr>
+                        <td>{{tp.title}}</td>
+                        <td>{{tp.job_code}}:{{tp.no_id}}</td>
+                        <td>{{tp.created}}</td>
+                         {% if  tp.finalized == False %}
+                             <td>Pending</td>
+                         {% else %}
+                            <td>Accepted</td>
+                         {% endif %}
+                         <td>
+                            {% if assignment_period %}
+                                <a href="/carrier/traineepositions/{{tp.pk}}/update?department={{ request.GET.department }}" class="btn btn-info mb-2 btn-block">Edit </a>
+                                <a href="/carrier/traineepositions/{{tp.pk}}/delete?department={{ request.GET.department }}" class="btn btn-danger btn-block" >Delete </a>
+                            {% endif %}
+                        </td>
+                        <td>{{tp.carrier_assignment.department}}</td>
+                        <td>{{tp.description}}</td>
+                    {% endfor %}
+                </tbody>
+            </table>
         {% else %}
         {% if assignment_period %}
                 <h5>No Job postings found</h5>
@@ -80,4 +78,16 @@
             <a href="/" class="btn btn-info mb-2 ">Go back</a>
         {% endif %}
     </div>
+    <script type="text/javascript"
+        src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js">
+    </script>
+    <script type="text/javascript"
+        src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js">
+    </script>
+    <script type="text/javascript">
+        $('#datatable').DataTable({
+                "ordering" : false,
+            });
+    </script>
 {% endblock content %}
+
