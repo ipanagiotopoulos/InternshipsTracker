@@ -1,6 +1,6 @@
 import django_filters
 from django import forms
-from .models import TraineePosition, Assignment
+from .models import TraineePosition, Assignment, CarrierConsent
 
 
 class TraineePositionsFilter(django_filters.FilterSet):
@@ -30,13 +30,17 @@ class AssignmentFilter(django_filters.FilterSet):
         }
 
 
-class ConsentFilter(django_filters.FilterSet):
+# class CarrierConsentFilter(django_filters.FilterSet):
 
-    class Meta:
-        model = Assignment
-        fields = {
-            'title': ['icontains'],
-            'finalized':  ['exact'],
-            'job_code': ['exact'],
-            'no_id': ['exact'],
-        }
+#     class Meta:
+#         model = CarrierConsent
+#         fields = {
+#             'carrier__official_name': ['exact'],
+#             # 'assignment_upon__trainee__first_name': ['icontains'],
+#             # 'assignment_upon__trainee__last_name': ['icontains'],
+#             # 'assignment_upon__trainee__register_number': ['icontains'],
+#             # 'assignment_upon__trainee__department': ['exact'],
+#             # 'assignment_upon__trainee_position__title': ['icontains'],
+#             # 'assignment_upon__trainee_position__job_code': ['exact'],
+#             # 'assignment_upon__trainee_position__no_id': ['exact'],
+#         }

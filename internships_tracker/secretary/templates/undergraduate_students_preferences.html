@@ -2,48 +2,15 @@
 {% load static %}
 {% load i18n %}
 {% block title %} {% trans "Student applications" %} {% endblock title %}
+{% load bootstrap %}
 {% block content%}
     <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
     {% if message %}
-      {{message}}
-    {% endif %}
-    <div>
-      <table id="datatable" class="table align-items-center table-flush">
-          <thead class="bg-light">
-              <tr>
-              <th scope="col">{% trans "First Name" %}</th>
-              <th scope="col">{% trans "Last Name" %}</th>
-              <th scope="col">{% trans "Email" %}</th>
-              <th scope="col">{% trans "Department" %}</th>
-              <th scope="col">{% trans "Active" %}</th>
-              <th scope="col">{% trans "Action" %}</th>
-              </tr>
-          </thead>
-          <tbody>
-              {% for pref in preferences %}
-              <tr>
-                  <td>{{pref.first_name}}</td>
-                  <td>{{pref.last_name}}</td>
-                  <td>{{pref.email}}</td>
-                  <td>{{pref.department}}</td>
-                  {% if pref.is_active == False %}
-                    <td>NO</td>
-                  {% else %}
-                  <td>YES</td>
-                {% endif %}
-                  <td>
-                      <a class="btn btn-outline-info" href="/secretary/students/registrations/{{stud.id}}/edit">{% trans "View" %}</a>
-                  </td>
-            </tr>
-              {% endfor %}
-          </tbody>
-      </table>
-      {% if message %}
         {{message}}
-      {% endif %}
+    {% endif %}
       <div class="table-responsive-xl" > 
         <form  class='form-group' method="GET">
           {{ filter.form|bootstrap}}
@@ -61,19 +28,19 @@
                 </tr>
             </thead>
             <tbody>
-                {% for stud in filter.qs %}
+                {% for pref in filter.qs %}
                 <tr>
-                    <td>{{stud.first_name}}</td>
-                    <td>{{stud.last_name}}</td>
-                    <td>{{stud.email}}</td>
-                    <td>{{stud.department}}</td>
-                    {% if stud.is_active == False %}
+                    <td>{{pref.applicant.first_name}}</td>
+                    <td>{{pref.applicant.last_name}}</td>
+                    <td>{{pref.applicant.email}}</td>
+                    <td>{{pref.applicant.department}}</td>
+                    {% if pref.finalized == False %}
                       <td>NO</td>
                     {% else %}
                     <td>YES</td>
                   {% endif %}
                     <td>
-                        <a class="btn btn-outline-info" href="/secretary/students/registrations/{{stud.id}}/edit">{% trans "View" %}</a>
+                        <a class="btn btn-outline-info" href="/secretary/students/preferences/{{pref.id}}/edit">{% trans "View" %}</a>
                     </td>
               </tr>
                 {% endfor %}

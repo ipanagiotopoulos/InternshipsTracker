@@ -32,11 +32,13 @@ class TraineePositionListView(CarrierRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         department_request = self.request.GET.get("department")
+        user = self.request.user
         if department_request not in deps:
             raise Http404
+        carrier_profile = CarrierNode.objects.filter(
+            user_ptr_id=user.id).first()
         tp_queryset = TraineePosition.objects.filter(
-            carrier_assignment__department=department_request
-        )
+            carrier_assignment__department=department_request, carrier=carrier_profile.carrier)
         myFilter = TraineePositionsFilter(
             self.request.GET, queryset=tp_queryset)
         context['filter'] = myFilter
@@ -55,15 +57,6 @@ class TraineePositionListView(CarrierRequiredMixin, ListView):
         if carrier_assignement_check == False:
             return redirect('carrier:carrier_assignment_not_found')
         return super().render_to_response(context)
-
-# context = super().get_context_data(**kwargs)
-#         context = {
-#             'result': self.request.session.pop('trainee_position_message', None)
-#         }
-#         myFilter = TraineePositionsFilter(
-#             self.request.GET, queryset=self.get_queryset())
-#         context = {'filter': myFilter}
-#         return context
 
 
 class TraineePositionCreateView(CarrierAssignmentRequiredMixin, CarrierRequiredMixin, CreateView):
@@ -121,7 +114,6 @@ class TraineePositionUpdateView(UserPassesTestMixin, CarrierAssignmentRequiredMi
     model = TraineePosition
     form_class = TraineePositionForm
     template_name = "trainee_position_update.html"
-    success_url = "/carrier/traineepositions/list"
     group_required = u"carrier_node"
 
     def test_func(self):
@@ -130,6 +122,12 @@ class TraineePositionUpdateView(UserPassesTestMixin, CarrierAssignmentRequiredMi
         if self.get_object().carrier == carrier_node.carrier:
             return True
         return False
+
+    def get_success_url(self):
+        department_request = self.request.GET.get("department")
+        if department_request not in deps:
+            raise Http404
+        return "/carrier/traineepositions/list?department="+department_request
 
 
 class AsssignmentListView(ListView, CarrierRequiredMixin):

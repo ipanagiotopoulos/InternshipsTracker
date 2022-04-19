@@ -13,7 +13,7 @@ class CarrierNodeFilter(django_filters.FilterSet):
             'first_name': ['icontains'],
             'last_name': ['icontains'],
             'is_active': ['exact'],
-            'carrier__official_name': ['exact'],
+            'carrier__official_name': ['icontains'],
         }
 
 

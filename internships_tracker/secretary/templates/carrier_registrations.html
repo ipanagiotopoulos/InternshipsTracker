@@ -8,8 +8,14 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
-  {% if message %}
-    {{message}}
+  {% if carrier_node_reg_result %}
+      <div class="row">
+        <div class="col col-12">
+            <div class="alert alert-danger">
+              <h4>{{carrier_node_reg_result}}</h4>
+            </div>
+        </div>
+      </div>
   {% endif %}
   <button class="btn btn-info mb-4" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
     Search filters
@@ -76,5 +82,12 @@
               "responsive":true
           })
       })
+    </script>
+    <script>
+        window.setTimeout(function() {
+            $("#message").fadeTo(400, 0).slideUp(400, function(){
+                    $(this).remove();
+                });
+        }, 3000);
     </script>
 {% endblock content %}

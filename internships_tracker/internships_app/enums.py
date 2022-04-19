@@ -21,3 +21,17 @@ DEPARTMENT_CHOICES_GR = [
     (ALL, "Γραμματεία"),
     (NON, "Κανένας")
 ]
+DEPARTMENT_CHOICES_CN = [
+    (IT, "Informatics and Telematics"),
+    (GS, "Geogrpaphy"),
+    (HS, "Economics & Sustainable Development"),
+    (DS, "Nutrition and  Dietetics"),
+    (NON, "Νone")
+]
+DEPARTMENT_CHOICES_CN_GR = [
+    (IT, "Informatics and Telematics"),
+    (GS, "Geogrpaphy"),
+    (HS, "Economics & Sustainable Development"),
+    (DS, "Nutrition and  Dietetics"),
+    (NON, "Νone")
+]

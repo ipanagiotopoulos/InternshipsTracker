@@ -8,10 +8,17 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
-    {% if request.session.trainee_position_message %}
+    {% if trainee_position_message_result %}
         <div class="row" style="padding-bottom: 2rem;">
             <div class="col col-12">
-                <div class="alert alert-danger"><h4>{{request.session.trainee_position_message}}</h4></div>
+                <div class="alert alert-danger"><h4>{{trainee_position_message_result}}</h4></div>
+            </div>
+        </div>
+    {% endif %}
+    {% if period_message %}
+        <div class="row" style="padding-bottom: 2rem;">
+            <div class="col col-12">
+                <div class="alert alert-danger"><h4>{{period_message}}</h4></div>
             </div>
         </div>
     {% endif %}
