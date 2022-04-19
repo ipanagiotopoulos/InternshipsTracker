@@ -1,9 +1,11 @@
 from django.db import models
-from carrier.models import TraineePosition,Assignment
+from carrier.models import TraineePosition, Assignment
 from internships_app.models import UndergraduateStudent
 
+
 class Preference(models.Model):
-    applicant = models.OneToOneField(UndergraduateStudent, on_delete=models.CASCADE)
+    applicant = models.OneToOneField(
+        UndergraduateStudent, on_delete=models.CASCADE)
     trainee_position_1 = models.ForeignKey(
         TraineePosition,
         related_name="first_choice",
@@ -45,6 +47,11 @@ class Preference(models.Model):
     )
     finalized = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.applicant.department+" "+self.applicant.register_number+" "+self.applicant.first_name+" "+self.applicant.last_name
+
+
 class InternshipReport(models.Model):
     report_file = models.FileField()
     assignment = models.OneToOneField(Assignment, on_delete=models.CASCADE)

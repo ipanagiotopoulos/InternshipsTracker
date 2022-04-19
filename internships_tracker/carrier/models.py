@@ -4,13 +4,13 @@ from django.urls import reverse
 from internships_app.models import Carrier, UndergraduateStudent, Supervisor
 from carrier.enums import APPLICATION_STATUS
 from internships_app.enums import (
-    DEPARTMENT_CHOICES,
+    DEPARTMENT_CHOICES, DEPARTMENT_CHOICES_CN
 )
 
 
 class CarrierAssignmentPeriod(models.Model):
     department = models.CharField(
-        unique=True, max_length=3, choices=DEPARTMENT_CHOICES)
+        unique=True, max_length=3, choices=DEPARTMENT_CHOICES_CN)
     from_date = models.DateField()
     to_date = models.DateField()
 
@@ -22,7 +22,7 @@ class CarrierAssignmentPeriod(models.Model):
 
 class ApplicationPeriod(models.Model):
     department = models.CharField(
-        unique=True, max_length=3, choices=DEPARTMENT_CHOICES)
+        unique=True, max_length=3, choices=DEPARTMENT_CHOICES_CN)
     from_date = models.DateField()
     to_date = models.DateField()
 
@@ -32,7 +32,7 @@ class ApplicationPeriod(models.Model):
 
 class AssignmentPeriod(models.Model):
     department = models.CharField(
-        unique=True, max_length=3, choices=DEPARTMENT_CHOICES)
+        unique=True, max_length=3, choices=DEPARTMENT_CHOICES_CN)
     from_date = models.DateField()
     to_date = models.DateField()
     complementary = models.BooleanField(default=False)
@@ -43,7 +43,7 @@ class AssignmentPeriod(models.Model):
 
 class InternshipReportPeriod(models.Model):
     department = models.CharField(
-        unique=True, max_length=3, choices=DEPARTMENT_CHOICES)
+        unique=True, max_length=3, choices=DEPARTMENT_CHOICES_CN)
     from_date = models.DateField()
     to_date = models.DateField()
 

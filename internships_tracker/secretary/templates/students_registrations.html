@@ -8,8 +8,12 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
-  {% if message %}
-    {{message}}
+  {% if student_reg_message_result %}
+    <div class="row">
+      <div class="col col-12">
+          <div class="alert alert-danger"><h4>{{student_reg_message_result}}</h4></div>
+      </div>
+    </div>
   {% endif %}
   <div class="table-responsive-xl" > 
     <button class="btn btn-info mb-4" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
@@ -17,7 +21,7 @@
     </button>
     <div class="collapse mt-4 mb-4" id="collapseExample">
           <form  class='form-group' method="GET">
-              {{ filter.form|bootstrap_horizontal}}
+              {{ filter.form | bootstrap_horizontal}}
               <button type="submit" class="btn btn-info">Search</button>
           </form>
      </div>
@@ -74,5 +78,12 @@
                 "responsive":true
             })
         })
+  </script>
+  <script>
+        window.setTimeout(function() {
+            $("#message").fadeTo(400, 0).slideUp(400, function(){
+                    $(this).remove();
+                });
+        }, 3000);
   </script>
 {% endblock content %}

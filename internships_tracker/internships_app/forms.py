@@ -269,15 +269,15 @@ class CarrierNodeForm(UserCreationForm):
     email = forms.EmailField(
         max_length=100, help_text="Required", required=True)
     uni_department = forms.CharField(
-        max_length=100, min_length=3, required=True, widget=TextInput(attrs={"readonly": "readonly"}))
+        max_length=100, min_length=3, required=True, widget=forms.HiddenInput())
     mobile_phone = PhoneNumberField()
     country = forms.CharField(max_length=30, validators=[
-                              alphabetic], required=True)
+        alphabetic], required=True)
     home_phone = PhoneNumberField()
     city = forms.CharField(max_length=40, validators=[
-                           alphabetic], required=True)
+        alphabetic], required=True)
     street_name = forms.CharField(max_length=100, validators=[
-                                  alphabetic], required=True)
+        alphabetic], required=True)
     street_number = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(9999)], required=True
     )
@@ -291,9 +291,9 @@ class CarrierNodeForm(UserCreationForm):
     official_name = forms.CharField(max_length=100)
     description = forms.CharField(max_length=2000)
     carrier_country = forms.CharField(max_length=30, validators=[
-                                      alphabetic], required=True)
+        alphabetic], required=True)
     carrier_city = forms.CharField(max_length=40, validators=[
-                                   alphabetic], required=True)
+        alphabetic], required=True)
     carrier_street_name = forms.CharField(
         max_length=100, validators=[alphabetic], required=True)
     carrier_street_number = forms.IntegerField(
@@ -302,10 +302,10 @@ class CarrierNodeForm(UserCreationForm):
     carrier_postal_code = forms.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(99999)], required=True
     )
-    department_1 = forms.ChoiceField(choices=DEPARTMENT_CHOICES)
-    department_2 = forms.ChoiceField(choices=DEPARTMENT_CHOICES)
-    department_3 = forms.ChoiceField(choices=DEPARTMENT_CHOICES)
-    department_4 = forms.ChoiceField(choices=DEPARTMENT_CHOICES)
+    department_1 = forms.ChoiceField(choices=DEPARTMENT_CHOICES_CN)
+    department_2 = forms.ChoiceField(choices=DEPARTMENT_CHOICES_CN)
+    department_3 = forms.ChoiceField(choices=DEPARTMENT_CHOICES_CN)
+    department_4 = forms.ChoiceField(choices=DEPARTMENT_CHOICES_CN)
 
     class Meta:
         model = CarrierNode

@@ -3,7 +3,7 @@ from django.views.generic import ListView, DeleteView, UpdateView, CreateView
 from datetime import date
 from internships_app.models import UndergraduateStudent, User, CarrierNode
 from applicant.models import Preference
-from carrier.models import TraineePosition, ApplicationPeriod, Assignment
+from carrier.models import TraineePosition, CarrierAssignmentPeriod, Assignment
 from .forms import *
 from .filters import CarrierNodeFilter, UndergraduateStudentFilter, TraineePositionsFilter, PreferencesFilter, AssignmentFilter
 
@@ -15,9 +15,12 @@ class ApprovalRejectionUndergraduateStudentListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context = {
+            'student_reg_message_result': self.request.session.pop('student_reg_message', None)
+        }
         myFilter = UndergraduateStudentFilter(
             self.request.GET, queryset=self.get_queryset())
-        context = {'filter': myFilter}
+        context['filter'] = myFilter
         return context
 
 
@@ -35,18 +38,19 @@ def student_approve(request, pk):
     user = User.objects.filter(id=undergraduate_student.user_ptr_id).first()
     user.is_active = True
     user.save()
-    context = {'message': "User: "+user.username+" activated!"}
-    return render(request, "students_registrations.html", context)
+    request.session['student_reg_message'] = "User: " + \
+        str(user)+" has been activated!"
+    return redirect('/secretary/students/registrations')
 
 
 def student_reject(request, pk):
     undergraduate_student = UndergraduateStudent.objects.filter(id=pk).first()
     user = User.objects.filter(id=undergraduate_student.user_ptr_id).first()
-    username = user.username
     undergraduate_student.delete()
     user.delete()
-    context = {'message': "User: "+username+" deleted!"}
-    return render(request, "students_registrations.html", context)
+    request.session['student_reg_message'] = "User: " + \
+        str(user)+" has been deleted!"
+    return redirect('/secretary/students/registrations')
 
 
 class ApprovalRejectionCarrierNodeListView(ListView):
@@ -58,7 +62,8 @@ class ApprovalRejectionCarrierNodeListView(ListView):
         context = super().get_context_data(**kwargs)
         myFilter = CarrierNodeFilter(
             self.request.GET, queryset=self.get_queryset())
-        context = {'filter': myFilter}
+        context = {'filter': myFilter,
+                   'carrier_node_reg_result': self.request.session.pop('carrier_node_reg', None)}
         return context
 
 
@@ -75,7 +80,9 @@ def carrier_node_approve(request, pk):
     user = User.objects.filter(id=carrier_node.user_ptr_id).first()
     user.is_active = True
     user.save()
-    context = {'message': "User: "+user.username+"activated!"}
+    request.session["carrier_node_reg"] = "User: " + \
+        str(user)+" has been activated!"
+    print(request.session["carrier_node_reg"])
     return redirect('/secretary/carriers/registrations')
 
 
@@ -87,7 +94,8 @@ def carrier_node_reject(request, pk):
     carrier.delete()
     carrier_node.delete()
     user.delete()
-    context = {'message': "User: "+username+" deleted!"}
+    request.session["carrier_node_reg"] = "User: " + \
+        username+" has been deleted!"
     return redirect('/secretary/carriers/registrations')
 
 
@@ -99,7 +107,8 @@ class ApprovalTraineePositionsListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context = {
-            'result': self.request.session.pop('trainee_position_message', None)
+            'trainee_position_message_result': self.request.session.pop('trainee_position_message', None),
+            'period_message': self.request.session.pop('period_message', None)
         }
         myFilter = TraineePositionsFilter(
             self.request.GET, queryset=self.get_queryset())
@@ -125,19 +134,20 @@ def trainee_position_approval_rejection(request, pk):
 def trainee_position_approve(request, pk):
     trainee_position = TraineePosition.objects.filter(id=pk).first()
     uni_department = trainee_position.carrier_assignment.department
-    ap_per = ApplicationPeriod.objects.filter(
+    ca_per = CarrierAssignmentPeriod.objects.filter(
         department=uni_department).first()
 
-    if ap_per != None:
-        if ap_per.from_date < date.today() < ap_per.to_date:
+    if ca_per != None:
+        if ca_per.from_date <= date.today() <= ca_per.to_date:
             trainee_position.finalized = True
             trainee_position.save()
+            print(trainee_position)
             return redirect('/secretary/carriers/trainee_positions')
         else:
-            request.session['message'] = 'Application period not available for department: '+uni_department
+            request.session['period_message'] = 'Application period not available for department: '+uni_department
             return redirect('/secretary/carriers/trainee_positions')
     else:
-        request.session['message'] = 'Application  not found! for department: '+uni_department
+        request.session['period_message'] = 'Application  not found! for department: '+uni_department
         return redirect('/secretary/carriers/trainee_positions')
 
 
@@ -156,7 +166,7 @@ def carrier_node_reject(request, pk):
 class ApprovalPreferencesListView(ListView):
     model = Preference
     context_object_name = "preferences"
-    template_name = "preferences.html"
+    template_name = "undergraduate_students_preferences.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
