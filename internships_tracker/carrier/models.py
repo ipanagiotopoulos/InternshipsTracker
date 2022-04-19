@@ -1,6 +1,5 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.urls import reverse
 from internships_app.models import Carrier, UndergraduateStudent, Supervisor
 from carrier.enums import APPLICATION_STATUS
 from internships_app.enums import (
@@ -68,15 +67,15 @@ class TraineePosition(models.Model):
         unique_together = ('job_code', 'no_id')
 
     def __str__(self):
-        return self.title + " in "+self.carrier.official_name
+        return self.job_code+":"+str(self.no_id)+" "+self.title + " in "+self.carrier.official_name
 
 
 class Assignment(models.Model):
     date = models.DateField(auto_now_add=True)
     trainee = models.OneToOneField(
-        UndergraduateStudent, on_delete=models.CASCADE)
+        UndergraduateStudent, unique=True,  on_delete=models.CASCADE)
     trainee_position = models.ForeignKey(
-        TraineePosition, on_delete=models.CASCADE)
+        TraineePosition, unique=True, on_delete=models.CASCADE)
     supervisor = models.ForeignKey(Supervisor, on_delete=models.CASCADE)
     assignment_period = models.ForeignKey(
         AssignmentPeriod, on_delete=models.CASCADE)
