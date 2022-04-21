@@ -12,15 +12,6 @@
     <h3 class="mb-3"> {{ request.GET.department }} Job Postings</h3>
     <div class="container-fluid border-border-dark" >
         {% if filter.qs %}
-             <button class="btn btn-info mb-4" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                Search filters
-             </button>
-             <div class="collapse mt-4 mb-4" id="collapseExample">
-                <form  class='form-group' method="GET">
-                    {{ filter.form|bootstrap_horizontal}}
-                    <button type="submit" class="btn btn-info">Search</button>
-                </form>
-             </div>
             {% for i in filter.qs|slice:"0:1"%}
             <h5 class="mt-4"> Carrier Assignment period for University Department : {{i.carrier_assignment.department}} <br> <br> <hr> Starting date: {{i.carrier_assignment.from_date}} <br> <br> <hr> Ending date:  {{i.carrier_assignment.to_date}} </h5>
             {% endfor %}
@@ -29,6 +20,15 @@
             {% if assignment_period  %}
                 <a href="{% url 'carrier:traineeposition_create'%}?department={{ request.GET.department }}" class="btn btn-lg btn-success mb-2 ">Add Job position</a>
             {% endif %}
+            <button class="btn btn-info mb-4" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Search filters
+             </button>
+             <div class="collapse mt-4 mb-4" id="collapseExample">
+                <form  class='form-group' method="GET">
+                    {{ filter.form|bootstrap_horizontal}}
+                    <button type="submit" class="btn btn-info">Search</button>
+                </form>
+             </div>
             <br>
             <br>
             <table id="datatable" class="table align-items-center table-flush">

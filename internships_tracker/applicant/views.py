@@ -37,7 +37,7 @@ class CreatePreferenceView(ApplicationPeriodRequiredMixin, CreateView):
             ].queryset = TraineePosition.objects.filter(
                 carrier_assignment__department=student.department,
                 finalized=True
-            ).distinct('job_code')
+            ).distinct('job_code').order_by()
 
         return form
 
@@ -90,6 +90,8 @@ class PreferenceDetailView(DetailView):
 class TraineePositionStudentListView(ApplicationPeriodRequiredMixin, ListView):
     model = TraineePosition
     context_object_name = "tps"
+    paginate_by = 6
+    paginate_orphans = 3
     template_name = "student_trainee_positions.html"
 
     def get_queryset(self):

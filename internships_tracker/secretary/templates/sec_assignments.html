@@ -14,8 +14,39 @@
     <div>
         <div style="margin-bottom: 2rem;"> 
             <b style="font-size: 2rem; "> Do you want to add an assignment?</b>
-            <span style="font-size: 1.5rem;" > 
-                <a href="{% url 'secretary:sec_assignment_create'%}" class="btn btn-lg btn-success">Add assignment</a> 
+            <span style="font-size: 1.5rem;">
+                <button class="btn btn-lg btn-success mb-4" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Search filters
+                </button>
+            {% if request.user.department == "Secreatary" %}
+                <div class="collapse mt-4 mb-4" id="collapseExample">
+                   <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="IT">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            Informatics and Telematics
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="ND" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                             Nutrition and Dietics
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="ESD" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                             Economics and Sustainable Development
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="G" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                             Geography
+                        </label>
+                    </div>
+                </div>
+            {% endif %}
+                {# <a href="{% url 'secretary:sec_assignment_create'%}" class="btn btn-lg btn-success">Add assignment</a>  #}
             </span>
         </div>    
     </div>    
