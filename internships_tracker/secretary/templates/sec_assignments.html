@@ -15,46 +15,55 @@
         <div style="margin-bottom: 2rem;"> 
             <b style="font-size: 2rem; "> Do you want to add an assignment?</b>
             <span style="font-size: 1.5rem;">
-                <button class="btn btn-lg btn-success mb-4" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                    Search filters
+                <button class="btn btn-lg btn-info mb-4" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Department choices
                 </button>
-            {% if request.user.department == "Secreatary" %}
+            {% if request.user.uni_department == "ALL" %}
                 <div class="collapse mt-4 mb-4" id="collapseExample">
                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="IT">
+                        <input class="form-check-input" type="radio" name="departmentSelection" id="flexRadioDefault1" value="IT">
                         <label class="form-check-label" for="flexRadioDefault1">
                             Informatics and Telematics
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="ND" checked>
+                        <input class="form-check-input" type="radio" name="departmentSelection" id="flexRadioDefault2" value="ND"  checked>
                         <label class="form-check-label" for="flexRadioDefault2">
                              Nutrition and Dietics
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="ESD" checked>
+                        <input class="form-check-input" type="radio" name="departmentSelection" id="flexRadioDefault2" value="ESD" checked>
                         <label class="form-check-label" for="flexRadioDefault2">
                              Economics and Sustainable Development
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="G" checked>
+                        <input class="form-check-input" type="radio" name="departmentSelection" id="flexRadioDefault2" value="G" checked>
                         <label class="form-check-label" for="flexRadioDefault2">
                              Geography
                         </label>
                     </div>
+                    <button style="margin-top: 3rem;" class="btn btn-lg btn-info" id="addAssignment" type="submit">Add Assignment</button>     
+                </div>
+            {% else %}
+                <div class="collapse mt-4 mb-4" id="collapseExample">
+                    <div class="form-check">
+                            <input class="form-check-input" type="radio" name="departmentSelection" id="flexRadioDefault1" value="IT">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Informatics and Telematics
+                            </label>
+                    </div>
                 </div>
             {% endif %}
-                {# <a href="{% url 'secretary:sec_assignment_create'%}" class="btn btn-lg btn-success">Add assignment</a>  #}
             </span>
         </div>    
     </div>    
     {% if filter.qs %}     
-        <button class="btn btn-info mb-4" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        <button class="btn btn-info mb-4" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
             Search filters
         </button>
-        <div class="collapse mt-4 mb-4" id="collapseExample">
+        <div class="collapse mt-4 mb-4" id="collapseExample2">
                 <form  class='form-group' method="GET">
                     {{ filter.form|bootstrap_horizontal}}
                     <button type="submit" class="btn btn-info">Search</button>
@@ -82,18 +91,7 @@
                         <td>{{assignment.trainee.uni_department}}</td>
                         <td>{{assignment.created}}</td>
                         {% if assignment.assignment_status == "P" %}
-                            <td class="text-right row">
-                                <div class="btn-group" role="group">
-                                    <div class="col-md-5 custom">
-                                        <button type="button" class="btn btn-sm btn-success"> <a class="text-white" href="/secretary/assignments/{{assignment.id}}/accept"> Accept</button>        
-                                    </div>
-                                    <div class="col-md-5 custom">
-                                        <form action="" method="POST">
-                                            <button type="button" class="btn btn-sm btn-danger"> <a class="text-white" href="/secretary/assignments/{{assignment.id}}/delete"> Reject</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </td>
+                           <td>Pending</td>
                         {% else %}
                             {% if assignment.assignment_status == "A" %}
                               <td>Accepted</td>
@@ -115,7 +113,7 @@
         <div class="row">
             <div class="col col-12">
                 <div class="alert alert-danger"><h4>{% translate "No assignments found!" %}</h4></div>
-                <button class="btn btn-lg  btn-info"> <a  class="text-white" href="/">Go back </button>
+                <button class="btn btn-lg  btn-info"> <a  class="text-white" href="/secretary/assignments">Go back </button>
             </div>
         </div>
     {% endif %}
@@ -141,5 +139,11 @@
                 "responsive":true
             })
        })
+    </script>
+    <script>
+        $('#addAssignment').on('click', function() {
+            department = $('input[name=departmentSelection]:checked', '#collapseExample').val()
+            location.assign('/secretary/assignment?department='+department) 
+        });
     </script>
 {% endblock content %}

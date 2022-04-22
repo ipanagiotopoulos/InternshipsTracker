@@ -124,6 +124,9 @@ class UndergraduateStudent(Profile):
         verbose_name = "Undergraduate Student"
         verbose_name_plural = "Undergraduate Students"
 
+    def __str__(self):
+        return str(self.register_number)+" "+self.first_name+" "+self.last_name+" "
+
 
 class Supervisor(Profile):
     register_number = models.CharField(max_length=10, validators=[
@@ -135,7 +138,7 @@ class Supervisor(Profile):
         verbose_name_plural = "Supervisors"
 
     def __str__(self):
-        return str(self.register_number)
+        return str(self.register_number)+" "+self.first_name+" "+self.last_name+" "
 
 
 class Secratarian(Profile):
