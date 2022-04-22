@@ -201,7 +201,6 @@ def assignment_reject(request, pk):
 class AcceptedAsssignmentListView(CarrierRequiredMixin, ListView):
     model = Assignment
     template_name = "accepted_assignments.html"
-    paginate_by = 10
     context_object_name = "assignments"
 
     def get_queryset(self):

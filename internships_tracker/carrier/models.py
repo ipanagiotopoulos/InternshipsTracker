@@ -68,15 +68,21 @@ class TraineePosition(models.Model):
         unique_together = ('job_code', 'no_id')
 
     def __str__(self):
-        return self.title + " in "+self.carrier.official_name
+        return self.job_code+":"+str(self.no_id)+" "+self.title + " in "+self.carrier.official_name
+
+    def __iter__(self):
+        return self.job_code
+
+    def __next__(self):
+        pass
 
 
 class Assignment(models.Model):
     date = models.DateField(auto_now_add=True)
     trainee = models.OneToOneField(
-        UndergraduateStudent, on_delete=models.CASCADE)
+        UndergraduateStudent, unique=True,  on_delete=models.CASCADE)
     trainee_position = models.ForeignKey(
-        TraineePosition, on_delete=models.CASCADE)
+        TraineePosition, unique=True, on_delete=models.CASCADE)
     supervisor = models.ForeignKey(Supervisor, on_delete=models.CASCADE)
     assignment_period = models.ForeignKey(
         AssignmentPeriod, on_delete=models.CASCADE)
