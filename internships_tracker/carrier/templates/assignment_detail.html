@@ -43,8 +43,8 @@
             </div>
         </div>
         <div class="card-footer ">
-            <a href="{% url 'carrier:assignment_accept' assignment.pk %}" class="btn btn-success ">{% trans "Accept" %}</a>
-            <a  href="{% url 'carrier:assignment_reject' assignment.pk %}" class="btn btn-danger ml-3">{% trans "Reject" %}</a>
+            <a href="{% url 'carrier:assignment_accept' assignment.pk %}?department={{ request.GET.department }}" class="btn btn-success ">{% trans "Accept" %}</a>
+            <a  href="{% url 'carrier:assignment_reject' assignment.pk %}?department={{ request.GET.department }}" class="btn btn-danger ml-3">{% trans "Reject" %}</a>
         </div>
     </div>
 {% endblock content %}
