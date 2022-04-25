@@ -1,5 +1,5 @@
 from ..models import Preference, InternshipReport
-from carrier.models import ApplicationPeriod
+from carrier.models import ApplicationPeriod, InternshipReportPeriod
 from internships_app.models import UndergraduateStudent
 from django import template
 import logging
@@ -35,5 +35,20 @@ def applicant_position_period(user):
     if application_period == None:
         return False
     elif application_period.from_date <= date.today() <= application_period.to_date:
+        return True
+    return False
+
+
+@register.simple_tag
+def applicant_internship_report_period(user):
+    student = UndergraduateStudent.objects.get(user_ptr_id=user.id)
+    internship_report_period = InternshipReportPeriod.objects.filter(
+        department=student.department
+    ).first()
+    if internship_report_period == None:
+        print("here you are", internship_report_period)
+        return False
+    elif internship_report_period.from_date <= date.today() <= internship_report_period.to_date:
+        print("here you are", internship_report_period)
         return True
     return False
