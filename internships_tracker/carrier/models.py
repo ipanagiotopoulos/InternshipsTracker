@@ -1,6 +1,5 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.urls import reverse
 from internships_app.models import Carrier, UndergraduateStudent, Supervisor
 from carrier.enums import APPLICATION_STATUS
 from internships_app.enums import (
@@ -69,12 +68,6 @@ class TraineePosition(models.Model):
 
     def __str__(self):
         return self.job_code+":"+str(self.no_id)+" "+self.title + " in "+self.carrier.official_name
-
-    def __iter__(self):
-        return self.job_code
-
-    def __next__(self):
-        pass
 
 
 class Assignment(models.Model):

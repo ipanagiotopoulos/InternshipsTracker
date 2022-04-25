@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
+{% load applicant_tags %}
 {% block title %} {% trans "My Application" %} {% endblock title %}
 {% block content%}
     {% if preference %}
@@ -41,7 +42,9 @@
                 {% endif %}
             </div>
             <div class="card-footer">
+            {% if application_period %}
                 <a href="{% url 'applicant:student_preference_update'  %}" class="btn  btn-lg btn-info">Update</a>
+            {% endif %}
             </div>
         </div>
     {% else %}

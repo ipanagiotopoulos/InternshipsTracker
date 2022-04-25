@@ -26,7 +26,7 @@
                 <td>{{assignment.trainee_position}}</td>
                 <td>{{assignment.supervisor}}</td>
                 <td>
-                    <a class="btn btn-outline-info" href="{% url 'carrier:assignment_detail' assignment.pk %}">{% trans "View" %}</a>
+                    <a class="btn btn-outline-info" href="{% url 'carrier:assignment_detail' assignment.pk %}?department={{ request.GET.department }}">{% trans "View" %}</a>
                 </td>
                 {% endfor %}
             </tbody>
@@ -34,7 +34,7 @@
   {% else %}
         <div class="row">
             <div class="col col-12">
-                <div class="alert alert-danger">{% translate "Assignments not found" %}</div>
+                <div class="alert alert-danger">{% translate "Pending assignments not found" %}</div>
             </div>
         </div>
   {% endif %}
