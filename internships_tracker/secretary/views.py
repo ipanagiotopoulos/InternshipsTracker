@@ -270,15 +270,14 @@ class AssingmentCreateView(CreateView):
             department=department_request).all()
         return context
 
+    def get_success_url(self):
+        department_request = self.request.GET.get("department")
+        if department_request not in deps:
+            raise Http404
+        return "/secretary/assignments?department="+department_request
+
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
-        department_request = self.request.GET.get("department")
-        trainee_positions_1 = TraineePosition.objects.filter(
-            carrier_assignment__department=department_request, finalized=True)
-        for assignment in Assignment.objects.filter(assignment_period__department=department_request).all():
-            trainee_positions_1.difference(
-                set(iter(assignment.trainee_position)))
-        form.fields["trainee_position"] = trainee_positions_1
         return form
 
     def form_valid(self, form):
