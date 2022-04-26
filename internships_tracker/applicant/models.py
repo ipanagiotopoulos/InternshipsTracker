@@ -56,5 +56,6 @@ class InternshipReport(models.Model):
     report_file = models.FileField()
     assignment = models.OneToOneField(Assignment, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
+    finalized = models.BooleanField(default=False)
     comments = models.TextField()
     created = models.DateTimeField(auto_now_add=True)

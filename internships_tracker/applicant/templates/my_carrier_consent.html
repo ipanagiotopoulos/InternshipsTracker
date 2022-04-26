@@ -47,28 +47,31 @@
             </div>
             <div class="card-footer">
             {% applicant_internship_report_period request.user as application_intern_period %}
-              {% if application_intern_period %}
                 {% if not report %}
+                    {% if application_intern_period %}
                         <a href="{% url 'applicant:report_create' carrier_consent.assignement_upon.pk %}" class="btn btn-lg btn-success ">{% trans "Upload Internship Report" %}</a>
+                    {% endif %}
                 {% else %}
-                <hr>
-                    <h3>My Internship report</h3>
-                    <div style="margin-bottom: 1rem;"> 
-                        <b style="font-size: 1.3rem;"> File: </b> 
-                        <span style="font-size: 1.1rem;" > <a href="{{report.report_file.url}}">{{report.report_file}}</a></span>
-                    </div>
-                    <div style="margin-bottom: 1rem;"> 
-                        <b style="font-size: 1.3rem; "> Date: </b> 
-                        <span style="font-size: 1.1rem;"> {{report.date}} </span>
-                    </div>
-                    <div style="margin-bottom: 1rem;"> 
-                        <b style="font-size: 1.3rem; "> Comments: </b> 
-                        <span style="font-size: 1.1rem;"> {{report.comments}} </span>
-                    </div>
-                    <p><b>Comments: </b> {{report.comments}}</p>
-                    <a href="{% url 'applicant:report_update' carrier_consent.assignement_upon.pk report.pk %}" class="btn btn-lg btn-success ">{% trans "Update Internship Report" %}</a>
+                    <hr>
+                        <h3>My Internship report</h3>
+                        <div style="margin-bottom: 1rem;"> 
+                            <b style="font-size: 1.3rem;"> File: </b> 
+                            <span style="font-size: 1.1rem;" > <a href="{{report.report_file.url}}">{{report.report_file}}</a></span>
+                        </div>
+                        <div style="margin-bottom: 1rem;"> 
+                            <b style="font-size: 1.3rem; "> Date: </b> 
+                            <span style="font-size: 1.1rem;"> {{report.date}} </span>
+                        </div>
+                        <div style="margin-bottom: 1rem;"> 
+                            <b style="font-size: 1.3rem; "> Comments: </b> 
+                            <span style="font-size: 1.1rem;"> {{report.comments}} </span>
+                        </div>
+                        {% if not report.finalized %}
+                          {% if application_intern_period %}
+                            <a href="{% url 'applicant:report_update' carrier_consent.assignement_upon.pk report.pk %}" class="btn btn-lg btn-success ">{% trans "Update Internship Report" %}</a>
+                          {% endif %}
+                        {% endif %}
                 {% endif %}
-            {% endif %}
             </div>
         </div>
     {% endif %}
