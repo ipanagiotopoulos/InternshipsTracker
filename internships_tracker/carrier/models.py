@@ -103,6 +103,7 @@ class CarrierAssesement(models.Model):
     assignement_upon = models.OneToOneField(
         Assignment, on_delete=models.CASCADE)
     comments = models.TextField(max_length=1000)
+    finalized = models.BooleanField(default=False)
     grade = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(10)]
     )

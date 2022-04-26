@@ -6,7 +6,7 @@
  {% block content %}
  <div class="card">
      <div class="card-header">
-         <h2>{% trans "Student" %}</h2>
+         <h2> {{assignment.trainee.first_name}} {{assignment.trainee.last_name}} {% trans "assignment" %}</h2>
      </div>
      <div class="card-body">
          <h3>Student details</h3>
@@ -50,6 +50,50 @@
             <div style="margin-bottom: 1rem;"> 
                 <b style="font-size: 1.3rem; "> Comments: </b> 
                 <span style="font-size: 1.1rem;"> {{report.comments}} </span>
+            </div>
+        </div>
+     {% endif %}
+     {% if carrier_assesment %}
+        <div class="card-body">
+            <hr>
+            <h3>Carrier Assesment</h3>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Submission Date: </b> 
+                <span style="font-size: 1.1rem;"> {{carrier_assesment.created}} </span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Comments: </b> 
+                <span style="font-size: 1.1rem;"> {{carrier_assesment.comments}} </span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Finalized: </b> 
+                <span style="font-size: 1.1rem;"> {{carrier_assesment.finalized}} </span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Grade: </b> 
+                <span style="font-size: 1.1rem;"> {{carrier_assesment.grade}} </span>
+            </div>
+        </div>
+     {% endif %}
+     {% if supervisor_assesment %}
+        <div class="card-footer">
+            <hr>
+            <h3>Supervisor Assesment</h3>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Submission Date: </b> 
+                <span style="font-size: 1.1rem;"> {{supervisor_assesment.created}} </span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Comments: </b> 
+                <span style="font-size: 1.1rem;"> {{supervisor_assesment.comments}} </span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Finalized: </b> 
+                <span style="font-size: 1.1rem;"> {{supervisor_assesment.finalized}} </span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Grade: </b> 
+                <span style="font-size: 1.1rem;"> {{supervisor_assesment.grade}} </span>
             </div>
         </div>
      {% endif %}

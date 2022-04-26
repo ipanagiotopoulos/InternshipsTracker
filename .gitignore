@@ -2,6 +2,7 @@ django_env/
 logs/
 internships_tracker/.env
 .env
+internships_tracker/media
 .DS_Store
 static/django_extensions
 static/bootstrap_icons/css
