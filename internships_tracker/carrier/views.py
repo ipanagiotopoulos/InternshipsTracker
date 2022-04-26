@@ -214,7 +214,10 @@ class AcceptedAsssignmentListView(CarrierRequiredMixin, ListView):
     context_object_name = "assignments"
 
     def get_queryset(self):
-        return Assignment.objects.filter(Q(assignment_status='A'))
+        carrier_node = CarrierNode.objects.filter(
+            id=self.request.user.id).first()
+
+        return Assignment.objects.filter(Q(trainee_position__carrier=carrier_node.carrier) & Q(assignment_status='A'))
 
 
 class AcceptedAsssignmentDetailView(CarrierRequiredMixin, UserPassesTestMixin, DetailView):
@@ -245,7 +248,7 @@ class AcceptedAsssignmentDetailView(CarrierRequiredMixin, UserPassesTestMixin, D
 
 class CarrierAssesementCreateView(CarrierRequiredMixin, CreateView):
     model = CarrierAssesement
-    fields = ['comments', 'grade']
+    fields = ['comments', 'grade', 'assesment_file']
     template_name = "carrier_assesment_create.html"
 
     def form_valid(self, form):

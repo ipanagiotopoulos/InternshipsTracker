@@ -51,7 +51,7 @@ class AsssignmentDetailView(UserPassesTestMixin, DetailView):
 
 class SupervisorAssesmentCreateView(CreateView):
     model = SupervisorAssesment
-    fields = ['comments', 'grade']
+    fields = ['comments', 'grade', 'assesment_file']
     template_name = "supervisor_assesment_create.html"
 
     def form_valid(self, form):

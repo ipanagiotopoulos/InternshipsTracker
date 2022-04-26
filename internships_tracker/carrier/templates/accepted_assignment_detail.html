@@ -5,7 +5,7 @@
 {% block content %}
   <div class="card">
     <div class="card-header">
-        <h2>{% trans "Carrier Trainee" %}</h2>
+        <h2> {{assignment.trainee.first_name}} {{assignment.trainee.last_name}} {% trans "assesment" %}</h2>
     </div>
     <div class="card-body">
         <h3>Student details</h3>
@@ -48,9 +48,9 @@
             <div style="margin-bottom: 1rem;"> 
                 <b style="font-size: 1.3rem; "> Comments: </b> 
                 <span style="font-size: 1.1rem;" > {{report.comments}} </span>
-            </div>
-         
-            {% if assesment %}
+            </div>   
+        {% endif %}
+        {% if assesment %}
                 <hr>
                 <h3>My Assesment</h3>
                 <hr>
@@ -66,13 +66,16 @@
                     <b style="font-size: 1.3rem; "> Grade: </b> 
                     <span style="font-size: 1.1rem;" > {{assesment.grade}} </span>
                 </div>
+                <div style="margin-bottom: 1rem;"> 
+                            <b style="font-size: 1.3rem;"> File: </b> 
+                            <span style="font-size: 1.1rem;" > <a href="{{assesment.assesment_file.url}}">{{assesment.assesment_file}}</a></span>
+                </div>
             {% else %}
                 </div>
                     <div class="card-footer ">
                         <a  href="{% url 'carrier:create_assesment' assignment.pk %}" class="btn btn-lg btn-success ml-3">{% trans "Create Assesment" %}</a>
-                    </div>
+                </div>
             {% endif %}
-        {% endif %}
     </div>
   </div>
 {% endblock content %}

@@ -99,6 +99,7 @@ class CarrierConsent(models.Model):
 
 
 class CarrierAssesement(models.Model):
+    assesment_file = models.FileField()
     date = models.DateField(auto_now_add=True)
     assignement_upon = models.OneToOneField(
         Assignment, on_delete=models.CASCADE)
