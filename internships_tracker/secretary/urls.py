@@ -94,6 +94,11 @@ urlpatterns = [
         name="sec_assignment_create",
     ),
     path(
+        "assignment/<int:pk>/",
+        views.AssignmentDetailView.as_view(),
+        name="sec_assignment_view",
+    ),
+    path(
         "assignments/<int:pk>/accept",
         views.assignment_approve,
         name="sec_assignment_approve"

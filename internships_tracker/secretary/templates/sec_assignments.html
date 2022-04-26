@@ -103,7 +103,7 @@
                         <td>{{assignment.trainee_position.carrier.official_name}}</td>
                         <td>{{assignment.trainee_position.job_code}}:{{assignment.trainee_position.no_id}}</td>
                         <td>
-                            <a class="btn btn-outline-info" href="#">{% trans "View" %}</a>
+                            <a class="btn btn-outline-info" href="/secretary/assignment/{{assignment.id}}">{% trans "View" %}</a>
                         </td>
                     </tr>
                 {% endfor %}

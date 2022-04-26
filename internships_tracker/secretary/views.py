@@ -1,6 +1,6 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DeleteView, UpdateView, CreateView
+from django.views.generic import ListView, DeleteView, UpdateView, CreateView, DetailView
 from datetime import date
 from internships_app.models import UndergraduateStudent, User, CarrierNode, Supervisor
 from applicant.models import Preference
@@ -294,6 +294,12 @@ class AssingmentUpdateView(UpdateView):
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
         return form
+
+
+class AssignmentDetailView(DetailView):
+    model = Assignment
+    context_object_name = "assignment"
+    template_name = "sec_assignment.html"
 
 
 class AssingmentDeleteView(DeleteView):
