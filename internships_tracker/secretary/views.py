@@ -4,7 +4,7 @@ from django.views.generic import ListView, DeleteView, UpdateView, CreateView, D
 from datetime import date
 from internships_app.models import UndergraduateStudent, User, CarrierNode, Supervisor
 from applicant.models import Preference, InternshipReport
-from carrier.models import TraineePosition, CarrierAssignmentPeriod, Assignment, AssignmentPeriod, CarrierConsent
+from carrier.models import TraineePosition, CarrierAssignmentPeriod, Assignment, AssignmentPeriod, CarrierConsent, CarrierAssesement
 from .forms import *
 from .filters import CarrierNodeFilter, UndergraduateStudentFilter, TraineePositionsFilter, PreferencesFilter, AssignmentFilter
 
@@ -309,6 +309,14 @@ class AssignmentDetailView(DetailView):
         report = InternshipReport.objects.filter(assignment__trainee=student)
         if report.exists():
             context["report"] = report.first()
+        carrier_asessment = CarrierAssesement.objects.filter(
+            assignement_upon=assignment)
+        if carrier_asessment.exists():
+            context["carrier_assesment"] = carrier_asessment.first()
+        supervisor_assesment = CarrierAssesement.objects.filter(
+            assignement_upon=assignment)
+        if supervisor_assesment.exists():
+            context["supervisor_assesment"] = supervisor_assesment.first()
         context["carrier_consent"] = self.get_object()
         context["assignment"] = assignment
         return context
