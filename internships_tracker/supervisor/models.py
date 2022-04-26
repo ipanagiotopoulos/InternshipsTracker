@@ -7,6 +7,7 @@ from carrier.models import Assignment
 
 class SupervisorAssesment(models.Model):
     date = models.DateField(auto_now_add=True)
+    assesment_file = models.FileField()
     supervisor = models.ForeignKey(Supervisor, on_delete=models.CASCADE)
     assignement_upon = models.OneToOneField(
         Assignment, on_delete=models.CASCADE)
