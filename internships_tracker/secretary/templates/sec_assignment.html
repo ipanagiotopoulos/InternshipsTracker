@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
  {% load crispy_forms_tags %}
  {% load i18n %}
+ {% load applicant_tags %}
  {% block title %}{% trans "Student" %}{% endblock title %}
  {% block content %}
  <div class="card">
@@ -34,5 +35,23 @@
              <span style="font-size: 1.1rem;" > {{assignment.assignment_period.from_date}} - {{assignment.assignment_period.to_date}}  </span>
          </div> 
      </div>
+     {% if report %}
+        <div class="card-footer">
+            <hr>
+            <h3>Internship report</h3>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem;"> File: </b> 
+                <span style="font-size: 1.1rem;" > <a href="{{report.report_file.url}}">{{report.report_file}}</a></span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Date: </b> 
+                <span style="font-size: 1.1rem;"> {{report.date}} </span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Comments: </b> 
+                <span style="font-size: 1.1rem;"> {{report.comments}} </span>
+            </div>
+        </div>
+     {% endif %}
  </div>
  {% endblock content %} 

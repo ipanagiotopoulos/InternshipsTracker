@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DeleteView, UpdateView, CreateView, DetailView
 from datetime import date
 from internships_app.models import UndergraduateStudent, User, CarrierNode, Supervisor
-from applicant.models import Preference
-from carrier.models import TraineePosition, CarrierAssignmentPeriod, Assignment, AssignmentPeriod
+from applicant.models import Preference, InternshipReport
+from carrier.models import TraineePosition, CarrierAssignmentPeriod, Assignment, AssignmentPeriod, CarrierConsent
 from .forms import *
 from .filters import CarrierNodeFilter, UndergraduateStudentFilter, TraineePositionsFilter, PreferencesFilter, AssignmentFilter
 
@@ -300,6 +300,28 @@ class AssignmentDetailView(DetailView):
     model = Assignment
     context_object_name = "assignment"
     template_name = "sec_assignment.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get('pk')
+        assignment = Assignment.objects.filter(id=pk).first()
+        student = assignment.trainee
+        report = InternshipReport.objects.filter(assignment__trainee=student)
+        if report.exists():
+            context["report"] = report.first()
+        context["carrier_consent"] = self.get_object()
+        context["assignment"] = assignment
+        return context
+
+    def get_object(self):
+        pk = self.kwargs.get('pk')
+        assignment = Assignment.objects.filter(id=pk).first()
+        student = assignment.trainee
+        carrier_consent = CarrierConsent.objects.filter(
+            assignement_upon__trainee=student, consent=True)
+        if carrier_consent.exists():
+            return carrier_consent.first()
+        return None
 
 
 class AssingmentDeleteView(DeleteView):
