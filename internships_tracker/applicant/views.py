@@ -122,7 +122,7 @@ class MyCarrierConsentDetailView(DetailView):
         student = UndergraduateStudent.objects.get(
             user_ptr_id=self.request.user.id)
         carrier_consent = CarrierConsent.objects.filter(
-            assignement_upon__trainee=student, consent=True)
+            assignement_upon__trainee=student, assignement_upon__finalized=True, consent=True)
         if carrier_consent.exists():
             return carrier_consent.first()
         return None

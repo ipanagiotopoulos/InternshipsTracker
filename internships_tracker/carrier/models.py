@@ -16,8 +16,6 @@ class CarrierAssignmentPeriod(models.Model):
     def __str__(self):
         return self.department
 
-# Create your models here.
-
 
 class ApplicationPeriod(models.Model):
     department = models.CharField(
@@ -79,12 +77,13 @@ class Assignment(models.Model):
     supervisor = models.ForeignKey(Supervisor, on_delete=models.CASCADE)
     assignment_period = models.ForeignKey(
         AssignmentPeriod, on_delete=models.CASCADE)
+    finalized = models.BooleanField(default=False)
     assignment_status = models.CharField(
         max_length=1, choices=APPLICATION_STATUS, default="P")
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.trainee_position.title
+        return self.trainee.register_number+", "+self.trainee_position.title+", "+self.trainee_position.carrier.official_name
 
 
 class CarrierConsent(models.Model):
@@ -111,4 +110,4 @@ class CarrierAssesement(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.assignement_upon.trainee_position.title
+        return self.assignement_upon.trainee.register_number+", "+self.assignement_upon.trainee_position.title+", "+self.assignement_upon.trainee_position.carrier.official_name

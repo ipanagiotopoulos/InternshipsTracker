@@ -16,7 +16,7 @@
             <b style="font-size: 2rem; "> Do you want to add an assignment?</b>
             <span style="font-size: 1.5rem;">
                 <button class="btn btn-lg btn-info mb-4" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                    Department choices
+                    Add an assignment
                 </button>
             {% if request.user.uni_department == "ALL" %}
                 <div class="collapse mt-4 mb-4" id="collapseExample">
@@ -44,7 +44,7 @@
                              Geography
                         </label>
                     </div>
-                    <button style="margin-top: 3rem;" class="btn btn-lg btn-info" id="addAssignment" type="submit">Add Assignment</button>     
+                    <button style="margin-top: 3rem;" class="btn btn-lg btn-info" id="addAssignment" type="submit">Proceed</button>     
                 </div>
             {% else %}
                 <div class="collapse mt-4 mb-4" id="collapseExample">

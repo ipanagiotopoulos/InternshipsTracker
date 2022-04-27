@@ -142,8 +142,8 @@ class AsssignmentListView(ListView, CarrierRequiredMixin):
         carrier_node = CarrierNode.objects.filter(
             user_ptr_id=self.request.user.id).first()
         return Assignment.objects.filter(
-            trainee_position__carrier__official_name=carrier_node.carrier.official_name, assignment_period__department=department, assignment_status="P"
-        )
+            trainee_position__carrier__official_name=carrier_node.carrier.official_name, assignment_period__department=department, assignment_status="P",
+            finalized=True)
 
 
 class AsssignmentDetailView(UserPassesTestMixin, CarrierRequiredMixin, DetailView):
@@ -157,7 +157,7 @@ class AsssignmentDetailView(UserPassesTestMixin, CarrierRequiredMixin, DetailVie
             raise Http404
         carrier_node = CarrierNode.objects.get(
             user_ptr_id=self.request.user.id)
-        if self.get_object().trainee_position.carrier == carrier_node.carrier:
+        if self.get_object().trainee_position.carrier == carrier_node.carrier and self.get_object().finalized == True:
             return True
         return False
 
@@ -168,7 +168,7 @@ def assignment_accept(request, pk):
         raise Http404
     carrier_node = CarrierNode.objects.get(user_ptr_id=request.user.id)
     assignment = get_object_or_404(Assignment, pk=pk)
-    if assignment.trainee_position.carrier == carrier_node.carrier:
+    if assignment.trainee_position.carrier == carrier_node.carrier and assignment.finalized == True:
         if CarrierConsent.objects.filter(Q(assignement_upon=assignment) & Q(consent=True)).exists():
             context = {
                 'message': 'Carrier consent already exists !',
@@ -191,7 +191,7 @@ def assignment_reject(request, pk):
     department_request = request.GET.get("department")
     if department_request not in deps:
         raise Http404
-    if assignment.trainee_position.carrier == carrier_node.carrier:
+    if assignment.trainee_position.carrier == carrier_node.carrier and assignment.finalized == True:
         if CarrierConsent.objects.filter(assignement_upon=assignment).exists():
             context = {
                 'message': 'Carrier consent already exists !',
@@ -217,7 +217,7 @@ class AcceptedAsssignmentListView(CarrierRequiredMixin, ListView):
         carrier_node = CarrierNode.objects.filter(
             id=self.request.user.id).first()
 
-        return Assignment.objects.filter(Q(trainee_position__carrier=carrier_node.carrier) & Q(assignment_status='A'))
+        return Assignment.objects.filter(Q(trainee_position__carrier=carrier_node.carrier) & Q(assignment_status='A') & Q(finalized=True))
 
 
 class AcceptedAsssignmentDetailView(CarrierRequiredMixin, UserPassesTestMixin, DetailView):
@@ -285,12 +285,10 @@ class TraineePositionAutocomplete(StudentOrCarrierRequiredMixin, auto.Select2Que
         if tr5:
             qs = qs.exclude(id=tr5)
         if self.q:
-
             qs = qs.filter(
                 Q(title__icontains=self.q)
                 | Q(carrier_assignment__carrier__official_name__icontains=self.q)
             )
-
         return qs
 
 

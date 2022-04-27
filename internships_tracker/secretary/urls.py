@@ -104,8 +104,48 @@ urlpatterns = [
         name="sec_assignment_approve"
     ),
     path(
-        "assignments/<int:pk>/delete",
+        "assignments/<int:pk>/reject",
         views.assignment_reject,
         name="sec_assignment_reject"
+    ),
+    path(
+        "assignments/<int:pk>/finalize",
+        views.assignment_finalize,
+        name="sec_assignment_finalize"
+    ),
+    path(
+        "assignments/<int:pk>/discard",
+        views.assignment_discard,
+        name="sec_assignment_dicard"
+    ),
+    path(
+        "assignments/<int:pk>/intern_report/finalize",
+        views.internship_report_finalize,
+        name="sec_assignment_intern_report_finalize"
+    ),
+    path(
+        "assignments/<int:pk>/intern_report/discard",
+        views.internship_report_discard,
+        name="sec_assignment_intern_report_discard"
+    ),
+    path(
+        "assignments/<int:pk>/carrier_assesment/finalize",
+        views.carrier_assesment_finalize,
+        name="sec_assignment_carrier_assesement_finalize"
+    ),
+    path(
+        "assignments/<int:pk>/carrier_assesment/discard",
+        views.carrier_assesment_discard,
+        name="sec_assignment_carrier_assesement_discard"
+    ),
+    path(
+        "assignments/<int:pk>/supervisor_assesment/finalize",
+        views.supervisor_assesment_finalize,
+        name="sec_assignment_supervisor_assesement_finalize"
+    ),
+    path(
+        "assignments/<int:pk>/supervisor_assesment/discard",
+        views.supervisor_assesment_discard,
+        name="sec_assignment_supervisor_assesement_discard"
     ),
 ]

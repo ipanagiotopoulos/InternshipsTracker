@@ -4,6 +4,7 @@ from django.views.generic import ListView, DeleteView, UpdateView, CreateView, D
 from datetime import date
 from internships_app.models import UndergraduateStudent, User, CarrierNode, Supervisor
 from applicant.models import Preference, InternshipReport
+from supervisor.models import SupervisorAssesment
 from carrier.models import TraineePosition, CarrierAssignmentPeriod, Assignment, AssignmentPeriod, CarrierConsent, CarrierAssesement
 from .forms import *
 from .filters import CarrierNodeFilter, UndergraduateStudentFilter, TraineePositionsFilter, PreferencesFilter, AssignmentFilter
@@ -345,13 +346,73 @@ class AssingmentDeleteView(DeleteView):
 
 def assignment_approve(request, pk):
     assignment = Assignment.objects.filter(id=pk).first()
-    assignment.finalized = "A"
+    assignment.assingment_status = "A"
     assignment.save()
-    return redirect('/')
+    return redirect("/secretary/assignments")
 
 
 def assignment_reject(request, pk):
     assignment = Assignment.objects.filter(id=pk).first()
     assignment.assingment_status = "R"
     assignment.save()
-    return redirect('/')
+    return redirect("/secretary/assignments")
+
+
+def assignment_finalize(request, pk):
+    assignment = Assignment.objects.filter(id=pk).first()
+    assignment.finalized = True
+    assignment.save()
+    return redirect("/secretary/assignments/"+pk)
+
+
+def assignment_discard(request, pk):
+    assignment = Assignment.objects.filter(id=pk).first()
+    assignment.assingment_status = "R"
+    return redirect("/secretary/assignment/"+str(pk))
+
+
+def internship_report_finalize(request, pk):
+    internship_report = InternshipReport.objects.filter(id=pk).first()
+    internship_report.finalized = True
+    internship_report.save()
+    return redirect("/secretary/assignment/"+str(pk))
+
+
+def internship_report_discard(request, pk):
+    internship_report = InternshipReport.objects.filter(
+        assignement_upon__id=pk).first()
+    internship_report.finalized = False
+    internship_report.save()
+    return redirect("/secretary/assignment/"+str(pk))
+
+
+def carrier_assesment_finalize(request, pk):
+    carrier_assesment = CarrierAssesement.objects.filter(
+        assignement_upon__id=pk).first()
+    carrier_assesment.finalized = True
+    carrier_assesment.save()
+    return redirect("/secretary/assignment/"+str(pk))
+
+
+def carrier_assesment_discard(request, pk):
+    carrier_assesment = CarrierAssesement.objects.filter(
+        assignement_upon__id=pk).first()
+    carrier_assesment.finalized = False
+    carrier_assesment.save()
+    return redirect("/secretary/assignment/"+str(pk))
+
+
+def supervisor_assesment_finalize(request, pk):
+    supervisor_assesment = SupervisorAssesment.objects.filter(
+        assignement_upon__id=pk).first()
+    supervisor_assesment.finlized = True
+    supervisor_assesment.save()
+    return redirect("/secretary/assignment/"+str(pk))
+
+
+def supervisor_assesment_discard(request, pk):
+    supervisor_assesment = SupervisorAssesment.objects.filter(
+        assignment_upon__id=pk).first()
+    supervisor_assesment.finlized = False
+    supervisor_assesment.save()
+    return redirect("/secretary/assignment/"+str(pk))
