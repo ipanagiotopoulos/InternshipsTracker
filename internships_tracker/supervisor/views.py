@@ -40,10 +40,12 @@ class AsssignmentDetailView(UserPassesTestMixin, DetailView):
             context["report"] = report.first()
         carrier_assesment = CarrierAssesement.objects.filter(
             assignement_upon=assignment)
+        print("Results are here: ca", carrier_assesment.first())
         if carrier_assesment.exists():
             context["carrier_assesment"] = carrier_assesment.first()
         supervisor_assesment = SupervisorAssesment.objects.filter(
             assignement_upon=assignment)
+        print("Results are here: ca", supervisor_assesment.first())
         if supervisor_assesment.exists():
             context["supervisor_assesment"] = supervisor_assesment.first()
         return context
