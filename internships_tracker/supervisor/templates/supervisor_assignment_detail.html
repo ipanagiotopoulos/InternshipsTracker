@@ -51,6 +51,7 @@
                 <span style="font-size: 1.1rem;" > {{report.comments}}  </span>
             </div> 
             {% if carrier_assesment %}
+              {% if carrier_assesment.finalized %}
                 <hr>
                 <h3>Carrier Assesment</h3>
                 <hr>
@@ -61,11 +62,16 @@
                 <div style="margin-bottom: 1rem;"> 
                     <b style="font-size: 1.3rem; "> Comments: </b> 
                     <span style="font-size: 1.1rem;" > {{carrier_assesment.comments}}  </span>
+                </div>
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.3rem;"> File: </b> 
+                    <span style="font-size: 1.1rem;" > <a href="{{carrier_assesment.assesment_file.url}}">{{carrier_assesment.assesment_file}}</a></span>
                 </div> 
                 <div style="margin-bottom: 1rem;"> 
                     <b style="font-size: 1.3rem; "> Grade: </b> 
                     <span style="font-size: 1.1rem;" > {{carrier_assesment.grade}}  </span>
-                </div> 
+                </div>
+              {% endif %}
                 {% if supervisor_assesment %}
                     <hr>
                     <h3>My Assesment</h3>
@@ -84,9 +90,11 @@
                     </div> 
                 {% else %}
                     </div>
+                    {% if carrier_assesment.finalized %}
                         <div class="card-footer ">
                             <a  href="{% url 'supervisor:create_assesment' assignment.pk %}" class="btn btn-lg btn-success ml-3">{% trans "Create Assesment" %}</a>
                         </div>
+                    {% endif %}
                 {% endif %}
             {% endif %}
         {% endif %}

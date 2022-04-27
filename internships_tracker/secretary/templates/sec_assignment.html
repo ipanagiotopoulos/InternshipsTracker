@@ -64,6 +64,17 @@
                 <b style="font-size: 1.3rem; "> Comments: </b> 
                 <span style="font-size: 1.1rem;"> {{report.comments}} </span>
             </div>
+            {% if report.finalized == True %}
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.3rem; "> Finalized: </b> 
+                    <span style="font-size: 1.1rem;"> {{report.finalized}} </span>
+                </div>
+            {% else %}
+                <div style="margin-bottom: 1rem;"> 
+                     <button class="btn btn-lg btn-success mr-4"><a class="text-white" href="/secretary/assignments/{{assignment.id}}/intern_report/finalize">Finalize</a></button>
+                     <button class="btn btn-lg btn-danger"><a class="text-white" href="/secretary/assignments/{{assignment.id}}/intern_report/discard">Delete</a></button>
+                </div>
+            {% endif %}
         </div>
      {% endif %}
      {% if carrier_assesment %}
@@ -119,7 +130,7 @@
                 <b style="font-size: 1.3rem; "> Grade: </b> 
                 <span style="font-size: 1.1rem;"> {{supervisor_assesment.grade}} </span>
             </div>
-            {% if supervisor_assesment.finalized %}
+            {% if supervisor_assesment.finalized == True %}
                 <div style="margin-bottom: 1rem;"> 
                     <b style="font-size: 1.3rem; "> Finalized: </b> 
                     <span style="font-size: 1.1rem;"> {{supervisor_assesment.finalized}} </span>
