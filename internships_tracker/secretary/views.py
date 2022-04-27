@@ -314,7 +314,7 @@ class AssignmentDetailView(DetailView):
             assignement_upon=assignment)
         if carrier_asessment.exists():
             context["carrier_assesment"] = carrier_asessment.first()
-        supervisor_assesment = CarrierAssesement.objects.filter(
+        supervisor_assesment = SupervisorAssesment.objects.filter(
             assignement_upon=assignment)
         if supervisor_assesment.exists():
             context["supervisor_assesment"] = supervisor_assesment.first()
@@ -372,7 +372,8 @@ def assignment_discard(request, pk):
 
 
 def internship_report_finalize(request, pk):
-    internship_report = InternshipReport.objects.filter(id=pk).first()
+    internship_report = InternshipReport.objects.filter(
+        assignment__id=pk).first()
     internship_report.finalized = True
     internship_report.save()
     return redirect("/secretary/assignment/"+str(pk))
@@ -380,7 +381,7 @@ def internship_report_finalize(request, pk):
 
 def internship_report_discard(request, pk):
     internship_report = InternshipReport.objects.filter(
-        assignement_upon__id=pk).first()
+        assignment__id=pk).first()
     internship_report.finalized = False
     internship_report.save()
     return redirect("/secretary/assignment/"+str(pk))
