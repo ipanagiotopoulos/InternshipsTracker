@@ -7,7 +7,7 @@ from applicant.models import Preference, InternshipReport
 from supervisor.models import SupervisorAssesment
 from carrier.models import TraineePosition, CarrierAssignmentPeriod, Assignment, AssignmentPeriod, CarrierConsent, CarrierAssesement
 from .forms import *
-from .filters import CarrierNodeFilter, UndergraduateStudentFilter, TraineePositionsFilter, PreferencesFilter, AssignmentFilter, InternshipsReportFilter
+from .filters import CarrierNodeFilter, UndergraduateStudentFilter, TraineePositionsFilter, PreferencesFilter, AssignmentFilter, InternshipsReportFilter, CarrierAssesmentFilter, SupervisorAssesmentFilter
 
 deps = ['IT', 'ND', 'ESD', 'G']
 
@@ -433,7 +433,7 @@ class CarrierAssesementListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        myFilter = CarrierAssesement(
+        myFilter = CarrierAssesmentFilter(
             self.request.GET, queryset=self.get_queryset())
         context = {'filter': myFilter}
         return context
@@ -488,7 +488,7 @@ class SupervisorAssesmentListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        myFilter = SupervisorAssesment(
+        myFilter = SupervisorAssesmentFilter(
             self.request.GET, queryset=self.get_queryset())
         context = {'filter': myFilter}
         return context
