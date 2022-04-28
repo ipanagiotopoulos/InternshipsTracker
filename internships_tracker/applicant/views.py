@@ -99,7 +99,7 @@ class TraineePositionStudentListView(ApplicationPeriodRequiredMixin, ListView):
             user_ptr_id=self.request.user.id)
         student_dep_application_period = ApplicationPeriod.objects.filter(
             department=student.department).first()
-        if(student_dep_application_period and student_dep_application_period.from_date <= date.today() <= student_dep_application_period.to_date):
+        if student_dep_application_period and student_dep_application_period.from_date <= date.today() <= student_dep_application_period.to_date:
             return TraineePosition.objects.filter(carrier_assignment__department=student.department, finalized=True).distinct('job_code')
 
 

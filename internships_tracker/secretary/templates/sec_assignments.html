@@ -44,9 +44,10 @@
                              Geography
                         </label>
                     </div>
-                    <button style="margin-top: 3rem;" class="btn btn-lg btn-info" id="addAssignment" type="submit">Proceed</button>     
+                    <button style="margin-top: 3rem;" class="btn btn-lg btn-success" id="addAssignment" type="submit">Proceed</button>     
                 </div>
             {% else %}
+              {% if request.user.uni_department == "IT" %}
                 <div class="collapse mt-4 mb-4" id="collapseExample">
                     <div class="form-check">
                             <input class="form-check-input" type="radio" name="departmentSelection" id="flexRadioDefault1" value="IT">
@@ -55,6 +56,37 @@
                             </label>
                     </div>
                 </div>
+              {% endif %}
+              {% if request.user.uni_department == "G" %}
+                <div class="collapse mt-4 mb-4" id="collapseExample">
+                    <div class="form-check">
+                            <input class="form-check-input" type="radio" name="departmentSelection" id="flexRadioDefault1" value="G">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Geography
+                            </label>
+                    </div>
+                </div>
+              {% endif %}
+              {% if request.user.uni_department == "ND" %}
+                <div class="collapse mt-4 mb-4" id="collapseExample">
+                    <div class="form-check">
+                            <input class="form-check-input" type="radio" name="departmentSelection" id="flexRadioDefault1" value="G">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Nutrition and Dietics
+                            </label>
+                    </div>
+                </div>
+              {% endif %}
+              {% if request.user.uni_department == "ESD" %}
+                <div class="collapse mt-4 mb-4" id="collapseExample">
+                    <div class="form-check">
+                            <input class="form-check-input" type="radio" name="departmentSelection" id="flexRadioDefault1" value="G">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Economics and Sustainable Development
+                            </label>
+                    </div>
+                </div>
+              {% endif %}
             {% endif %}
             </span>
         </div>    

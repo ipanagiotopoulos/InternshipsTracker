@@ -7,7 +7,7 @@ from applicant.models import Preference, InternshipReport
 from supervisor.models import SupervisorAssesment
 from carrier.models import TraineePosition, CarrierAssignmentPeriod, Assignment, AssignmentPeriod, CarrierConsent, CarrierAssesement
 from .forms import *
-from .filters import CarrierNodeFilter, UndergraduateStudentFilter, TraineePositionsFilter, PreferencesFilter, AssignmentFilter
+from .filters import CarrierNodeFilter, UndergraduateStudentFilter, TraineePositionsFilter, PreferencesFilter, AssignmentFilter, InternshipsReportFilter
 
 deps = ['IT', 'ND', 'ESD', 'G']
 
@@ -371,12 +371,43 @@ def assignment_discard(request, pk):
     return redirect("/secretary/assignment/"+str(pk))
 
 
+class InternshipReportListView(ListView):
+    model = InternshipReport
+    context_object_name = "internship_reports"
+    template_name = "sec_internship_reports.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        myFilter = InternshipsReportFilter(
+            self.request.GET, queryset=self.get_queryset())
+        context = {'filter': myFilter}
+        return context
+
+
+class InternshipReportDetailView(DetailView):
+    model = InternshipReport
+    context_object_name = "internship_report"
+    template_name = "sec_internship_report.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
 def internship_report_finalize(request, pk):
     internship_report = InternshipReport.objects.filter(
         assignment__id=pk).first()
     internship_report.finalized = True
     internship_report.save()
     return redirect("/secretary/assignment/"+str(pk))
+
+
+def internship_report_finalize_basic(request, pk):
+    internship_report = InternshipReport.objects.filter(
+        id=pk).first()
+    internship_report.finalized = True
+    internship_report.save()
+    return redirect("/secretary/assignments/intern_reports/"+str(pk))
 
 
 def internship_report_discard(request, pk):
@@ -387,12 +418,51 @@ def internship_report_discard(request, pk):
     return redirect("/secretary/assignment/"+str(pk))
 
 
+def internship_report_discard_basic(request, pk):
+    internship_report = InternshipReport.objects.filter(
+        id=pk).first()
+    internship_report.finalized = True
+    internship_report.save()
+    return redirect("/secretary/assignments/intern_reports/"+str(pk))
+
+
+class CarrierAssesementListView(ListView):
+    model = CarrierAssesement
+    context_object_name = "carrier_assesements"
+    template_name = "sec_carrier_assesements.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        myFilter = CarrierAssesement(
+            self.request.GET, queryset=self.get_queryset())
+        context = {'filter': myFilter}
+        return context
+
+
+class CarrierAssesementDetailView(DetailView):
+    model = CarrierAssesement
+    context_object_name = "carrier_assesement"
+    template_name = "sec_carrier_assesement.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
 def carrier_assesment_finalize(request, pk):
     carrier_assesment = CarrierAssesement.objects.filter(
         assignement_upon__id=pk).first()
     carrier_assesment.finalized = True
     carrier_assesment.save()
     return redirect("/secretary/assignment/"+str(pk))
+
+
+def carrier_assesment_finalize_basic(request, pk):
+    carrier_assesment = CarrierAssesement.objects.filter(
+        id=pk).first()
+    carrier_assesment.finalized = True
+    carrier_assesment.save()
+    return redirect("/secretary/assignments/carrier_assesments/"+str(pk))
 
 
 def carrier_assesment_discard(request, pk):
@@ -403,6 +473,37 @@ def carrier_assesment_discard(request, pk):
     return redirect("/secretary/assignment/"+str(pk))
 
 
+def carrier_assesment_discard_basic(request, pk):
+    carrier_assesment = CarrierAssesement.objects.filter(
+        id=pk).first()
+    carrier_assesment.finalized = False
+    carrier_assesment.save()
+    return redirect("/secretary/assignments/carrier_assesments/"+str(pk))
+
+
+class SupervisorAssesmentListView(ListView):
+    model = SupervisorAssesment
+    context_object_name = "carrier_assesements"
+    template_name = "sec_supervisor_assesements.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        myFilter = SupervisorAssesment(
+            self.request.GET, queryset=self.get_queryset())
+        context = {'filter': myFilter}
+        return context
+
+
+class SupervisorAssesmentDetailView(DetailView):
+    model = SupervisorAssesment
+    context_object_name = "supervisor_assesement"
+    template_name = "sec_supervisor_assesement.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
 def supervisor_assesment_finalize(request, pk):
     supervisor_assesment = SupervisorAssesment.objects.filter(
         assignement_upon__id=pk).first()
@@ -411,9 +512,25 @@ def supervisor_assesment_finalize(request, pk):
     return redirect("/secretary/assignment/"+str(pk))
 
 
+def supervisor_assesment_finalize_basic(request, pk):
+    supervisor_assesment = SupervisorAssesment.objects.filter(
+        id=pk).first()
+    supervisor_assesment.finalized = True
+    supervisor_assesment.save()
+    return redirect("/secretary/assignments/supervisor_assesments/"+str(pk))
+
+
 def supervisor_assesment_discard(request, pk):
     supervisor_assesment = SupervisorAssesment.objects.filter(
         assignment_upon__id=pk).first()
     supervisor_assesment.finlized = False
     supervisor_assesment.save()
     return redirect("/secretary/assignment/"+str(pk))
+
+
+def supervisor_assesment_discard_basic(request, pk):
+    supervisor_assesment = SupervisorAssesment.objects.filter(
+        id=pk).first()
+    supervisor_assesment.finalized = True
+    supervisor_assesment.save()
+    return redirect("/secretary/assignments/supervisor_assesments/"+str(pk))

@@ -1,8 +1,9 @@
 import django_filters
 from django import forms
 from internships_app.models import CarrierNode, UndergraduateStudent
-from carrier.models import TraineePosition, Assignment
-from applicant.models import Preference
+from carrier.models import TraineePosition, Assignment, CarrierAssesement
+from applicant.models import Preference, InternshipReport
+from supervisor.models import SupervisorAssesment
 
 
 class CarrierNodeFilter(django_filters.FilterSet):
@@ -65,4 +66,34 @@ class AssignmentFilter(django_filters.FilterSet):
             'trainee_position__carrier__official_name': ['icontains'],
             'trainee_position__title':  ['exact'],
             'assignment_status': ['exact'],
+        }
+
+
+class InternshipsReportFilter(django_filters.FilterSet):
+    class Meta:
+        model = InternshipReport
+        fields = {
+            "finalized": ["exact"],
+            "assignment__trainee__register_number": ['exact'],
+            "assignment__trainee_position__title": ['icontains'],
+        }
+
+
+class CarrierAssesmentFilter(django_filters.FilterSet):
+    class Meta:
+        model = CarrierAssesement
+        fields = {
+            "finalized": ["exact"],
+            "assignement_upon__trainee__register_number": ['exact'],
+            "assignement_upon__trainee_position__title": ['icontains'],
+        }
+
+
+class SupervisorAssesmentFilter(django_filters.FilterSet):
+    class Meta:
+        model = SupervisorAssesment
+        fields = {
+            "finalized": ["exact"],
+            "assignement_upon__trainee__register_number": ['exact'],
+            "assignement_upon__trainee_position__title": ['icontains'],
         }
