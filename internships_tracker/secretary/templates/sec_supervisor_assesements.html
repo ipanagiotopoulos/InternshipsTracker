@@ -52,14 +52,14 @@
         <tbody>
             {% for sa in filter.qs %}                                                            
             <tr>
-                <td>{{sa.assignment_upon.trainee_position.title}}</td>
-                <td>{{sa.assignment_upon.trainee_position.carrier.official_name}}</td>
-                <td>{{sa.assignment_upon.trainee_position.job_code}}:{{ip.assignment.trainee_position.no_id}}</td>
-                <td>{{sa.assignment_upon.trainee.first_name}} {{ip.assignment_upon.trainee.last_name}}</td>
-                <td>{{sa.assignment_upon.trainee.register_number}}</td>
-                <td>{{sa.assignment_upon.trainee.department}}</td>
-                <td>{{sa.assignment_upon.supervisor.first_name}}:{{sa.assignment_upon.supervisor.last_name}}</td>
-                <td>{{sa.assignment_upon.supervisor.register_number}}</td>
+                <td>{{sa.assignement_upon.trainee_position.title}}</td>
+                <td>{{sa.assignement_upon.trainee_position.carrier.official_name}}</td>
+                <td>{{sa.assignement_upon.trainee_position.job_code}}:{{sa.assignement.trainee_position.no_id}}</td>
+                <td>{{sa.assignement_upon.trainee.first_name}} {{sa.assignement_upon.trainee.last_name}}</td>
+                <td>{{sa.assignement_upon.trainee.register_number}}</td>
+                <td>{{sa.assignement_upon.trainee.department}}</td>
+                <td>{{sa.assignement_upon.supervisor.first_name}}:{{sa.assignement_upon.supervisor.last_name}}</td>
+                <td>{{sa.assignement_upon.supervisor.register_number}}</td>
                 {% if sa.finalized == False %}
                     <td class="text-right row">
                        NO

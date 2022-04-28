@@ -51,27 +51,27 @@
         </thead>
         <tbody>
             {% for ca in filter.qs %}                                                            
-            <tr>
-                <td>{{ca.assignment_upon.trainee_position.title}}</td>
-                <td>{{ca.assignment_upon.trainee_position.carrier.official_name}}</td>
-                <td>{{ca.assignment_upon.trainee_position.job_code}}:{{ip.assignment.trainee_position.no_id}}</td>
-                <td>{{ca.assignment_upon.trainee.first_name}} {{ip.assignment_upon.trainee.last_name}}</td>
-                <td>{{ca.assignment_upon.trainee.register_number}}</td>
-                <td>{{ca.assignment_upon.trainee.department}}</td>
-                <td>{{ca.assignment_upon.supervisor.first_name}}:{{ca.assignment_upon.supervisor.last_name}}</td>
-                <td>{{ca.assignment_upon.supervisor.register_number}}</td>
-                {% if ca.finalized == False %}
-                    <td class="text-right row">
-                       NO
-                    </td>
-                {% else %}
-                    <td>YES</td>
-                {% endif %}
-                    <td><a href="{{ca.assesment_file.url}}">{{ca.assesment_file}}</a></td>
-                    <td>
-                        <a class="btn btn-outline-info" href="/secretary/assignments/carrier_assesments/{{ca.assignment_upon.id}}">{% trans "View" %}</a>
-                    </td>
-        </tr>
+                <tr>
+                    <td>{{ca.assignement_upon.trainee_position.title}}</td>
+                    <td>{{ca.assignement_upon.trainee_position.carrier.official_name}}</td>
+                    <td>{{ca.assignement_upon.trainee_position.job_code}}:{{ca.assignement_upon.trainee_position.no_id}}</td>
+                    <td>{{ca.assignement_upon.trainee.first_name}} {{ca.assignement_upon.trainee.last_name}}</td>
+                    <td>{{ca.assignement_upon.trainee.register_number}}</td>
+                    <td>{{ca.assignement_upon.trainee.department}}</td>
+                    <td>{{ca.assignement_upon.supervisor.first_name}}:{{ca.assignement_upon.supervisor.last_name}}</td>
+                    <td>{{ca.assignement_upon.supervisor.register_number}}</td>
+                    {% if ca.finalized == False %}
+                        <td class="text-right row">
+                        NO
+                        </td>
+                    {% else %}
+                        <td>YES</td>
+                    {% endif %}
+                        <td><a href="{{ca.assesment_file.url}}">{{ca.assesment_file}}</a></td>
+                        <td>
+                            <a class="btn btn-outline-info" href="/secretary/assignments/carrier_assesments/{{ca.assignement_upon.id}}">{% trans "View" %}</a>
+                        </td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>

@@ -5,34 +5,57 @@
 {% block content%}
     <div class="card">
         <div class="card-header">
-            <h2>Position: {{trainee_position.title}} </h2>
+            <h2>{{supervisor_assesement.assignment_upon.trainee.first_name}} {{supervisor_assesement.assignment_upon.trainee.last_name}} assesment</h2>
         </div>
         <div class="card-body">
             <div style="margin-bottom: 1rem;"> 
-                <b style="font-size: 1.3rem; "> Position: </b> 
-                <span style="font-size: 1.1rem;" > {{trainee_position.title}} </span>
+                <b style="font-size: 1.3rem; "> Register Number: </b> 
+                <span style="font-size: 1.1rem;" > {{supervisor_assesement.assignment_upon.trainee.register_number}} </span>
             </div>
             <div style="margin-bottom: 1rem;"> 
-                <b style="font-size: 1.3rem; "> Created at: </b> 
-                <span style="font-size: 1.1rem;" > {{trainee_position.created}} </span>
+                <b style="font-size: 1.3rem; "> Department: </b> 
+                <span style="font-size: 1.1rem;" > {{supervisor_assesement.assignment_upon.trainee.department}} </span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Position: </b> 
+                <span style="font-size: 1.1rem;" > {{supervisor_assesement.assignment_upon.trainee_position.title}} </span>
             </div>
             <div style="margin-bottom: 1rem;"> 
                 <b style="font-size: 1.3rem; "> Carrier: </b> 
-                <span style="font-size: 1.1rem;" > {{trainee_position.carrier.official_name}} </span>
+                <span style="font-size: 1.1rem;" > {{supervisor_assesement.assignment_upon.trainee_position.official_name}} </span>
             </div>
             <div style="margin-bottom: 1rem;"> 
                 <b style="font-size: 1.3rem; "> Job ID: </b> 
-                <span style="font-size: 1.1rem;" > {{trainee_position.job_code}}:{{trainee_position.no_id}} </span>
+                <span style="font-size: 1.1rem;" > {{supervisor_assesement.assignment_upon.trainee_position.job_code}}:{{supervisor_assesement.assignment_upon.trainee_position.no_id}} </span>
             </div>
             <div style="margin-bottom: 1rem;"> 
-                <b style="font-size: 1.3rem; "> Finalized: </b> 
-                <span style="font-size: 1.1rem;" > {{trainee_position.finalized}} </span>
+                <b style="font-size: 1.3rem; "> Created at: </b> 
+                <span style="font-size: 1.1rem;" > {{supervisor_assesement.date}} </span>
             </div>
             <hr>
-            <h2>Description: </h2>
+            <h2>Comments: </h2>
             <div style="margin-bottom: 1rem; margin-top: 1rem;"> 
-                <span style="font-size: 1.1rem;" > {{trainee_position.description}} </span>
+                <span style="font-size: 1.1rem;" > {{supervisor_assesement.comments}} </span>
             </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Grade: </b> 
+                <span style="font-size: 1.1rem;" > {{supervisor_assesement.grade}} </span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Assesment File: </b> 
+                <span style="font-size: 1.1rem;" > <a href="{{supervisor_assesement.assesment_file.url}}">{{supervisor_assesement.assesment_file}}</a></span>
+            </div>
+            {% if supervisor_assesement.finalized == True %}
+                <div style="margin-bottom: 1rem;"> 
+                    <b style="font-size: 1.3rem; "> Finalized: </b> 
+                    <span style="font-size: 1.1rem;" > YES </span>
+                </div>
+            {% else %}
+                <div style="margin-bottom: 1rem;"> 
+                    <button class="btn btn-lg btn-success mr-4"><a class="text-white" href="/secretary/assignments/supervisor_assesment/{{supervisor_assesement.id}}/finalize">Finalize</a></button>
+                    <button class="btn btn-lg btn-danger"><a class="text-white" href="/secretary/assignments/supervisor_assesment/{{supervisor_assesement.id}}/discard">Delete</a></button>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock content %}
