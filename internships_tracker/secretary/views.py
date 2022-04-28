@@ -462,7 +462,7 @@ def carrier_assesment_finalize_basic(request, pk):
         id=pk).first()
     carrier_assesment.finalized = True
     carrier_assesment.save()
-    return redirect("/secretary/assignments/carrier_assesments/"+str(pk))
+    return redirect("/secretary/assignments/carrier_assesment/"+str(pk))
 
 
 def carrier_assesment_discard(request, pk):
@@ -478,12 +478,12 @@ def carrier_assesment_discard_basic(request, pk):
         id=pk).first()
     carrier_assesment.finalized = False
     carrier_assesment.save()
-    return redirect("/secretary/assignments/carrier_assesments/"+str(pk))
+    return redirect("/secretary/assignments/carrier_assesment/"+str(pk))
 
 
 class SupervisorAssesmentListView(ListView):
     model = SupervisorAssesment
-    context_object_name = "carrier_assesements"
+    context_object_name = "supervisor_assesements"
     template_name = "sec_supervisor_assesements.html"
 
     def get_context_data(self, **kwargs):
@@ -517,7 +517,7 @@ def supervisor_assesment_finalize_basic(request, pk):
         id=pk).first()
     supervisor_assesment.finalized = True
     supervisor_assesment.save()
-    return redirect("/secretary/assignments/supervisor_assesments/"+str(pk))
+    return redirect("/secretary/assignments/supervisor_assesment/"+str(pk))
 
 
 def supervisor_assesment_discard(request, pk):
@@ -533,4 +533,4 @@ def supervisor_assesment_discard_basic(request, pk):
         id=pk).first()
     supervisor_assesment.finalized = True
     supervisor_assesment.save()
-    return redirect("/secretary/assignments/supervisor_assesments/"+str(pk))
+    return redirect("/secretary/assignments/supervisor_assesment/"+str(pk))
