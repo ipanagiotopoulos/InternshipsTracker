@@ -119,9 +119,24 @@ urlpatterns = [
         name="sec_assignment_dicard"
     ),
     path(
+        "assignments/intern_reports/",
+        views.InternshipReportListView.as_view(),
+        name="sec_assignment_intern_reports"
+    ),
+    path(
+        "assignments/intern_reports/<int:pk>",
+        views.InternshipReportDetailView.as_view(),
+        name="sec_assignment_intern_report"
+    ),
+    path(
         "assignments/<int:pk>/intern_report/finalize",
         views.internship_report_finalize,
         name="sec_assignment_intern_report_finalize"
+    ),
+    path(
+        "assignments/intern_reports/<int:pk>/finalize",
+        views.internship_report_finalize_basic,
+        name="sec_assignment_intern_report_finalize_basic"
     ),
     path(
         "assignments/<int:pk>/intern_report/discard",
@@ -129,14 +144,49 @@ urlpatterns = [
         name="sec_assignment_intern_report_discard"
     ),
     path(
+        "assignments/intern_reports/<int:pk>/discard",
+        views.internship_report_discard_basic,
+        name="sec_assignment_intern_report_discard_basic"
+    ),
+    path(
+        "assignments/carrier_assesments/",
+        views.CarrierAssesementListView.as_view(),
+        name="sec_assignment_carrier_assesements"
+    ),
+    path(
+        "assignments/carrier_assesments/<int:pk>",
+        views.CarrierAssesementDetailView.as_view(),
+        name="sec_assignment_carrier_assesement"
+    ),
+    path(
+        "assignments/carrier_assesments/<int:pk>/finalize",
+        views.carrier_assesment_finalize_basic,
+        name="sec_assignment_carrier_assesement_finalize_basic"
+    ),
+    path(
         "assignments/<int:pk>/carrier_assesment/finalize",
         views.carrier_assesment_finalize,
         name="sec_assignment_carrier_assesement_finalize"
     ),
     path(
-        "assignments/<int:pk>/carrier_assesment/discard",
+        "assignments/carrier_assesment/<int:pk>/discard",
         views.carrier_assesment_discard,
         name="sec_assignment_carrier_assesement_discard"
+    ),
+    path(
+        "assignments/carrier_assesments/<int:pk>/discard",
+        views.carrier_assesment_discard_basic,
+        name="sec_assignment_carrier_assesement_discard_basic"
+    ),
+    path(
+        "assignments/supervisor_assesments/",
+        views.SupervisorAssesmentListView.as_view(),
+        name="sec_assignment_supervisor_assesements"
+    ),
+    path(
+        "assignments/supervisor_assesments/<int:pk>",
+        views.SupervisorAssesmentDetailView.as_view(),
+        name="sec_assignment_supervisor_assesement"
     ),
     path(
         "assignments/<int:pk>/supervisor_assesment/finalize",
@@ -144,8 +194,18 @@ urlpatterns = [
         name="sec_assignment_supervisor_assesement_finalize"
     ),
     path(
+        "assignments/supervisor_assesment/<int:pk>/finalize",
+        views.supervisor_assesment_finalize_basic,
+        name="sec_assignment_supervisor_assesement_finalize"
+    ),
+    path(
         "assignments/<int:pk>/supervisor_assesment/discard",
         views.supervisor_assesment_discard,
+        name="sec_assignment_supervisor_assesement_discard"
+    ),
+    path(
+        "assignments/supervisor_assesment/<int:pk>/discard",
+        views.supervisor_assesment_discard_basic,
         name="sec_assignment_supervisor_assesement_discard"
     ),
 ]
