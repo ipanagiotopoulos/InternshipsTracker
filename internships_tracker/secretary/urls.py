@@ -154,12 +154,12 @@ urlpatterns = [
         name="sec_assignment_carrier_assesements"
     ),
     path(
-        "assignments/carrier_assesments/<int:pk>",
+        "assignments/carrier_assesment/<int:pk>",
         views.CarrierAssesementDetailView.as_view(),
         name="sec_assignment_carrier_assesement"
     ),
     path(
-        "assignments/carrier_assesments/<int:pk>/finalize",
+        "assignments/carrier_assesment/<int:pk>/finalize",
         views.carrier_assesment_finalize_basic,
         name="sec_assignment_carrier_assesement_finalize_basic"
     ),
@@ -184,7 +184,7 @@ urlpatterns = [
         name="sec_assignment_supervisor_assesements"
     ),
     path(
-        "assignments/supervisor_assesments/<int:pk>",
+        "assignments/supervisor_assesment/<int:pk>",
         views.SupervisorAssesmentDetailView.as_view(),
         name="sec_assignment_supervisor_assesement"
     ),
