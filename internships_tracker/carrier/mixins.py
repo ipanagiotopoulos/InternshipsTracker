@@ -9,7 +9,6 @@ class CarrierAssignmentRequiredMixin:
 
     def dispatch(self, request, *args, **kwargs):
         uni_department = self.request.GET.get('department', None)
-        print("uni dep", uni_department)
         cas = CarrierAssignmentPeriod.objects.filter(
             department=uni_department
         ).first()

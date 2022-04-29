@@ -262,7 +262,6 @@ class CarrierAssesementCreateView(CarrierRequiredMixin, CreateView):
 
 class TraineePositionAutocomplete(StudentOrCarrierRequiredMixin, auto.Select2QuerySetView):
     def get_queryset(self):
-        print(self.forwarded)
         tr1 = self.forwarded.get("trainee_position_1", None)
         tr2 = self.forwarded.get("trainee_position_2", None)
         tr3 = self.forwarded.get("trainee_position_3", None)

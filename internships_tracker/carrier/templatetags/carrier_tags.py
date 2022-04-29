@@ -21,39 +21,43 @@ def is_active(user):
         return True
     return False
 
+
 @register.simple_tag
 def has_job_postings(user):
     cn = CarrierNode.objects.get(user_ptr_id=user.id)
-    trainee_positions = TraineePosition.objects.filter(carrier = cn.carrier).first()
+    trainee_positions = TraineePosition.objects.filter(
+        carrier=cn.carrier).first()
     if trainee_positions.exists():
         return True
     else:
         return False
 
+
 @register.simple_tag
 def is_application_approval_active(user):
     cn = CarrierNode.objects.get(user_ptr_id=user.id)
-    cas = ApplicationPeriod.objects.filter(department=cn.carrier.department).first()
+    cas = ApplicationPeriod.objects.filter(
+        department=cn.carrier.department).first()
     if cas == None:
         return False
     elif cas.to_date < date.today():
         return True
     return False
 
+
 @register.simple_tag
 def all_carrier_uni_departments(user):
     dep_to_return = []
     cn = CarrierNode.objects.filter(user_ptr_id=user.id).first()
-    if cn :
-         if cn.carrier.department_1 != "NON":
-            dep_to_return.append(cn.carrier.department_1) 
-         if cn.carrier.department_2 != "NON":
-            dep_to_return.append(cn.carrier.department_2) 
-         if cn.carrier.department_3 != "NON":
-            dep_to_return.append(cn.carrier.department_3) 
-         if cn.carrier.department_4 != "NON":
-            dep_to_return.append(cn.carrier.department_4) 
-    else :
+    if cn:
+        if cn.carrier.department_1 != "NON":
+            dep_to_return.append(cn.carrier.department_1)
+        if cn.carrier.department_2 != "NON":
+            dep_to_return.append(cn.carrier.department_2)
+        if cn.carrier.department_3 != "NON":
+            dep_to_return.append(cn.carrier.department_3)
+        if cn.carrier.department_4 != "NON":
+            dep_to_return.append(cn.carrier.department_4)
+    else:
         dep_to_return = None
-    print(dep_to_return[0])
     return dep_to_return
