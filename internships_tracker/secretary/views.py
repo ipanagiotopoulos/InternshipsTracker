@@ -86,7 +86,6 @@ def carrier_node_approve(request, pk):
     user.save()
     request.session["carrier_node_reg"] = "User: " + \
         str(user)+" has been activated!"
-    print(request.session["carrier_node_reg"])
     return redirect('/secretary/carriers/registrations')
 
 

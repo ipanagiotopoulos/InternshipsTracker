@@ -46,9 +46,7 @@ def applicant_internship_report_period(user):
         department=student.department
     ).first()
     if internship_report_period == None:
-        print("here you are", internship_report_period)
         return False
     elif internship_report_period.from_date <= date.today() <= internship_report_period.to_date:
-        print("here you are", internship_report_period)
         return True
     return False
