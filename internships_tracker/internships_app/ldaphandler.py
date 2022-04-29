@@ -83,13 +83,13 @@ class ldapConnection:
         get user information: username, givenName, sn and externalMail
         """
         query = '(uid=%s)' % uid
-        print("the user is ",uid)
+        print("the user is ", uid)
         result = self.handler.search_s(
             settings.AUTH_LDAP_BASE_DN, ldap.SCOPE_SUBTREE, query)
-        print("result of ldap search",result)
+        print("result of ldap search", result)
         if len(result) == 1:
             some = convertToDict
-            print("here are some details about the user",some.__dict__)
+            print("here are some details about the user", some.__dict__)
             return convertToDict(result[0][1])
         else:
             return None

@@ -1,7 +1,4 @@
 from django import forms
-from django.forms.widgets import (
-    TextInput,
-)
 from .models import *
 from internships_app.models import Carrier
 from utils.validators import alphabetic

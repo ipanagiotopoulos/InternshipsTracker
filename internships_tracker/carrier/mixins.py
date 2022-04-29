@@ -1,7 +1,6 @@
 from django.http import HttpResponseNotFound
 from django.shortcuts import redirect
 from datetime import date
-from internships_app.models import CarrierNode
 from .models import *
 
 
