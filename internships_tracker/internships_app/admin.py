@@ -1,7 +1,7 @@
 from django.contrib import admin
-# from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from .models import *
+
 
 class SupervisorAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
@@ -41,6 +41,7 @@ class SupervisorAdmin(UserAdmin):
         ),
     )
 
+
 class SecretarianAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
         (
@@ -79,6 +80,8 @@ class SecretarianAdmin(UserAdmin):
             },
         ),
     )
+
+
 class UndergraduateStudentAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
         (
@@ -166,4 +169,4 @@ admin.site.register(CarrierNode, CarrierNodeAdmin)
 admin.site.register(UndergraduateStudent, UndergraduateStudentAdmin)
 admin.site.register(Carrier)
 admin.site.register(Address)
-admin.site.register(Secratarian,SecretarianAdmin)
+admin.site.register(Secratarian, SecretarianAdmin)

@@ -1,5 +1,5 @@
 from django.dispatch import receiver
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save
 from django.contrib.auth.models import Group
 from .models import *
 
@@ -8,11 +8,12 @@ from .models import *
 def carrier_node_add_to_default_group(sender, **kwargs):
     cn = kwargs["instance"]
     if kwargs["created"]:
-        carrierNodeGroup, created = Group.objects.get_or_create(name="carrier_node")
+        carrierNodeGroup, created = Group.objects.get_or_create(
+            name="carrier_node")
         if created == True:
             carrierNodeGroup.save()
         cn.groups.add(carrierNodeGroup)
-        cn.is_active=False
+        cn.is_active = False
         cn.save()
 
 
@@ -20,12 +21,14 @@ def carrier_node_add_to_default_group(sender, **kwargs):
 def supervisor_add_to_default_group(sender, **kwargs):
     supervisor = kwargs["instance"]
     if kwargs["created"]:
-        supervisorGroup, created = Group.objects.get_or_create(name="supervisor")
+        supervisorGroup, created = Group.objects.get_or_create(
+            name="supervisor")
         if created == True:
             supervisorGroup.save()
         supervisor.groups.add(supervisorGroup)
-        supervisor.is_active=False
+        supervisor.is_active = False
         supervisor.save()
+
 
 @receiver(post_save, sender=UndergraduateStudent)
 def student_add_to_default_group(sender, **kwargs):
@@ -35,16 +38,18 @@ def student_add_to_default_group(sender, **kwargs):
         if created == True:
             studentGroup.save()
         student.groups.add(studentGroup)
-        student.is_active=False
+        student.is_active = False
         student.save()
+
 
 @receiver(post_save, sender=Secratarian)
 def secretarian_add_to_default_group(sender, **kwargs):
     secretarian = kwargs["instance"]
     if kwargs["created"]:
-        secretarianGroup, created = Group.objects.get_or_create(name="secretarian")
+        secretarianGroup, created = Group.objects.get_or_create(
+            name="secretarian")
         if created == True:
             secretarianGroup.save()
         secretarian.groups.add(secretarianGroup)
-        secretarian.is_active=False
+        secretarian.is_active = False
         secretarian.save()
