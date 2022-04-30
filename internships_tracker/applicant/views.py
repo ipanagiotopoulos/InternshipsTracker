@@ -89,7 +89,7 @@ class PreferenceDetailView(DetailView):
 class TraineePositionStudentListView(ApplicationPeriodRequiredMixin, ListView):
     model = TraineePosition
     context_object_name = "tps"
-    paginate_by = 6
+    paginate_by = 5
     paginate_orphans = 3
     template_name = "student_trainee_positions.html"
 

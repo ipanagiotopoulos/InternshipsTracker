@@ -94,7 +94,7 @@ class CarrierConsent(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.assignement_upon.trainee_position.title
+        return self.assignement_upon.trainee.register_number+","+self.assignement_upon.trainee_position.title
 
 
 class CarrierAssesement(models.Model):
