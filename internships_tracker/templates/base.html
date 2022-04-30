@@ -69,7 +69,7 @@
               {% if uni_deps %}
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         {% for uni_dep in uni_deps %}
-                          <a class="dropdown-item" href="/carrier/traineepositions/list?department={{uni_dep}}">{{ uni_dep }} Positions</a>
+                          <a class="dropdown-item" href="/carrier/traineepositions/list?carrier_assignment__department={{uni_dep}}">{{ uni_dep }} Positions</a>
                         {% endfor %}
                 </div>
               {% endif %}

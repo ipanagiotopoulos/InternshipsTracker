@@ -3,15 +3,14 @@ from .models import TraineePosition, Assignment, CarrierConsent
 
 
 class TraineePositionsFilter(django_filters.FilterSet):
-    carrier_assignment__department = "IT"
 
     class Meta:
         model = TraineePosition
         fields = {
-
             'title': ['icontains'],
             'job_code': ['exact'],
             'no_id': ['exact'],
+            'carrier_assignment__department': ['exact'],
         }
 
 
