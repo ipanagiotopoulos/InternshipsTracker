@@ -26,19 +26,3 @@ class AssignmentFilter(django_filters.FilterSet):
             'trainee_position__title':  ['exact'],
             'assignment_status': ['exact'],
         }
-
-
-# class CarrierConsentFilter(django_filters.FilterSet):
-
-#     class Meta:
-#         model = CarrierConsent
-#         fields = {
-#             'carrier__official_name': ['exact'],
-#             # 'assignment_upon__trainee__first_name': ['icontains'],
-#             # 'assignment_upon__trainee__last_name': ['icontains'],
-#             # 'assignment_upon__trainee__register_number': ['icontains'],
-#             # 'assignment_upon__trainee__department': ['exact'],
-#             # 'assignment_upon__trainee_position__title': ['icontains'],
-#             # 'assignment_upon__trainee_position__job_code': ['exact'],
-#             # 'assignment_upon__trainee_position__no_id': ['exact'],
-#         }

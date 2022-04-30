@@ -27,11 +27,19 @@ class TraineePositionListView(CarrierRequiredMixin, ListView):
     model = TraineePosition
     template_name = "trainee_positions.html"
     context_object_name = "tps"
+<<<<<<< HEAD
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         department_request = self.request.GET.get(
             "carrier_assignment__department")
+=======
+    paginate_by = 5
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        department_request = self.request.GET.get("department")
+>>>>>>> 11ca8ebeab2c9dd648aa95fc8bdcd3bfc7c34fdd
         user = self.request.user
         if department_request not in deps:
             raise Http404
@@ -51,8 +59,12 @@ class TraineePositionListView(CarrierRequiredMixin, ListView):
         return context
 
     def render_to_response(self, context):
+<<<<<<< HEAD
         department_request = self.request.GET.get(
             "carrier_assignment__department")
+=======
+        department_request = self.request.GET.get("department")
+>>>>>>> 11ca8ebeab2c9dd648aa95fc8bdcd3bfc7c34fdd
         carrier_assignement_check = CarrierAssignmentPeriod.objects.filter(
             department=department_request).first() != None
         if carrier_assignement_check == False:
