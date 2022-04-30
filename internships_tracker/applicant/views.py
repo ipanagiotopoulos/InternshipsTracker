@@ -63,7 +63,7 @@ class PreferenceUpdateView(ApplicationPeriodRequiredMixin, UpdateView):
                 "trainee_position_" + str(i)
             ].queryset = TraineePosition.objects.filter(
                 carrier_assignment__department=student.department, finalized=True
-            ).distinct('job_code')
+            ).distinct('job_code').order_by()
         return form
 
     def get_object(self):
