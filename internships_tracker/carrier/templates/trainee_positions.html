@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
-    <h3 class="mb-3"> {{ request.GET.department }} Job Postings</h3>
+    <h3 class="mb-3"> {{ request.GET.carrier_assignment__department }} Job Postings</h3>
     <div class="container-fluid border-border-dark" >
         {% if filter.qs %}
             {% for i in filter.qs|slice:"0:1"%}
@@ -18,7 +18,7 @@
             <br>
             <br>
             {% if assignment_period  %}
-                <a href="{% url 'carrier:traineeposition_create'%}?department={{ request.GET.department }}" class="btn btn-lg btn-success mb-2 ">Add Job position</a>
+                <a href="{% url 'carrier:traineeposition_create'%}?carrier_assignment__department={{ request.GET.carrier_assignment__department }}" class="btn btn-lg btn-success mb-2 ">Add Job position</a>
             {% endif %}
             <button class="btn btn-info mb-4" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                 Search filters
@@ -56,8 +56,8 @@
                          {% endif %}
                          <td>
                             {% if assignment_period %}
-                                <a href="/carrier/traineepositions/{{tp.pk}}/update?department={{ request.GET.department }}" class="btn btn-info mb-2 btn-block">Edit </a>
-                                <a href="/carrier/traineepositions/{{tp.pk}}/delete?department={{ request.GET.department }}" class="btn btn-danger btn-block" >Delete </a>
+                                <a href="/carrier/traineepositions/{{tp.pk}}/update?carrier_assignment__department={{ request.GET.carrier_assignment__department }}" class="btn btn-info mb-2 btn-block">Edit </a>
+                                <a href="/carrier/traineepositions/{{tp.pk}}/delete?carrier_assignment__department={{ request.GET.carrier_assignment__department }}" class="btn btn-danger btn-block" >Delete </a>
                             {% endif %}
                         </td>
                         <td>{{tp.carrier_assignment.department}}</td>
@@ -70,7 +70,7 @@
                 <h5>No Job postings found</h5>
                 <h5>Do you want to create a new job posting?</h5>
                 <br>
-            <a href="{% url 'carrier:traineeposition_create'%}?department={{ request.GET.department }}" class="btn btn-success mb-2 ">Create Job position</a>
+            <a href="{% url 'carrier:traineeposition_create'%}?carrier_assignment__department={{ request.GET.carrier_assignment__department }}" class="btn btn-success mb-2 ">Create Job position</a>
             {% else %}  
             <div class="alert alert-danger"><h4>Carrier assignment period not found</h4></div>
                 <br>
