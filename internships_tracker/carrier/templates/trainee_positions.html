@@ -18,7 +18,7 @@
             <br>
             <br>
             {% if assignment_period  %}
-                <a href="{% url 'carrier:traineeposition_create'%}?carrier_assignment__department={{ request.GET.carrier_assignment__department }}" class="btn btn-lg btn-success mb-2 ">Add Job position</a>
+                <a href="{% url 'carrier:traineeposition_create'%}?department={{ request.GET.carrier_assignment__department }}" class="btn btn-lg btn-success mb-2 ">Add Job position</a>
             {% endif %}
             <button class="btn btn-info mb-4" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                 Search filters
@@ -56,8 +56,8 @@
                          {% endif %}
                          <td>
                             {% if assignment_period %}
-                                <a href="/carrier/traineepositions/{{tp.pk}}/update?carrier_assignment__department={{ request.GET.carrier_assignment__department }}" class="btn btn-info mb-2 btn-block">Edit </a>
-                                <a href="/carrier/traineepositions/{{tp.pk}}/delete?carrier_assignment__department={{ request.GET.carrier_assignment__department }}" class="btn btn-danger btn-block" >Delete </a>
+                                <a href="/carrier/traineepositions/{{tp.pk}}/update?department={{ request.GET.carrier_assignment__department }}" class="btn btn-info mb-2 btn-block">Edit </a>
+                                <a href="/carrier/traineepositions/{{tp.pk}}/delete?department={{ request.GET.carrier_assignment__department }}" class="btn btn-danger btn-block" >Delete </a>
                             {% endif %}
                         </td>
                         <td>{{tp.carrier_assignment.department}}</td>
