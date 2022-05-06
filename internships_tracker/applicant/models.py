@@ -54,8 +54,13 @@ class Preference(models.Model):
 
 class InternshipReport(models.Model):
     report_file = models.FileField()
+    attendance_report_file = models.FileField()
+    questionaire_file = models.FileField()
     assignment = models.OneToOneField(Assignment, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     finalized = models.BooleanField(default=False)
     comments = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.assignment.trainee.register_number+","+self.assignment.trainee_position.title+","+self.assignment.trainee_position.carrier.official_name

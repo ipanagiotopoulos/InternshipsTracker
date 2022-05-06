@@ -24,7 +24,7 @@
                 <td>{{assignment.date}}</td>
                 <td>{{assignment.trainee}}</td>
                 <td>{{assignment.trainee_position}}</td>
-                <td>{{assignment.supervisor}}</td>
+                <td>{{assignment.supervisor.first_name}} {{assignment.supervisor.last_name}}</td>
                 <td>
                     <a class="btn btn-outline-info" href="{% url 'carrier:assignment_detail' assignment.pk %}?department={{ request.GET.department }}">{% trans "View" %}</a>
                 </td>
@@ -39,14 +39,29 @@
         </div>
   {% endif %}
   <script type="text/javascript"
-        src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js">
+        src="https://code.jquery.com/jquery-3.5.1.js">
   </script>
   <script type="text/javascript"
-        src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js">
+        src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js">
+  </script>       
+  <script type="text/javascript"
+      src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js">
+  </script>
+  <script type="text/javascript"
+        src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js">
+  </script>
+  <script type="text/javascript"
+        src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js">
   </script>
   <script type="text/javascript">
-        $('#datatable').DataTable({
+      $(document).ready(function() {
+        var table = $('#datatable').DataTable({
+                rowReorder: {
+                    selector: 'td:nth-child(2)'
+                },
                 "ordering" : false,
-            });
-  </script>
+                "responsive":true,
+            })
+       })
+   </script>
 {% endblock content %}

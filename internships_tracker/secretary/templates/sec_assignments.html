@@ -55,6 +55,7 @@
                                 Informatics and Telematics
                             </label>
                     </div>
+                    <button style="margin-top: 3rem;" class="btn btn-lg btn-success" id="addAssignment" type="submit">Proceed</button> 
                 </div>
               {% endif %}
               {% if request.user.uni_department == "G" %}
@@ -65,6 +66,7 @@
                                 Geography
                             </label>
                     </div>
+                    <button style="margin-top: 3rem;" class="btn btn-lg btn-success" id="addAssignment" type="submit">Proceed</button> 
                 </div>
               {% endif %}
               {% if request.user.uni_department == "ND" %}
@@ -75,6 +77,7 @@
                                 Nutrition and Dietics
                             </label>
                     </div>
+                    <button style="margin-top: 3rem;" class="btn btn-lg btn-success" id="addAssignment" type="submit">Proceed</button> 
                 </div>
               {% endif %}
               {% if request.user.uni_department == "ESD" %}
@@ -85,6 +88,7 @@
                                 Economics and Sustainable Development
                             </label>
                     </div>
+                    <button style="margin-top: 3rem;" class="btn btn-lg btn-success" id="addAssignment" type="submit">Proceed</button>
                 </div>
               {% endif %}
             {% endif %}
@@ -105,13 +109,14 @@
             <thead class="bg-light">
                 <tr>
                 <th scope="col">{% trans "Name" %}</th>
-                <th scope="col">{% trans "email" %}</th>
+                <th scope="col">{% trans "Email" %}</th>
                 <th scope="col">{% trans "Department" %}</th>
                 <th scope="col">{% trans "Created at" %}</th>
                 <th scope="col">{% trans "Assignment Status" %}</th>
                 <th scope="col">{% trans "Trainee Position" %}</th>
                 <th scope="col">{% trans "Carrier name" %}</th>
                 <th scope="col">{% trans "Job ID" %}</th>
+                <th scope="col">{% trans "Secretary review" %}</th>
                 <th scope="col">{% trans "Action" %}</th>
                 </tr>
             </thead>
@@ -134,6 +139,19 @@
                         <td>{{assignment.trainee_position.title}}</td>
                         <td>{{assignment.trainee_position.carrier.official_name}}</td>
                         <td>{{assignment.trainee_position.job_code}}:{{assignment.trainee_position.no_id}}</td>
+                        {% if assignment.finalized%}
+                           <td> 
+                              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                              </svg>
+                            </td>
+                        {% else %}
+                            <td>
+                               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                 <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                              </svg>
+                            </td>
+                        {% endif %}
                         <td>
                             <a class="btn btn-outline-info" href="/secretary/assignment/{{assignment.id}}">{% trans "View" %}</a>
                         </td>
@@ -144,7 +162,7 @@
     {% else %}
         <div class="row">
             <div class="col col-12">
-                <div class="alert alert-danger"><h4>{% translate "No assignments found!" %}</h4></div>
+                <div class="alert alert-danger" id="message" ><h4>{% translate "No assignments found!" %}</h4></div>
                 <button class="btn btn-lg  btn-info"> <a  class="text-white" href="/secretary/assignments">Go back </button>
             </div>
         </div>
@@ -171,6 +189,13 @@
                 "responsive":true
             })
        })
+    </script>
+    <script>
+        window.setTimeout(function() {
+            $("#message").fadeTo(400, 0).slideUp(400, function(){
+                    $(this).remove();
+                });
+        }, 3000);
     </script>
     <script>
         $('#addAssignment').on('click', function() {

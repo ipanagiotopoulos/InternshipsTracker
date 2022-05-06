@@ -27,6 +27,7 @@ class UndergraduateStudentFilter(django_filters.FilterSet):
             'last_name':  ['icontains'],
             'register_number': ['exact'],
             'department': ['exact'],
+            'is_active': ['exact'],
         }
 
 
@@ -52,6 +53,7 @@ class PreferencesFilter(django_filters.FilterSet):
             'applicant__first_name': ['icontains'],
             'applicant__last_name':  ['icontains'],
             'applicant__register_number': ['exact'],
+            'finalized': ['exact'],
         }
 
 
@@ -63,6 +65,7 @@ class AssignmentFilter(django_filters.FilterSet):
             'trainee__first_name': ['icontains'],
             'trainee__last_name': ['icontains'],
             'trainee__department': ['exact'],
+            'finalized': ['exact'],
             'trainee_position__carrier__official_name': ['icontains'],
             'trainee_position__title':  ['exact'],
             'assignment_status': ['exact'],

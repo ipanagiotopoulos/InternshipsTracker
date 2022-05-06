@@ -28,7 +28,7 @@
                 <th scope="col">{% trans "Last Name" %}</th>
                 <th scope="col">{% trans "Email" %}</th>
                 <th scope="col">{% trans "Department" %}</th>
-                <th scope="col">{% trans "Active" %}</th>
+                <th scope="col">{% trans "Finalized" %}</th>
                 <th scope="col">{% trans "Action" %}</th>
                 </tr>
             </thead>
@@ -45,6 +45,7 @@
                     <td>YES</td>
                   {% endif %}
                     <td>
+                        <a class="btn btn-outline-info" href="/secretary/students/preferences/{{pref.id}}/update">{% trans "Update" %}</a>
                         <a class="btn btn-outline-info" href="/secretary/students/preferences/{{pref.id}}/edit">{% trans "View" %}</a>
                     </td>
               </tr>

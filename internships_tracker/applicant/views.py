@@ -153,7 +153,8 @@ class InternshipReportCreateView(InternshipReportPeriodRequiredMixin, CreateView
 
 class InternshipReportUpdateView(UserPassesTestMixin, InternshipReportPeriodRequiredMixin, UpdateView):
     model = InternshipReport
-    fields = ['report_file', 'comments']
+    fields = ['report_file', 'attendance_report_file',
+              'questionaire_file', 'comments']
     template_name = "report_update.html"
 
     def test_func(self):

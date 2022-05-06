@@ -18,4 +18,19 @@ urlpatterns = [
         views.SupervisorAssesmentCreateView.as_view(),
         name="create_assesment",
     ),
+    path(
+        "assignments/<int:pk>/update-assesment",
+        views.SupervisorAssesmentUpdateView.as_view(),
+        name="create_assesment",
+    ),
+    path(
+        "assesements/",
+        views.SupervisorAssesmentListView.as_view(),
+        name="supervisor_assesments",
+    ),
+    path(
+        "assesements/<int:pk>",
+        views.SupervisorAssesmentDetailView.as_view(),
+        name="supervisor_assesment",
+    ),
 ]

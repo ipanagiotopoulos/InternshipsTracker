@@ -5,6 +5,7 @@ from carrier.enums import APPLICATION_STATUS
 from internships_app.enums import (
     DEPARTMENT_CHOICES, DEPARTMENT_CHOICES_CN
 )
+from utils.validators import alphabetic
 
 
 class CarrierAssignmentPeriod(models.Model):
@@ -57,6 +58,7 @@ class TraineePosition(models.Model):
     carrier_assignment = models.ForeignKey(
         CarrierAssignmentPeriod, on_delete=models.CASCADE
     )
+    supervisor = models.CharField(max_length=100, validators=[alphabetic])
     description = models.TextField(max_length=1500)
     created = models.DateTimeField(auto_now_add=True)
     finalized = models.BooleanField(default=False)
@@ -99,6 +101,7 @@ class CarrierConsent(models.Model):
 
 class CarrierAssesement(models.Model):
     assesment_file = models.FileField()
+    report_essay_file = models.FileField()
     date = models.DateField(auto_now_add=True)
     assignement_upon = models.OneToOneField(
         Assignment, on_delete=models.CASCADE)

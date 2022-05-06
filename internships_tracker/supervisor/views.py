@@ -1,23 +1,27 @@
 from .models import SupervisorAssesment
-from django.views.generic import DetailView, ListView, CreateView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.urls import reverse
 from carrier.models import Assignment, CarrierAssesement
 from internships_app.models import Supervisor
 from applicant.models import InternshipReport
+from .filters import SupervisorAssesmentFilter
+from .forms import *
 
 
 class AsssignmentListView(ListView):
     model = Assignment
     template_name = "supervisor_assignments.html"
-    paginate_by = 10
     context_object_name = "assignments"
 
     def get_queryset(self):
         supervisor = Supervisor.objects.get(user_ptr_id=self.request.user.id)
-        return Assignment.objects.filter(
-            supervisor=supervisor, assignment_status="A"
-        )
+        assesements = CarrierAssesement.objects.filter(
+            assignement_upon__supervisor__id=supervisor.id, finalized=True)
+        assignments = []
+        for assesement in assesements:
+            assignments.append(assesement.assignement_upon)
+        return assignments
 
 
 class AsssignmentDetailView(UserPassesTestMixin, DetailView):
@@ -66,3 +70,36 @@ class SupervisorAssesmentCreateView(CreateView):
 
     def get_success_url(self):
         return reverse("supervisor:assignment_detail", kwargs={'pk': self.kwargs.get('pk')})
+
+
+class SupervisorAssesmentListView(ListView):
+    model = SupervisorAssesment
+    context_object_name = "supervisor_assesements"
+    template_name = "supervisor_assesements.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        myFilter = SupervisorAssesmentFilter(
+            self.request.GET, queryset=self.get_queryset())
+        context = {'filter': myFilter}
+        return context
+
+
+class SupervisorAssesmentDetailView(DetailView):
+    model = SupervisorAssesment
+    context_object_name = "supervisor_assesement"
+    template_name = "supervisor_assesement.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+class SupervisorAssesmentUpdateView(UpdateView):
+    model = SupervisorAssesment
+    form_class = SupervisorAssesmentForm
+    template_name = "supervisor_assesement_update.html"
+    group_required = u"supervisor"
+
+    def get_success_url(self):
+        return "/supervisor/assesments"

@@ -86,12 +86,13 @@ class TraineePositionCreateView(CarrierAssignmentRequiredMixin, CarrierRequiredM
 
     def get_success_url(self):
         uni_department = self.request.GET.get("department")
-        return '/carrier/traineepositions/list?department='+uni_department
+        return '/carrier/traineepositions/list?carrier_assignment__department='+uni_department
 
 
-class TraineePositionDetailView(CarrierAssignmentRequiredMixin, StudentOrCarrierRequiredMixin, DetailView):
+class TraineePositionDetailView(StudentOrCarrierRequiredMixin, DetailView):
     model = TraineePosition
-    template_name = "trainee_positions.html"
+    template_name = "trainee_position.html"
+    context_object_name = "trainee_position"
 
 
 class TraineePositionDeleteView(UserPassesTestMixin, CarrierAssignmentRequiredMixin, CarrierRequiredMixin, DeleteView):
@@ -102,13 +103,15 @@ class TraineePositionDeleteView(UserPassesTestMixin, CarrierAssignmentRequiredMi
     def test_func(self):
         carrier_node = CarrierNode.objects.get(
             user_ptr_id=self.request.user.id)
+        if self.get_object().finalized == True:
+            raise PermissionDenied()
         if self.get_object().carrier == carrier_node.carrier:
             return True
         return False
 
     def get_success_url(self):
         department = self.request.GET.get('department')
-        return "/carrier/traineepositions/list?department="+department
+        return "/carrier/traineepositions/list?carrier_assignment__department="+department
 
 
 class TraineePositionUpdateView(UserPassesTestMixin, CarrierAssignmentRequiredMixin, CarrierRequiredMixin, UpdateView):
@@ -120,6 +123,8 @@ class TraineePositionUpdateView(UserPassesTestMixin, CarrierAssignmentRequiredMi
     def test_func(self):
         carrier_node = CarrierNode.objects.get(
             user_ptr_id=self.request.user.id)
+        if self.get_object().finalized == True:
+            raise PermissionDenied()
         if self.get_object().carrier == carrier_node.carrier:
             return True
         return False
@@ -128,7 +133,7 @@ class TraineePositionUpdateView(UserPassesTestMixin, CarrierAssignmentRequiredMi
         department_request = self.request.GET.get("department")
         if department_request not in deps:
             raise Http404
-        return "/carrier/traineepositions/list?department="+department_request
+        return "/carrier/traineepositions/list?carrier_assignment__department="+department_request
 
 
 class AsssignmentListView(ListView, CarrierRequiredMixin):
@@ -249,7 +254,7 @@ class AcceptedAsssignmentDetailView(CarrierRequiredMixin, UserPassesTestMixin, D
 
 class CarrierAssesementCreateView(CarrierRequiredMixin, CreateView):
     model = CarrierAssesement
-    fields = ['comments', 'grade', 'assesment_file']
+    fields = ['comments', 'grade', 'assesment_file', 'report_essay_file']
     template_name = "carrier_assesment_create.html"
 
     def form_valid(self, form):

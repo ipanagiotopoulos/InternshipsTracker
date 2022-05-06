@@ -29,9 +29,24 @@ DEPARTMENT_CHOICES_CN = [
     (NON, "Νone")
 ]
 DEPARTMENT_CHOICES_CN_GR = [
+    (IT, "Πληροφορικής και Τηλεματικής"),
+    (GS, "Γεωγραφίας"),
+    (HS, "Οικιακής Οικονομίας και Οικολογίας"),
+    (DS, "Επιστήμης Διαιτολογίας και Διατροφής"),
+    (ALL, "Γραμματεία"),
+    (NON, "Κανένας")
+]
+DEPARTMENT_CHOICES_SEC = [
     (IT, "Informatics and Telematics"),
     (GS, "Geogrpaphy"),
     (HS, "Economics & Sustainable Development"),
     (DS, "Nutrition and  Dietetics"),
-    (NON, "Νone")
+    (ALL, "Secreatary")
+]
+DEPARTMENT_CHOICES_SEC_GR = [
+    (IT, "Πληροφορικής και Τηλεματικής"),
+    (GS, "Γεωγραφίας"),
+    (HS, "Οικιακής Οικονομίας και Οικολογίας"),
+    (DS, "Επιστήμης Διαιτολογίας και Διατροφής"),
+    (ALL, "Γραμματεία")
 ]

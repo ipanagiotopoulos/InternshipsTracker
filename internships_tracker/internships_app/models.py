@@ -117,12 +117,13 @@ class CarrierNode(Profile):
 
 class UndergraduateStudent(Profile):
     register_number = models.CharField(max_length=10, validators=[
-                                       alphanumeric], unique=True)
+                                       alphanumeric])
     department = models.CharField(max_length=3, choices=DEPARTMENT_CHOICES)
 
     class Meta:
         verbose_name = "Undergraduate Student"
         verbose_name_plural = "Undergraduate Students"
+        unique_together = ('register_number', 'department')
 
     def __str__(self):
         return str(self.register_number)+" "+self.first_name+" "+self.last_name+" "
@@ -136,6 +137,7 @@ class Supervisor(Profile):
     class Meta:
         verbose_name = "Supervisor"
         verbose_name_plural = "Supervisors"
+        unique_together = ('register_number', 'department')
 
     def __str__(self):
         return str(self.register_number)+" "+self.first_name+" "+self.last_name+" "

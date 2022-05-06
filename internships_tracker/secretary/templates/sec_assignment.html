@@ -34,7 +34,7 @@
              <b style="font-size: 1.3rem; "> Assignment Period: </b> 
              <span style="font-size: 1.1rem;" > {{assignment.assignment_period.from_date}} - {{assignment.assignment_period.to_date}}  </span>
          </div>
-        {% if assignment.assignment_status == 'A'%}
+        {% if assignment.assignment_status == 'P'%}
             {% if assignment.finalized%}
                 <div style="margin-bottom: 1rem;"> 
                     <b style="font-size: 1.3rem; "> Finalized: </b> 
@@ -47,6 +47,18 @@
             </div>
             {% endif %}
         {% endif %}
+        <div style="margin-bottom: 1rem;"> 
+             <b style="font-size: 1.3rem; "> Assignment Status: </b> 
+              {% if assignment.assignment_status == 'P'%}
+                <span style="font-size: 1.1rem;" > Pending </span>
+              {% endif %}
+              {% if assignment.assignment_status == 'A'%}
+                <span style="font-size: 1.1rem;" > Accepted </span>
+              {% endif %}
+              {% if assignment.assignment_status == 'R'%}
+                <span style="font-size: 1.1rem;" > Rejected </span>
+              {% endif %}
+        </div>
      </div>
      {% if report %}
         <div class="card-footer">

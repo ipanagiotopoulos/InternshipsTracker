@@ -42,6 +42,7 @@
                 {% endif %}
             </div>
             <div class="card-footer">
+            {% applicant_position_period request.user as application_period %}
             {% if application_period %}
                 <a href="{% url 'applicant:student_preference_update'  %}" class="btn  btn-lg btn-info">Update</a>
             {% endif %}

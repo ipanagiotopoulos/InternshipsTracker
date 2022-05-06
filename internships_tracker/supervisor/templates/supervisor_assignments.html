@@ -5,7 +5,13 @@
 {% block content %}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
-    {% if assignments %}
+    {% if not assignments %}
+      <div class="row" id="message">
+            <div class="col col-12">
+                <div class="alert alert-danger">{% translate "Assignments not found" %}</div>
+            </div>
+        </div>
+    {% endif %}
         <table id="datatable" class="table align-items-center table-flush">
             <thead class="bg-light">
                 <tr>
@@ -26,13 +32,6 @@
                 {% endfor %}
             </tbody>
         </table>
-    {% else %}
-        <div class="row">
-            <div class="col col-12">
-                <div class="alert alert-danger">{% translate "Assignments not found" %}</div>
-            </div>
-        </div>
-    {% endif %}
     <script type="text/javascript"
         src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js">
     </script>
@@ -43,5 +42,12 @@
         $('#datatable').DataTable({
             "ordering" : false,
         });
+    </script>
+     <script>
+        window.setTimeout(function() {
+            $("#message").fadeTo(400, 0).slideUp(400, function(){
+                    $(this).remove();
+                });
+        }, 3000);
     </script>
 {% endblock content %}

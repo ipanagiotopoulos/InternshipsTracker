@@ -18,4 +18,4 @@ class SupervisorAssesment(models.Model):
     )
 
     def __str__(self):
-        return self.assignement_upon.trainee_position.title
+        return self.assignement_upon.supervisor.department+","+self.assignement_upon.supervisor.register_number+","+self.assignement_upon.trainee_position.title+","+self.assignement_upon.trainee_position.carrier.official_name

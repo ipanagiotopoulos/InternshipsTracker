@@ -31,7 +31,7 @@ class StudentOrCarrierRequiredMixin:
     def dispatch(self, request, *args, **kwargs):
         user = request.user
         for g in user.groups.all():
-            if g.name == "student" or g.name == "carrier_node":
+            if g.name == "student" or g.name == "carrier_node" or g == "secretarian":
                 return super().dispatch(request, *args, **kwargs)
 
         return HttpResponseNotFound("Not found")

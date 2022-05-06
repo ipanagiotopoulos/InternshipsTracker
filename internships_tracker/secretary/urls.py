@@ -69,6 +69,16 @@ urlpatterns = [
         name="students_preferences",
     ),
     path(
+        "students/preferences/<int:pk>/update",
+        views.SecretaryPreferenceUpdateView.as_view(),
+        name="students_preferences_update",
+    ),
+    path(
+        "traineepositions/autocomplete",
+        views.SecretaryTraineePositionAutocomplete.as_view(),
+        name="sec_traineeposition_autocomple",
+    ),
+    path(
         "students/preferences/<int:pk>/edit",
         views.preference_approval_rejection,
         name="students_preferences_approve",

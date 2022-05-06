@@ -9,7 +9,7 @@ class SecrataryPreferenceForm(forms.ModelForm):
         required=False,
         queryset=TraineePosition.objects.none(),
         widget=autocomplete.ModelSelect2(
-            url="carrier:traineeposition_autocomple",
+            url="secretary:sec_traineeposition_autocomple",
             forward=[
                 "trainee_position_2",
                 "trainee_position_3",
@@ -22,7 +22,7 @@ class SecrataryPreferenceForm(forms.ModelForm):
         required=False,
         queryset=TraineePosition.objects.none(),
         widget=autocomplete.ModelSelect2(
-            url="carrier:traineeposition_autocomple",
+            url="secretary:sec_traineeposition_autocomple",
             forward=[
                 "trainee_position_1",
                 "trainee_position_3",
@@ -35,7 +35,7 @@ class SecrataryPreferenceForm(forms.ModelForm):
         required=False,
         queryset=TraineePosition.objects.none(),
         widget=autocomplete.ModelSelect2(
-            url="carrier:traineeposition_autocomple",
+            url="secretary:sec_traineeposition_autocomple",
             forward=[
                 "trainee_position_2",
                 "trainee_position_1",
@@ -49,7 +49,7 @@ class SecrataryPreferenceForm(forms.ModelForm):
         required=False,
         queryset=TraineePosition.objects.none(),
         widget=autocomplete.ModelSelect2(
-            url="carrier:traineeposition_autocomple",
+            url="secretary:sec_traineeposition_autocomple",
             forward=[
                 "trainee_position_2",
                 "trainee_position_3",
@@ -62,7 +62,7 @@ class SecrataryPreferenceForm(forms.ModelForm):
         required=False,
         queryset=TraineePosition.objects.none(),
         widget=autocomplete.ModelSelect2(
-            url="carrier:traineeposition_autocomple",
+            url="secretary:sec_traineeposition_autocomple",
             forward=[
                 "trainee_position_2",
                 "trainee_position_3",
@@ -83,7 +83,7 @@ class SecrataryPreferenceForm(forms.ModelForm):
         )
 
     def clean(self):
-        cleaned_data = super(PreferenceForm, self).clean()
+        cleaned_data = super(SecrataryPreferenceForm, self).clean()
 
         if not cleaned_data.get("trainee_position_1"):
             raise forms.ValidationError(
@@ -104,4 +104,24 @@ class AssignmentSecretaryForm(forms.ModelForm):
             "supervisor",
             "assignment_period",
             "assignment_status",
+        )
+
+
+class TraineePositionForm(forms.ModelForm):
+    title = forms.CharField(required=True, max_length=200, min_length=5)
+    description = forms.CharField(
+        required=True, max_length=1500, min_length=10, widget=forms.Textarea
+    )
+    no_id = forms.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(99999)])
+    job_code = forms.CharField(required=True, max_length=100, min_length=2)
+
+    class Meta:
+        model = TraineePosition
+        fields = (
+            "title",
+            "description",
+            "supervisor",
+            "no_id",
+            "job_code",
         )

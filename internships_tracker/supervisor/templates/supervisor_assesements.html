@@ -8,22 +8,13 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
-    {% if trainee_position_message_result %}
-        <div class="row" style="padding-bottom: 2rem;">
+    {% if not filter.qs %}
+        <div class="row" id="message">
             <div class="col col-12">
-                <div class="alert alert-danger"><h4>{{trainee_position_message_result}}</h4></div>
+                <div class="alert alert-danger">{% translate "Asssesements not found" %}</div>
             </div>
         </div>
     {% endif %}
-    {% if period_message %}
-        <div class="row" style="padding-bottom: 2rem;">
-            <div class="col col-12">
-                <div class="alert alert-danger"><h4>{{period_message}}</h4></div>
-            </div>
-        </div>
-    {% endif %}
-    <br>
-    <br>
     <button class="btn btn-info mb-4" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
         Search filters
     </button>
@@ -51,27 +42,27 @@
         </thead>
         <tbody>
             {% for sa in filter.qs %}                                                            
-            <tr>
-                <td>{{sa.assignement_upon.trainee_position.title}}</td>
-                <td>{{sa.assignement_upon.trainee_position.carrier.official_name}}</td>
-                <td>{{sa.assignement_upon.trainee_position.job_code}}:{{sa.assignement_upon.trainee_position.no_id}}</td>
-                <td>{{sa.assignement_upon.trainee.first_name}} {{sa.assignement_upon.trainee.last_name}}</td>
-                <td>{{sa.assignement_upon.trainee.register_number}}</td>
-                <td>{{sa.assignement_upon.trainee.department}}</td>
-                <td>{{sa.assignement_upon.supervisor.first_name}}:{{sa.assignement_upon.supervisor.last_name}}</td>
-                <td>{{sa.assignement_upon.supervisor.register_number}}</td>
-                {% if sa.finalized == False %}
-                    <td class="text-right row">
-                       NO
-                    </td>
-                {% else %}
-                    <td>YES</td>
-                {% endif %}
-                    <td><a href="{{sa.assesment_file.url.url}}">{{sa.assesment_file}}</a></td>
-                    <td>
-                        <a class="btn btn-outline-info" href="/secretary/assignments/supervisor_assesment/{{sa.id}}">{% trans "View" %}</a>
-                    </td>
-        </tr>
+                <tr>
+                    <td>{{sa.assignement_upon.trainee_position.title}}</td>
+                    <td>{{sa.assignement_upon.trainee_position.carrier.official_name}}</td>
+                    <td>{{sa.assignement_upon.trainee_position.job_code}}:{{sa.assignement_upon.trainee_position.no_id}}</td>
+                    <td>{{sa.assignement_upon.trainee.first_name}} {{sa.assignement_upon.trainee.last_name}}</td>
+                    <td>{{sa.assignement_upon.trainee.register_number}}</td>
+                    <td>{{sa.assignement_upon.trainee.department}}</td>
+                    <td>{{sa.assignement_upon.supervisor.first_name}}:{{sa.assignement_upon.supervisor.last_name}}</td>
+                    <td>{{sa.assignement_upon.supervisor.register_number}}</td>
+                    {% if sa.finalized == False %}
+                        <td class="text-right row">
+                        NO
+                        </td>
+                    {% else %}
+                        <td>YES</td>
+                    {% endif %}
+                        <td><a href="{{sa.assesment_file.url.url}}">{{sa.assesment_file}}</a></td>
+                        <td>
+                            <a class="btn btn-outline-info" href="/supervisor/assesements/{{sa.id}}">{% trans "View" %}</a>
+                        </td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>

@@ -15,7 +15,6 @@
                 <th scope="col">{% trans "Trainee Position" %}</th>
                 <th scope="col">{% trans "Supervisor" %}</th>
                 <th scope="col">{% trans "Actions" %}</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -23,7 +22,7 @@
                 <tr>
                 <td>{{assignment.trainee}}</td>
                 <td>{{assignment.trainee_position}}</td>
-                <td>{{assignment.supervisor}}</td>
+                <td>{{assignment.supervisor.first_name}} {{assignment.supervisor.last_name}}</td>
                 <td>
                     <a class="btn btn-outline-info" href="{% url 'carrier:accepted_assignment_detail' assignment.pk %}">{% trans "View" %}</a>
                 </td>

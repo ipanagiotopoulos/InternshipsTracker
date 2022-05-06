@@ -18,8 +18,9 @@ class TraineePositionForm(forms.ModelForm):
         fields = (
             "title",
             "description",
+            "supervisor",
             "no_id",
-            "job_code"
+            "job_code",
         )
 
 
