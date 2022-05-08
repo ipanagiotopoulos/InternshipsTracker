@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.generic import ListView, DeleteView, UpdateView, CreateView, DetailView
 from django.db.models import Q
 from django.core.exceptions import PermissionDenied
@@ -60,7 +61,7 @@ def student_approve(request, pk):
         user.save()
         request.session['student_reg_message'] = "User: " + \
             str(user)+" has been activated!"
-    return redirect('/secretary/students/registrations')
+    return reverse('secretary:sec_students_registrations')
 
 
 def student_reject(request, pk):
@@ -72,7 +73,7 @@ def student_reject(request, pk):
         user.delete()
         request.session['student_reg_message'] = "User: " + \
             str(user)+" has been deleted!"
-    return redirect('/secretary/students/registrations')
+    return reverse('secretary:sec_students_registrations')
 
 
 class ApprovalRejectionCarrierNodeListView(ListView):
@@ -124,7 +125,7 @@ def carrier_node_reject(request, pk):
         user.delete()
         request.session["carrier_node_reg"] = "User: " + \
             username+" has been deleted!"
-    return redirect('/secretary/carriers/registrations')
+    return reverse('secretary:sec_carriers_registrations')
 
 
 class ApprovalTraineePositionsListView(ListView):
@@ -151,22 +152,21 @@ class SecretaryTraineePositionUpdateView(UpdateView):
     model = TraineePosition
     form_class = TraineePositionForm
     template_name = "sec_trainee_position_update.html"
-    group_required = u"carrier_node"
+    group_required = u"secretarian"
 
-    def test_func(self):
+    def test_func(self, *kwargs):
+        pk = self.kwargs.get('pk')
+        trainee_position = TraineePosition.objects.filter(id=pk).first()
         secretarian = Secratarian.objects.get(
             user_ptr_id=self.request.user.id)
         if self.get_object().finalized == True:
             raise PermissionDenied()
-        if secretarian_department_item_select_object(self.request.user.id, secretarian):
+        if secretarian_department_item_select_object(self.request.user.id, trainee_position.carrier_assignment):
             return True
         return False
 
     def get_success_url(self):
-        department_request = self.request.GET.get("department")
-        if department_request not in deps:
-            raise Http404
-        return "/carrier/traineepositions/list?carrier_assignment__department="+department_request
+        return "/secretary/carriers/trainee_positions"
 
 
 class SecretaryTraineePositionDeleteView(DeleteView):
@@ -330,7 +330,7 @@ def preferences_approve(request, pk):
     if secretarian_department_item_select_object(request.user.id, preference.applicant):
         preference.finalized = True
         preference.save()
-    return redirect("/secretary/students/preferences")
+    return reverse("secretary:sec_students_preferences")
 
 
 def preference_approval_rejection(request, pk):
@@ -519,19 +519,19 @@ class InternshipReportDetailView(DetailView):
 def internship_report_finalize(request, pk):
     internship_report = InternshipReport.objects.filter(
         assignment__id=pk).first()
-    if secretarian_department_item_select_object(request.user.id, internship_report.trainee):
+    if secretarian_department_item_select_object(request.user.id, internship_report.assignment.trainee):
         internship_report.finalized = True
         internship_report.save()
-    return redirect("/secretary/assignments/")
+    return redirect("/secretary/assignments")
 
 
 def internship_report_finalize_basic(request, pk):
     internship_report = InternshipReport.objects.filter(
         id=pk).first()
-    if secretarian_department_item_select_object(request.user.id, internship_report.trainee):
+    if secretarian_department_item_select_object(request.user.id, internship_report.assignment.trainee):
         internship_report.finalized = True
         internship_report.save()
-    return redirect("/secretary/assignments/")
+    return redirect("/secretary/assignments/intern_reports/")
 
 
 def internship_report_discard(request, pk):
@@ -549,7 +549,7 @@ def internship_report_discard_basic(request, pk):
     if secretarian_department_item_select_object(request.user.id, internship_report.trainee):
         internship_report.finalized = True
         internship_report.save()
-    return redirect("/secretary/assignments/")
+    return redirect("/secretary/assignments/intern_reports/")
 
 
 class CarrierAssesementListView(ListView):
@@ -574,7 +574,7 @@ class CarrierAssesementDetailView(DetailView):
     template_name = "sec_carrier_assesement.html"
 
     def get_context_data(self, **kwargs):
-        trainee = self.get_object().assignment_upon.trainee
+        trainee = self.get_object().assignement_upon.trainee
         if secretarian_department_item_select_object(self.request.user.id, trainee):
             return super().get_context_data(**kwargs)
 
@@ -582,37 +582,37 @@ class CarrierAssesementDetailView(DetailView):
 def carrier_assesment_finalize(request, pk):
     carrier_assesment = CarrierAssesement.objects.filter(
         assignement_upon__id=pk).first()
-    if secretarian_department_item_select_object(request.user.id, carrier_assesment.assignment_upon.trainee):
+    if secretarian_department_item_select_object(request.user.id, carrier_assesment.assignement_upon.trainee):
         carrier_assesment.finalized = True
         carrier_assesment.save()
-    return redirect("/secretary/assignments/")
+    return reverse("secretary:sec_assignments")
 
 
 def carrier_assesment_finalize_basic(request, pk):
     carrier_assesment = CarrierAssesement.objects.filter(
         id=pk).first()
-    if secretarian_department_item_select_object(request.user.id, carrier_assesment.assignment_upon.trainee):
+    if secretarian_department_item_select_object(request.user.id, carrier_assesment.assignement_upon.trainee):
         carrier_assesment.finalized = True
         carrier_assesment.save()
-    return redirect("/ secretary/assignments/")
+    return redirect("secretary:sec_assignment_carrier_assesements")
 
 
 def carrier_assesment_discard(request, pk):
     carrier_assesment = CarrierAssesement.objects.filter(
         assignement_upon__id=pk).first()
-    if secretarian_department_item_select_object(request.user.id, carrier_assesment.assignment_upon.trainee):
+    if secretarian_department_item_select_object(request.user.id, carrier_assesment.assignement_upon.trainee):
         carrier_assesment.finalized = False
         carrier_assesment.save()
-    return redirect("/secretary/assignments/")
+    return reverse("secretary:sec_assignments")
 
 
 def carrier_assesment_discard_basic(request, pk):
     carrier_assesment = CarrierAssesement.objects.filter(
         id=pk).first()
-    if secretarian_department_item_select_object(request.user.id, carrier_assesment.assignment_upon.trainee):
+    if secretarian_department_item_select_object(request.user.id, carrier_assesment.assignement_upon.trainee):
         carrier_assesment.finalized = False
         carrier_assesment.save()
-    return redirect("/secretary/assignments/")
+    return reverse("secretary:sec_assignment_carrier_assesements")
 
 
 class SupervisorAssesmentListView(ListView):
@@ -637,7 +637,7 @@ class SupervisorAssesmentDetailView(DetailView):
     template_name = "sec_supervisor_assesement.html"
 
     def get_context_data(self, **kwargs):
-        trainee = self.get_object().assignment_upon.trainee
+        trainee = self.get_object().assignement_upon.trainee
         if secretarian_department_item_select_object(self.request.user.id, trainee):
             return super().get_context_data(**kwargs)
 
@@ -645,34 +645,34 @@ class SupervisorAssesmentDetailView(DetailView):
 def supervisor_assesment_finalize(request, pk):
     supervisor_assesment = SupervisorAssesment.objects.filter(
         assignement_upon__id=pk).first()
-    if secretarian_department_item_select_object(request.user.id, supervisor_assesment.assignment_upon.trainee):
+    if secretarian_department_item_select_object(request.user.id, supervisor_assesment.assignement_upon.trainee):
         supervisor_assesment.finlized = True
         supervisor_assesment.save()
-    return redirect("/secretary/assignments/")
+    return reverse("secretary:sec_assignments")
 
 
 def supervisor_assesment_finalize_basic(request, pk):
     supervisor_assesment = SupervisorAssesment.objects.filter(
         id=pk).first()
-    if secretarian_department_item_select_object(request.user.id, supervisor_assesment.assignment_upon.trainee):
+    if secretarian_department_item_select_object(request.user.id, supervisor_assesment.assignement_upon.trainee):
         supervisor_assesment.finalized = True
         supervisor_assesment.save()
-    return redirect("/secretary/assignments/")
+    return reverse("secretary:sec_assignment_supervisor_assesements")
 
 
 def supervisor_assesment_discard(request, pk):
     supervisor_assesment = SupervisorAssesment.objects.filter(
         assignment_upon__id=pk).first()
-    if secretarian_department_item_select_object(request.user.id, supervisor_assesment.assignment_upon.trainee):
+    if secretarian_department_item_select_object(request.user.id, supervisor_assesment.assignement_upon.trainee):
         supervisor_assesment.finlized = False
         supervisor_assesment.save()
-    return redirect("/secretary/assignments")
+    return reverse("secretary:sec_assignments")
 
 
 def supervisor_assesment_discard_basic(request, pk):
     supervisor_assesment = SupervisorAssesment.objects.filter(
         id=pk).first()
-    if secretarian_department_item_select_object(request.user.id, supervisor_assesment.assignment_upon.trainee):
+    if secretarian_department_item_select_object(request.user.id, supervisor_assesment.assignement_upon.trainee):
         supervisor_assesment.finalized = True
         supervisor_assesment.save()
-    return redirect("/secretary/assignments/")
+    return redirect("/secretary/assignments/supervisor_assesments/")

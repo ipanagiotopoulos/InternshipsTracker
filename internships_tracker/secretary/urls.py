@@ -6,32 +6,32 @@ urlpatterns = [
     path(
         "students/registrations",
         views.ApprovalRejectionUndergraduateStudentListView.as_view(),
-        name="students_registrations",
+        name="sec_students_registrations",
     ),
     path(
         "students/registrations/<int:pk>/edit",
         views.student_approval_rejection,
-        name="students_registrations_edit",
+        name="sec_students_registrations_edit",
     ),
     path(
         "students/registrations/<int:pk>/activate",
         views.student_approve,
-        name="students_registrations_activate",
+        name="sec_students_registrations_activate",
     ),
     path(
         "students/registrations/<int:pk>/delete",
         views.student_reject,
-        name="students_registrations_delete",
+        name="sec_students_registrations_delete",
     ),
     path(
         "carriers/registrations",
         views.ApprovalRejectionCarrierNodeListView.as_view(),
-        name="carriers_registrations",
+        name="sec_carriers_registrations",
     ),
     path(
         "carriers/registrations/<int:pk>/edit",
         views.carrier_node_approval_rejection,
-        name="carriers_registrations_edit",
+        name="sec_carriers_registrations_edit",
     ),
     path(
         "carriers/registrations/<int:pk>/activate",
@@ -54,6 +54,11 @@ urlpatterns = [
         name="carrier_trainee_positions_edit",
     ),
     path(
+        "carriers/trainee_positions/<int:pk>/update",
+        views.SecretaryTraineePositionUpdateView.as_view(),
+        name="carrier_trainee_positions_update",
+    ),
+    path(
         "carriers/trainee_positions/<int:pk>/accept",
         views.trainee_position_approve,
         name="carrier_trainee_positions_accept",
@@ -66,7 +71,7 @@ urlpatterns = [
     path(
         "students/preferences",
         views.ApprovalPreferencesListView.as_view(),
-        name="students_preferences",
+        name="sec_students_preferences",
     ),
     path(
         "students/preferences/<int:pk>/update",

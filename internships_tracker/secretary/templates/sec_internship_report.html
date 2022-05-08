@@ -5,7 +5,7 @@
 {% block content%}
     <div class="card">
         <div class="card-header">
-            <h2>{{internship_report.assignment.trainee.first_name}} {{internship_report.assignment.trainee.last_name}} assesment</h2>
+            <h2>{{internship_report.assignment.trainee.first_name}} {{internship_report.assignment.trainee.last_name}} internship report</h2>
         </div>
         <div class="card-body">
             <div style="margin-bottom: 1rem;"> 
@@ -22,12 +22,20 @@
             </div>
             <div style="margin-bottom: 1rem;"> 
                 <b style="font-size: 1.3rem; "> Carrier: </b> 
-                <span style="font-size: 1.1rem;" > {{internship_report.assignment.trainee_position.official_name}} </span>
+                <span style="font-size: 1.1rem;" > {{internship_report.assignment.trainee_position.carrier.official_name}} </span>
             </div>
             <div style="margin-bottom: 1rem;"> 
                 <b style="font-size: 1.3rem; "> Job ID: </b> 
                 <span style="font-size: 1.1rem;" > {{internship_report.assignment.trainee_position.job_code}}:{{internship_report.assignment.trainee_position.no_id}} </span>
             </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Supervisor: </b> 
+                <span style="font-size: 1.1rem;" > {{internship_report.assignment.supervisor.first_name}} {{internship_report.assignment.supervisor.last_name}} </span>
+            </div> 
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Supervisor Register Number: </b> 
+                <span style="font-size: 1.1rem;" > {{internship_report.assignment.supervisor.register_number}}</span>
+            </div> 
             <div style="margin-bottom: 1rem;"> 
                 <b style="font-size: 1.3rem; "> Created at: </b> 
                 <span style="font-size: 1.1rem;" > {{internship_report.date}} </span>
@@ -36,6 +44,14 @@
             <h2>Comments: </h2>
             <div style="margin-bottom: 1rem; margin-top: 1rem;"> 
                 <span style="font-size: 1.1rem;" > {{internship_report.comments}} </span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; ">Attendance Report File: </b> 
+                <span style="font-size: 1.1rem;" > <a href="{{internship_report.attendance_report_file.url}}">{{internship_report.attendance_report_file}}</a></span>
+            </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Questionaire File:: </b> 
+                <span style="font-size: 1.1rem;" > <a href="{{internship_report.questionaire_file.url}}">{{internship_report.questionaire_file}}</a></span>
             </div>
             <div style="margin-bottom: 1rem;"> 
                 <b style="font-size: 1.3rem; "> Report File: </b> 

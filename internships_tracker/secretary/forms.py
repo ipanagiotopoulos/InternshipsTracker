@@ -1,4 +1,5 @@
 from django import forms
+from django.core.validators import MinValueValidator, MaxValueValidator
 from dal import autocomplete
 from applicant.models import Preference
 from carrier.models import TraineePosition, Assignment

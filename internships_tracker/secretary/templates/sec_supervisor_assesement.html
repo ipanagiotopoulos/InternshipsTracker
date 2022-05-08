@@ -5,7 +5,7 @@
 {% block content%}
     <div class="card">
         <div class="card-header">
-            <h2>{{supervisor_assesement.assignement_upon.trainee.first_name}} {{supervisor_assesement.assignement_upon.trainee.last_name}} assesment</h2>
+            <h2>{{supervisor_assesement.assignement_upon.trainee.first_name}} {{supervisor_assesement.assignement_upon.trainee.last_name}} supervisor's assesment</h2>
         </div>
         <div class="card-body">
             <div style="margin-bottom: 1rem;"> 
@@ -22,12 +22,20 @@
             </div>
             <div style="margin-bottom: 1rem;"> 
                 <b style="font-size: 1.3rem; "> Carrier: </b> 
-                <span style="font-size: 1.1rem;" > {{supervisor_assesement.assignement_upon.trainee_position.official_name}} </span>
+                <span style="font-size: 1.1rem;" > {{supervisor_assesement.assignement_upon.trainee_position.carrier.official_name}} </span>
             </div>
             <div style="margin-bottom: 1rem;"> 
                 <b style="font-size: 1.3rem; "> Job ID: </b> 
                 <span style="font-size: 1.1rem;" > {{supervisor_assesement.assignement_upon.trainee_position.job_code}}:{{supervisor_assesement.assignement_upon.trainee_position.no_id}} </span>
             </div>
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Supervisor: </b> 
+                <span style="font-size: 1.1rem;" > {{supervisor_assesement.assignement_upon.supervisor.first_name}} {{internship_report.assignment.supervisor.last_name}} </span>
+            </div> 
+            <div style="margin-bottom: 1rem;"> 
+                <b style="font-size: 1.3rem; "> Supervisor Register Number: </b> 
+                <span style="font-size: 1.1rem;" > {{supervisor_assesement.assignement_upon.supervisor.register_number}}</span>
+            </div> 
             <div style="margin-bottom: 1rem;"> 
                 <b style="font-size: 1.3rem; "> Created at: </b> 
                 <span style="font-size: 1.1rem;" > {{supervisor_assesement.date}} </span>

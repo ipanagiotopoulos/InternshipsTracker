@@ -21,7 +21,7 @@ urlpatterns = [
     path(
         "assignments/<int:pk>/update-assesment",
         views.SupervisorAssesmentUpdateView.as_view(),
-        name="create_assesment",
+        name="update_assesment",
     ),
     path(
         "assesements/",

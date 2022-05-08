@@ -60,7 +60,7 @@
                 <td>{{ip.assignment.trainee.department}}</td>
                 <td>{{ip.assignment.supervisor.first_name}}:{{ip.assignment.supervisor.last_name}}</td>
                 <td>{{ip.assignment.supervisor.register_number}}</td>
-                <td> <a href="{{report.report_file.url}}">{{report.report_file}}</a></td>
+                <td> <a href="{{ip.report_file.url}}">{{ip.report_file}}</a></td>
                 {% if ip.finalized == False %}
                     <td> NO </td>
                 {% else %}

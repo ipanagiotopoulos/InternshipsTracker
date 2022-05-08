@@ -129,7 +129,8 @@ class MyCarrierConsentDetailView(DetailView):
 
 class InternshipReportCreateView(InternshipReportPeriodRequiredMixin, CreateView):
     model = InternshipReport
-    fields = ['report_file', 'comments']
+    fields = ['attendance_report_file',
+              'questionaire_file', 'report_file', 'comments', ]
     template_name = "report_create.html"
 
     def form_valid(self, form):

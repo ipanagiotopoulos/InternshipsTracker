@@ -2,6 +2,7 @@ from .models import SupervisorAssesment
 from django.views.generic import DetailView, ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.urls import reverse
+from django.core.exceptions import PermissionDenied
 from carrier.models import Assignment, CarrierAssesement
 from internships_app.models import Supervisor
 from applicant.models import InternshipReport
@@ -79,8 +80,12 @@ class SupervisorAssesmentListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        user = Supervisor.objects.filter(
+            user_ptr_id=self.request.user.id).first()
+        sa_queryset = SupervisorAssesment.objects.filter(
+            supervisor=user)
         myFilter = SupervisorAssesmentFilter(
-            self.request.GET, queryset=self.get_queryset())
+            self.request.GET, queryset=sa_queryset)
         context = {'filter': myFilter}
         return context
 
@@ -92,6 +97,9 @@ class SupervisorAssesmentDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        supervisor_assesement = self.get_object()
+        if supervisor_assesement.supervisor.user_ptr_id != self.request.user.id:
+            raise PermissionDenied()
         return context
 
 
@@ -101,5 +109,12 @@ class SupervisorAssesmentUpdateView(UpdateView):
     template_name = "supervisor_assesement_update.html"
     group_required = u"supervisor"
 
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        supervisor_assesement = self.get_object()
+        if supervisor_assesement.supervisor.user_ptr_id != self.request.user.id:
+            raise PermissionDenied()
+        return form
+
     def get_success_url(self):
-        return "/supervisor/assesments"
+        return reverse("supervisor:assignments")
