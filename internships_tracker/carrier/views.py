@@ -278,22 +278,27 @@ class TraineePositionAutocomplete(StudentOrCarrierRequiredMixin, auto.Select2Que
 
         qs = TraineePosition.objects.filter(
             carrier_assignment__department=student.department, finalized=True
-        ).distinct('job_code').order_by()
+        ).distinct('job_code').order_by('job_code')
         if tr1:
-            qs = qs.exclude(id=tr1)
+            traine1 = TraineePosition.objects.get(id=tr1)
+            qs = qs.exclude(job_code=traine1.job_code)
         if tr2:
-            qs = qs.exclude(id=tr2)
+            traine2 = TraineePosition.objects.get(id=tr2)
+            qs = qs.exclude(job_code=traine2.job_code)
         if tr3:
-            qs = qs.exclude(id=tr3)
+            traine3 = TraineePosition.objects.get(id=tr3)
+            qs = qs.exclude(job_code=traine3.job_code)
         if tr4:
-            qs = qs.exclude(id=tr4)
+            traine4 = TraineePosition.objects.get(id=tr4)
+            qs = qs.exclude(job_code=traine4.job_code)
         if tr5:
-            qs = qs.exclude(id=tr5)
+            traine5 = TraineePosition.objects.get(id=tr5)
+            qs = qs.exclude(job_code=traine5.job_code)
         if self.q:
             qs = qs.filter(
                 Q(title__icontains=self.q)
-                | Q(carrier_assignment__carrier__official_name__icontains=self.q)
-            ).distinct('job_code').order_by()
+                | Q(carrier__official_name__icontains=self.q)
+            )
         return qs
 
 
