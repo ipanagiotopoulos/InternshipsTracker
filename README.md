@@ -18,10 +18,11 @@ You should have [**Docker**](https://docker.io)  installed in your local machine
 
 ## Helpful extra software
 **For dev purposes:**
+
 A fully setup [**Python environment**](https://docs.python.org/3/tutorial/venv.html) will help.
 But our environment is fully containarized, so it is not a must.
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+You can also use the package manager [pip](https://pip.pypa.io/en/stable/) if you want to experiment with this repo in you host machine .
 
 
 
