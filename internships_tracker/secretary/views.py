@@ -49,7 +49,7 @@ def student_approval_rejection(request, pk):
             id=undergraduate_student.user_ptr_id).first()
         context = {'req_user': req_user,
                    'student': undergraduate_student}
-    return render(request, "undergraduate_student_app_rjc.html", context)
+    return redirect(request, "undergraduate_student_app_rjc.html", context)
 
 
 def student_approve(request, pk):
@@ -61,7 +61,7 @@ def student_approve(request, pk):
         user.save()
         request.session['student_reg_message'] = "User: " + \
             str(user)+" has been activated!"
-    return reverse('secretary:sec_students_registrations')
+    return redirect('secretary:sec_students_registrations')
 
 
 def student_reject(request, pk):
@@ -73,7 +73,7 @@ def student_reject(request, pk):
         user.delete()
         request.session['student_reg_message'] = "User: " + \
             str(user)+" has been deleted!"
-    return reverse('secretary:sec_students_registrations')
+    return redirect('secretary:sec_students_registrations')
 
 
 class ApprovalRejectionCarrierNodeListView(ListView):
@@ -125,7 +125,7 @@ def carrier_node_reject(request, pk):
         user.delete()
         request.session["carrier_node_reg"] = "User: " + \
             username+" has been deleted!"
-    return reverse('secretary:sec_carriers_registrations')
+    return redirect('secretary:sec_carriers_registrations')
 
 
 class ApprovalTraineePositionsListView(ListView):
@@ -330,7 +330,7 @@ def preferences_approve(request, pk):
     if secretarian_department_item_select_object(request.user.id, preference.applicant):
         preference.finalized = True
         preference.save()
-    return reverse("secretary:sec_students_preferences")
+    return redirect("secretary:sec_students_preferences")
 
 
 def preference_approval_rejection(request, pk):
@@ -585,7 +585,7 @@ def carrier_assesment_finalize(request, pk):
     if secretarian_department_item_select_object(request.user.id, carrier_assesment.assignement_upon.trainee):
         carrier_assesment.finalized = True
         carrier_assesment.save()
-    return reverse("secretary:sec_assignments")
+    return redirect("secretary:sec_assignments")
 
 
 def carrier_assesment_finalize_basic(request, pk):
@@ -603,7 +603,7 @@ def carrier_assesment_discard(request, pk):
     if secretarian_department_item_select_object(request.user.id, carrier_assesment.assignement_upon.trainee):
         carrier_assesment.finalized = False
         carrier_assesment.save()
-    return reverse("secretary:sec_assignments")
+    return redirect("secretary:sec_assignments")
 
 
 def carrier_assesment_discard_basic(request, pk):
@@ -612,7 +612,7 @@ def carrier_assesment_discard_basic(request, pk):
     if secretarian_department_item_select_object(request.user.id, carrier_assesment.assignement_upon.trainee):
         carrier_assesment.finalized = False
         carrier_assesment.save()
-    return reverse("secretary:sec_assignment_carrier_assesements")
+    return redirect("secretary:sec_assignment_carrier_assesements")
 
 
 class SupervisorAssesmentListView(ListView):
@@ -648,7 +648,7 @@ def supervisor_assesment_finalize(request, pk):
     if secretarian_department_item_select_object(request.user.id, supervisor_assesment.assignement_upon.trainee):
         supervisor_assesment.finlized = True
         supervisor_assesment.save()
-    return reverse("secretary:sec_assignments")
+    return redirect("secretary:sec_assignments")
 
 
 def supervisor_assesment_finalize_basic(request, pk):
@@ -657,7 +657,7 @@ def supervisor_assesment_finalize_basic(request, pk):
     if secretarian_department_item_select_object(request.user.id, supervisor_assesment.assignement_upon.trainee):
         supervisor_assesment.finalized = True
         supervisor_assesment.save()
-    return reverse("secretary:sec_assignment_supervisor_assesements")
+    return redirect("secretary:sec_assignment_supervisor_assesements")
 
 
 def supervisor_assesment_discard(request, pk):
@@ -666,7 +666,7 @@ def supervisor_assesment_discard(request, pk):
     if secretarian_department_item_select_object(request.user.id, supervisor_assesment.assignement_upon.trainee):
         supervisor_assesment.finlized = False
         supervisor_assesment.save()
-    return reverse("secretary:sec_assignments")
+    return redirect("secretary:sec_assignments")
 
 
 def supervisor_assesment_discard_basic(request, pk):

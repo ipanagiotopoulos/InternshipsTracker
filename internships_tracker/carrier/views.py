@@ -186,7 +186,7 @@ def assignment_accept(request, pk):
             assignment.save()
             CarrierConsent.objects.create(
                 carrier=assignment.trainee_position.carrier, assignement_upon=assignment, consent=True)
-            return reverse('carrier:assignments?department='+department_request)
+            return redirect('/carrier/assignments?department='+department_request)
     else:
         raise PermissionDenied()
 
