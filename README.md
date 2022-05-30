@@ -5,7 +5,7 @@
 Internships tracker is a Django Web application implemented in order to track the progress of internships at the [Harokopio Univeristy of Athens](https://hua.gr)
 
 
-This system appeals to Public and Private Sector Carriers who want to participate in Harokopio University's Internship Programm.
+This system appeals to Public and Private Sector Carriers who want to participate in Harokopio University's Internships Programm.
 
 This application provides a means of communication between students, professors, carriers and the secretary of the univeristy upon intrnships'
 matters.
@@ -119,23 +119,27 @@ In this container we mainly use the below volumes:
  
  The most import details of this dockerfile are the last 6 steps.
  
- **1.RUN pip install -r /reqs/requirements.txt**
- 
- All our requirements are being installed in the container
- 
- **2.RUN pip install django-phonenumber-field[phonenumbers]**
- 
- django-phonenumber is a special dependency for mobile phone validation which we use in our Django application
- 
- **3.COPY ./internships_tracker /appinternships**
- 
- copy the workspace of our django project to the container
+  **1.COPY requirements.txt /reqs/**
 
- **4.RUN chmod +x /appinternships/hua_intern_init.sh**
+ Copy the requirements in order to install all our dependencies in the python environment.
  
-  give permission to run our script into the container 
+ **2.RUN pip install -r /reqs/requirements.txt**
+ 
+ All our requirements are being installed in the container.
+ 
+ **3.RUN pip install django-phonenumber-field[phonenumbers]**
+ 
+ django-phonenumber is a special dependency for mobile phone validation which we use in our Django application.
+ 
+ **4.COPY ./internships_tracker /appinternships**
+ 
+ Copy the workspace of our django project to the container.
+
+ **5.RUN chmod +x /appinternships/hua_intern_init.sh**
+ 
+  Give permission to run our script into the container. 
   
-  **5.CMD /appinternships/hua_intern_init.sh**
+  **6.CMD /appinternships/hua_intern_init.sh**
   
   Execute the script in order to run the stack with our migrations.
 
@@ -222,13 +226,13 @@ We are initially checking if the db port is open to connection in this section:
 **nginx** container serves as a reverse proxy for accessing content from our django application
  In nginx container we mainly use the below volumes:
  
-  **/nginx/static:/var/www/static/html** a volume which is used to allocate all static content to our reverse proxy
+  **/nginx/static:/var/www/static/html** a volume which is used to allocate all static content to our reverse proxy.
 
 
-  **./nginx/default.conf:/etc/nginx/conf.d/default.conf** to move our configuration for the nginx reverse proxy to the nginx container
+  **./nginx/default.conf:/etc/nginx/conf.d/default.conf** to move our configuration for the nginx reverse proxy to the nginx container.
   
 
-The setup of the reverse proxy is under the nginx folder below the InternshipsApp folder
+The setup of the reverse proxy is under the nginx folder below the InternshipsApp folder.
 
 **default.conf**
 
@@ -267,19 +271,19 @@ Under the static folder you will be able to see all the static folders that **ng
   2.1 set your postgres db creds
      
      
-     ```DB_DATABASE_NAME= ```
+     ```DB_DATABASE_NAME= 
      
      
-    ```DB_USERNAME=```
+        DB_USERNAME=
      
      
-     ```DB_PASSWORD=```
+        DB_PASSWORD=
      
      
-     ```DB_HOST=db```
+        DB_HOST=db
      
      
-     ```DB_PORT=5432```
+       DB_PORT=5432```
      
      We always recommend 5432 for postgress port, as it also in the docker-compose iternships_db service option.
 
