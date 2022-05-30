@@ -85,14 +85,14 @@ volumes:
 **internships_db** container is based on a postresql image which is responsible for persisting the DBMS system in our application
      
 ## internships_web 
-**internships_web ** is an ubuntu container where we run our Django web application
+**internships_web** is an ubuntu container where we run our Django web application
 
 In this container we mainly use the below volumes:
    
-   **- ./internships_tracker:/appinternships** a live volume which is used to make changes in our code base and laod them  to the WSGI server in this    container.
+   **./internships_tracker:/appinternships** a live volume which is used to make changes in our code base and laod them  to the WSGI server in this    container.
 
 
-  **- ../logs:/var/log** keeps operating system logs(Ubuntu container) in case you log in into the container and execute some maintenance jobs
+  **../logs:/var/log** keeps operating system logs(Ubuntu container) in case you log in into the container and execute some maintenance jobs
  
  This container is being build upon this DockerFile
  
@@ -271,22 +271,34 @@ Under the static folder you will be able to see all the static folders that **ng
   2.1 set your postgres db creds
      
      
-     ```DB_DATABASE_NAME= 
-     
-     
-        DB_USERNAME=
-     
-     
-        DB_PASSWORD=
-     
-     
-        DB_HOST=db
-     
-     
-       DB_PORT=5432```
-     
-     We always recommend 5432 for postgress port, as it also in the docker-compose iternships_db service option.
 
+     DB_DATABASE_NAME= 
+     
+     
+     DB_USERNAME=
+     
+     
+     DB_PASSWORD=
+     
+     
+     DB_HOST=db
+     
+     
+     DB_PORT=5432
+     
+     
+  We always recommend 5432 for postgresql db  port, as it also in the docker-compose iternships_db service option.
+  
+  
+  **Otherwise** you will have to change the port in the **docker-compose.yml**
+  
+  You can always change it here :
+  
+         ports: - "5432:5432" 
+      
+  under the  **internships_db** service
+  
+  
 
   2.2 set your django superuser creds:
    
@@ -299,10 +311,10 @@ Under the static folder you will be able to see all the static folders that **ng
    ```DJANGO_SUPERUSER_EMAIL=```
 
 
-  2.3 set ```DJANGO_ALLOWED_HOSTS=localhost=``` to run locally
+  2.3 set ```DJANGO_ALLOWED_HOSTS=localhost``` to run locally
 
 
-  3. ```docker-compose up --build -d=``` to run the stack for the **first time**
+  3. ```docker-compose up --build -d``` to run the stack for the **first time**
  
  
   4.[**localhost**](https://localhost) will redirect you to the intial page of internships internshipsystem_web service
@@ -314,7 +326,7 @@ Under the static folder you will be able to see all the static folders that **ng
 
 ## Steps that might be needed
 
- 1.docker exec -it  **CAUTION(internship_web CONTAINER_ID)  /bin/bash
+ 1.docker exec -it  **CAUTION(internship_web CONTAINER_ID)**  /bin/bash
 
 
  2.Since you enter  the container then you should run **python3 manage.py create superuser**
