@@ -49,7 +49,7 @@ def student_approval_rejection(request, pk):
             id=undergraduate_student.user_ptr_id).first()
         context = {'req_user': req_user,
                    'student': undergraduate_student}
-    return redirect(request, "undergraduate_student_app_rjc.html", context)
+    return render(request, "undergraduate_student_app_rjc.html", context)
 
 
 def student_approve(request, pk):
