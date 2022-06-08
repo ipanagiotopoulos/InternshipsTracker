@@ -296,7 +296,7 @@ Under the static folder you will be able to see all the static folders that **ng
   
          ports: - "5432:5432" 
       
-  under the  **internships_db** service
+  under the  **db** service
   
   
 
@@ -313,9 +313,11 @@ Under the static folder you will be able to see all the static folders that **ng
 
   2.3 set ```DJANGO_ALLOWED_HOSTS=localhost``` to run locally
 
-
+  2.4 In case you want to run this app in **production mode** head to settings.py file and change 
+  ```DEBUG=False``` from  ``DEBUG=True```
+  
   3. ```docker-compose up --build -d``` to run the stack for the **first time**
- 
+   
  
   4.[**localhost**](https://localhost) will redirect you to the intial page of internships internshipsystem_web service
 
