@@ -12,6 +12,7 @@ matters.
 
 **This project is my thesis work for the B.sc in the Department of Informatics and Telematics at the Harokopio University of Athens.**
 
+My Bsc Thesis dissertation is located here : [Internshpips Tracker System](https://drive.google.com/file/d/1RHiaW5YRIkpzpPvggFCjhfRLW0uNqQHx/view?usp=sharing)
 
 ## Prerequisites
 You should have [**Docker**](https://docker.io)  installed in your local machine and [**docker-compose**](https://docs.docker.com/compose/).
