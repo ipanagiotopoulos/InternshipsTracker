@@ -12,7 +12,9 @@ matters.
 
 **This project is my thesis work for the B.sc in the Department of Informatics and Telematics at the Harokopio University of Athens.**
 
-My Bsc Thesis dissertation is located here : [Internshpips Tracker System](https://drive.google.com/file/d/1RHiaW5YRIkpzpPvggFCjhfRLW0uNqQHx/view?usp=sharing)
+My Bsc Thesis dissertation is located here : [Internshpips Tracker System](https://estia.hua.gr/browse.html?p.id=26186)
+
+Available in *greek* language, *soon* an english version will be available!
 
 ## DEMO
 
