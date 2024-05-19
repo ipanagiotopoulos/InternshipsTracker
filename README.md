@@ -14,7 +14,7 @@ matters.
 
 My Bsc Thesis dissertation is located here : [Internshpips Tracker System](https://estia.hua.gr/browse.html?p.id=26186)
 
-Available in *greek* language, *soon* an english version will be available!
+Available in *Greek*, *soon* an English version will be available!
 
 ## DEMO
 
